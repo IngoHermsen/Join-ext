@@ -1,0 +1,20 @@
+.default-view {
+    display: flex;
+}
+
+.content-area {
+    width: 100%;
+    padding: 0px 32px;
+
+    .header {
+        display: flex;
+        height: 64px;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .outlet-content {
+        margin-top: 40px;
+    }
+}

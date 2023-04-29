@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +14,14 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { AuthComponent } from './auth/auth.component';
 import { MenuModule } from 'primeng/menu';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DefaultViewComponent } from './defaultview/defaultview.component';
+import { SidebarModule } from 'primeng/sidebar';
+import { PanelModule } from 'primeng/panel';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { DialogModule } from 'primeng/dialog';
+
+
+
 
 
 @NgModule({
@@ -19,12 +29,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AppComponent,
     NavigationComponent,
     AuthComponent,
-    DashboardComponent
+    DashboardComponent,
+    DefaultViewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MenuModule,
+    SidebarModule,
+    PanelMenuModule,
+    PanelModule,
+    DialogModule,
+    BrowserAnimationsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
