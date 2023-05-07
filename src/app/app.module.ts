@@ -3,22 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AuthComponent } from './auth/auth.component';
 import { MenuModule } from 'primeng/menu';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DefaultViewComponent } from './defaultview/defaultview.component';
-import { SidebarModule } from 'primeng/sidebar';
-import { PanelModule } from 'primeng/panel';
-import { PanelMenuModule } from 'primeng/panelmenu';
+import { LoginDialogComponent } from './auth/login-dialog/login-dialog.component';
 import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -30,17 +32,17 @@ import { DialogModule } from 'primeng/dialog';
     NavigationComponent,
     AuthComponent,
     DashboardComponent,
-    DefaultViewComponent
+    DefaultViewComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     MenuModule,
-    SidebarModule,
-    PanelMenuModule,
-    PanelModule,
     DialogModule,
-    BrowserAnimationsModule,
+    ButtonModule,
+    ToastModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
