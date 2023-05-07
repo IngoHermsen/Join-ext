@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -20,9 +17,10 @@ import { DefaultViewComponent } from './defaultview/defaultview.component';
 import { LoginDialogComponent } from './auth/login-dialog/login-dialog.component';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-
-
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 
 
@@ -33,7 +31,7 @@ import { ToastModule } from 'primeng/toast';
     AuthComponent,
     DashboardComponent,
     DefaultViewComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +40,10 @@ import { ToastModule } from 'primeng/toast';
     MenuModule,
     DialogModule,
     ButtonModule,
-    ToastModule,
+    InputTextModule,
+    InputTextareaModule,
+    CheckboxModule,
+    RadioButtonModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
