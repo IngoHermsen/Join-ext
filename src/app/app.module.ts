@@ -21,7 +21,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
-
+import { TaskBoardComponent } from './task-board/task-board.component';
+import { ContactsComponent } from './contacts/contacts.component';
 
 
 @NgModule({
@@ -32,6 +33,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     DashboardComponent,
     DefaultViewComponent,
     LoginDialogComponent,
+    TaskBoardComponent,
+    ContactsComponent,
   ],
   imports: [
     BrowserModule,

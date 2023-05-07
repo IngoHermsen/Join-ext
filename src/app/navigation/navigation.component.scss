@@ -1,5 +1,41 @@
-.navigation {
+.nav-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     width: 250px;
     height: 100vh;
     background-color: #2A3647;
+    color: white;
+    padding: 12px 0px;
+
+    .join-logo-white {
+        -webkit-user-drag: none;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.navigation-links {
+    margin-left: 80px;
+    width: 100%;
+
+    a {
+        position: relative;
+        padding-bottom: 8px;
+
+        &:hover {
+            font-weight: 600;
+
+        }
+
+        span {
+            margin-left: 8px;
+        }
+    }
+}
+
+.legal-notice {
+    height: calc(100vh/3);
 }

@@ -7,15 +7,23 @@
 
 .animated-logo {
     position: absolute;
-    height: 300px;
+    z-index: 1;
+    height: 200px;
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
-    animation: resize-to-corner 1600ms forwards;
+    animation: resize-to-corner 2500ms forwards;
 
     @keyframes resize-to-corner {
-        to {
-            transform: scale(0.4) translate(-50%, -50%);
+        40% {
+            transform: scale(1.8) translate(-25%, -25%);
+            top: 50vh;
+            left: 50vw;
+        }
+
+
+        100% {
+            transform: scale(0.8);
             top: 0;
             left: 0;
         }
