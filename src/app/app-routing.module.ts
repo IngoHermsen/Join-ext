@@ -6,9 +6,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DefaultViewComponent } from './defaultview/defaultview.component';
 import { TaskBoardComponent } from './task-board/task-board.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
+import { LoginDialogComponent } from './auth/login-dialog/login-dialog.component';
 
 const routes: Routes = [
-  { path: '', component: AuthComponent }, 
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { 
+    path: '', component: AuthComponent, children: [
+      { path: 'login', component: LoginDialogComponent},
+      { path: 'forgotPassword', component: ForgotPasswordDialogComponent}
+
+    ]
+  },
   {
     path: '', component: DefaultViewComponent, children: [
       { path: 'summary', component: DashboardComponent },

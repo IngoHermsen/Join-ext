@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,15 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AppComponent implements OnInit {
-  title = 'ng-join';
-  currentRoute: string;
-
-  constructor() {
-
-  }
+  constructor(private router: Router) {}
 
   ngOnInit() {
+    //TODO: do not redirect on login page on refresh if user is already logged in 
+    this.router.navigate([''])
   }
+
+  title = 'ng-join';
+  currentRoute: string;
 
 }
 

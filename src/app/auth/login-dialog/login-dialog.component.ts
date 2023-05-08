@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login-dialog',
@@ -7,6 +8,19 @@ import { Component } from '@angular/core';
 })
 export class LoginDialogComponent {
   visible: boolean;
+
+  @ViewChild('loginForm') loginForm?: NgForm
+
+  formData = {
+    usermail: '',
+    password: '',
+    rememberPassword: false
+  }
+
+  submitForm() {
+    console.log(this.formData);
+    this.loginForm?.reset();
+  }
 
   constructor() {
     this.visible = true;

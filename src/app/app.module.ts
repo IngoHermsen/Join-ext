@@ -24,6 +24,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TaskBoardComponent } from './task-board/task-board.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginDialogComponent,
     TaskBoardComponent,
     ContactsComponent,
+    ForgotPasswordDialogComponent,
   ],
   imports: [
     BrowserModule,
