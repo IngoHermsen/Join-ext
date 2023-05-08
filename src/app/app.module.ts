@@ -23,6 +23,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TaskBoardComponent } from './task-board/task-board.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -47,6 +48,9 @@ import { ContactsComponent } from './contacts/contacts.component';
     InputTextareaModule,
     CheckboxModule,
     RadioButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
