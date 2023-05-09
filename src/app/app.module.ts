@@ -25,6 +25,9 @@ import { TaskBoardComponent } from './task-board/task-board.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
+import { SignUpDialogComponent } from './sign-up-dialog/sign-up-dialog.component';
+import { NewTaskDialogComponent } from './new-task-dialog/new-task-dialog.component';
+import { SidebarModule } from 'primeng/sidebar';
 
 
 @NgModule({
@@ -38,6 +41,8 @@ import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/for
     TaskBoardComponent,
     ContactsComponent,
     ForgotPasswordDialogComponent,
+    SignUpDialogComponent,
+    NewTaskDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,7 @@ import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/for
     RadioButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    SidebarModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
