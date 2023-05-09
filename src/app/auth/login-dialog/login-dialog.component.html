@@ -1,4 +1,4 @@
-<div class="opacity-delay auth-dialog card justify-content-center">
+<div class="opacity-delay auth-dialog card">
     <h1>Log in</h1>
 
     <form #loginForm="ngForm" (ngSubmit)="submitForm()">
@@ -25,7 +25,7 @@
                 <form class="align-items-center gap-1">
                     <div class="flex align-items-center">
                         <p-checkbox [(ngModel)]="formData.rememberPassword" type="p-checkbox" name="remember-pw"
-                            class="mr-1" formControlName="remember-pw" value="Remember password"
+                            class="mr-1" value="Remember password"
                             inputId="pw"></p-checkbox>
                         <label for="pw">Remember password</label>
                     </div>

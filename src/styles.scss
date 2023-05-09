@@ -22,8 +22,13 @@ a {
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 350px;
+
+    h1, p {
+        text-align: center;
+    }
 
     h1 {
         position: inherit;
