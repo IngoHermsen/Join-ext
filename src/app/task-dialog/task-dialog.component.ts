@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { NewTaskService } from '../new-task.service';
+import { TaskService } from '../../services/task-dialog.service';
 
 @Component({
   selector: 'app-new-task-dialog',
-  templateUrl: './new-task-dialog.component.html',
-  styleUrls: ['./new-task-dialog.component.scss']
+  templateUrl: './task-dialog.component.html',
+  styleUrls: ['./task-dialog.component.scss']
 })
 export class NewTaskDialogComponent implements OnInit{
   sidebarVisible: boolean; 
 
   constructor(
-    public newTaskService: NewTaskService,
+    public newTaskService: TaskService,
     ) { }
 
   ngOnInit(): void {

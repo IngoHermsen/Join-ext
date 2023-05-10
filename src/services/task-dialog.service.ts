@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class NewTaskService {
+export class TaskService {
   showDialog = new Subject<boolean>;
 
   constructor() {

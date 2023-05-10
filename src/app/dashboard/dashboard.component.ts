@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NewTaskService } from '../new-task.service';
+import { TaskService } from '../../services/task-dialog.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,7 +8,7 @@ import { NewTaskService } from '../new-task.service';
 })
 export class DashboardComponent {
   
-  constructor(public newTaskService: NewTaskService) {
+  constructor(public newTaskService: TaskService) {
 
   }
 

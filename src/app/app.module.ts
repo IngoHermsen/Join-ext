@@ -26,7 +26,7 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
 import { SignUpDialogComponent } from './sign-up-dialog/sign-up-dialog.component';
-import { NewTaskDialogComponent } from './new-task-dialog/new-task-dialog.component';
+import { NewTaskDialogComponent } from './task-dialog/task-dialog.component';
 import { SidebarModule } from 'primeng/sidebar';
 
 
