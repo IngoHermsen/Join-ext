@@ -1,5 +1,4 @@
 .manage-password {
-    margin-top: 40px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -18,4 +17,15 @@
             opacity: 1;
         }
     }
+}
+
+.login-no-success {
+    margin: 8px 0px;
+    p{
+        margin: unset;
+    }
+
+    height: 40px;
+    font-size: 12px;
+    color: red;
 }

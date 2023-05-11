@@ -15,7 +15,6 @@ const routes: Routes = [
     path: '', component: AuthComponent, children: [
       { path: 'login', component: LoginDialogComponent},
       { path: 'forgotPassword', component: ForgotPasswordDialogComponent}
-
     ]
   },
   {

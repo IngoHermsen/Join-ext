@@ -14,6 +14,15 @@ export class TaskDialogComponent implements OnInit{
     { name: 'High', value: 3 }
 ];
 
+contacts = [
+  { name: 'contact 1'},
+  { name: 'contact 2'},
+  { name: 'contact 3'},
+  { name: 'contact 4'},
+  { name: 'contact 5'}
+];
+
+
   sidebarVisible: boolean; 
 
   constructor(
@@ -29,9 +38,9 @@ export class TaskDialogComponent implements OnInit{
   taskForm = new FormGroup({
     title: new FormControl('', {nonNullable: true}),
     description: new FormControl('', {nonNullable: true}),
-    assignedUsers: new FormControl('', {nonNullable: true}),
-    creationTimeStamp: new FormControl(new Date(), {nonNullable: true}),
-    dueDateTimeStamp: new FormControl('', {nonNullable: true}),
+    assign: new FormControl('', {nonNullable: true}),
+    creationDate: new FormControl(new Date(), {nonNullable: true}),
+    dueDate: new FormControl('', {nonNullable: true}),
     priority: new FormControl('', {nonNullable: true}),
   })
 }

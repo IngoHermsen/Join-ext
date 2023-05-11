@@ -1,5 +1,5 @@
 <div class="sidebar-wrapper card flex justify-content-center">
-    <p-sidebar [(visible)]="sidebarVisible" styleClass="w-4">
+    <p-sidebar [(visible)]="sidebarVisible" class="flex justify-content-center" styleClass="w-5">
         <h3>new Task / Edit task</h3>
         <!-- The content of the <h3> must be context-based -->
         <form [formGroup]="taskForm">
@@ -11,7 +11,7 @@
             <textarea formControlName="description" type="text" pInputText id="description_input"></textarea>
 
             <label for="assign_input">Assign Users:</label>
-            <p-multiSelect formControlName="assign" defaultLabel="Select contacts" optionLabel="name" display="chip"
+            <p-multiSelect [options]="contacts" formControlName="assign" defaultLabel="Select contacts" optionLabel="name" display="chip"
                 id="assign_input" styleClass="w-full"></p-multiSelect>
 
             <label for="dueDate_input">Due Date:</label>

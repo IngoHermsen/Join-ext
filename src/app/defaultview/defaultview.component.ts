@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/services/auth.service';
 import { TaskService } from 'src/services/task-dialog.service';
 
 @Component({
@@ -8,12 +9,15 @@ import { TaskService } from 'src/services/task-dialog.service';
 })
 export class DefaultViewComponent {
 
-  constructor(public newTaskService: TaskService) {
+  constructor(
+    public taskService: TaskService,
+    public authService: AuthService,
+    ) {
 
   }
 
-  createNewTask() {
-    this.newTaskService.showDialog.next(true);
+  openTaskDialog() {
+    this.taskService.showDialog.next(true);
   }
 
 

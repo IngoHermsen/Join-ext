@@ -3,10 +3,12 @@
 
     <div class="content-area">
         <div class="header">
+            <p-button label="New Task" (click)="authService.SignOut()" icon="pi pi-plus" styleClass="p-button" ></p-button>
+
             <span>Kanban Board Management</span>
             <div>USERICON</div>
         </div>
-        <p-button class="add-button" (click)="createNewTask()" label="New Task" icon="pi pi-plus" styleClass="p-button" ></p-button>
+        <p-button class="add-button" (click)="openTaskDialog()" label="New Task" icon="pi pi-plus" styleClass="p-button" ></p-button>
         <app-task-dialog></app-task-dialog>   
         <div class="outlet-content">
             <router-outlet></router-outlet>

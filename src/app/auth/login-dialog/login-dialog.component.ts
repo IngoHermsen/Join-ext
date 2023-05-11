@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -7,7 +8,17 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent {
+  wrongInput: boolean;
   visible: boolean;
+
+  constructor(
+    public authService: AuthService
+  ) {
+    this.visible = true;
+    authService.noMatchingData.subscribe((value) => {
+      this.wrongInput = value;
+    })
+  }
 
   @ViewChild('loginForm') loginForm?: NgForm
 
@@ -18,11 +29,8 @@ export class LoginDialogComponent {
   }
 
   submitForm() {
-    console.log(this.formData);
+    this.authService.SignIn(this.formData.usermail, this.formData.password)
     this.loginForm?.reset();
   }
 
-  constructor() {
-    this.visible = true;
-  }
 }
