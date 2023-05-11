@@ -6,7 +6,8 @@
             <span>Kanban Board Management</span>
             <div>USERICON</div>
         </div>
-        <app-new-task-dialog></app-new-task-dialog>   
+        <p-button class="add-button" (click)="createNewTask()" label="New Task" icon="pi pi-plus" styleClass="p-button" ></p-button>
+        <app-task-dialog></app-task-dialog>   
         <div class="outlet-content">
             <router-outlet></router-outlet>
         </div>

@@ -1,9 +1,28 @@
-<div class="card flex justify-content-center">
-    <p-sidebar [(visible)]="sidebarVisible">
+<div class="sidebar-wrapper card flex justify-content-center">
+    <p-sidebar [(visible)]="sidebarVisible" styleClass="w-4">
         <h3>new Task / Edit task</h3>
         <!-- The content of the <h3> must be context-based -->
-        <p>
-            Formular
-        </p>
+        <form [formGroup]="taskForm">
+
+            <label for="title_input">Title:</label>
+            <input formControlName="title" type="text" pInputText id="title_input" />
+
+            <label for="description_input">Description (optional):</label>
+            <textarea formControlName="description" type="text" pInputText id="description_input"></textarea>
+
+            <label for="assign_input">Assign Users:</label>
+            <p-multiSelect formControlName="assign" defaultLabel="Select contacts" optionLabel="name" display="chip"
+                id="assign_input" styleClass="w-full"></p-multiSelect>
+
+            <label for="dueDate_input">Due Date:</label>
+            <p-calendar formControlName="dueDate" id="dueDate_input" [showIcon]="true" dateFormat="dd.mm.yy" styleClass="w-full"></p-calendar>
+
+            <label for="priority_input">Priority:</label>
+            <p-selectButton [options]="priorityOptions" [multiple]="false" optionLabel="name" optionValue="value"
+                styleClass="w-full"></p-selectButton>
+
+
+
+        </form>
     </p-sidebar>
 </div>
