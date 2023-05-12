@@ -41,12 +41,13 @@ export class AuthService {
       .then((result) => {
         this.SetUserData(result.user);
         this.afAuth.authState.subscribe((user) => {
-          if (user) {
+          if (user && this.isLoggedIn == true) {
             this.router.navigate(['summary']);
           }
         });
       })
       .catch((error) => {
+        console.log("funktioniert nicht")
         this.noMatchingData.next(true);
         setTimeout(() => {
           this.noMatchingData.next(false)
@@ -59,6 +60,7 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        console.log(result)
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         this.SendVerificationMail();
@@ -77,6 +79,10 @@ export class AuthService {
       });
   }
 
+  get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    return user !== null && user.emailVerified !== false ? true : false;
+  }
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
