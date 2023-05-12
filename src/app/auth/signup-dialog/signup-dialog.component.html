@@ -1,0 +1,55 @@
+<div class="auth-dialog card">
+
+    <h1>Sign up</h1>
+
+    <form #signUpForm="ngForm">
+        <div class="card w-12 flex flex-column gap-3">
+            <div class="nameInputs flex">
+                <div class="card w-12 flex flex-column">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            <i class="pi pi-user-edit"></i>
+                        </span>
+                        <input [(ngModel)]="formData.firstName" required email pInputText name="firstName"
+                            placeholder="First Name" />
+                    </div>
+                </div>
+                <div class="card w-12 flex flex-column">
+                    <div class="p-inputgroup">
+                        <input [(ngModel)]="formData.lastName" required email pInputText name="lastName"
+                            placeholder="Last Name" />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-envelope"></i>
+                </span>
+                <input [(ngModel)]="formData.email" required email pInputText name="email" placeholder="Email" />
+            </div>
+
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-key"></i>
+                </span>
+                <input [(ngModel)]="formData.password" required minlength="5" pattern=".*\d.*" type="password"
+                    pInputText name="password" placeholder="Password" />
+            </div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-ellipsis-h"></i>
+                </span>
+                <input [(ngModel)]="formData.password" required minlength="5" pattern=".*\d.*" type="password"
+                    pInputText name="password" placeholder="Repeat password" />
+            </div>
+        </div>
+
+        <div class="flex justify-content-center align-items-center login-buttons gap-5 mt-5">
+            <p-button [disabled]="signUpForm.invalid" type="submit" label="Login"
+                styleClass="p-button-raised p-button-info"></p-button>
+        </div>
+
+    </form>
+</div>

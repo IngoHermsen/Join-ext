@@ -35,7 +35,6 @@ import { TaskBoardComponent } from './task-board/task-board.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
-import { SignUpDialogComponent } from './sign-up-dialog/sign-up-dialog.component';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -43,7 +42,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { AuthService } from 'src/services/auth.service';
 import { MessagesModule } from 'primeng/messages';
-import { Card, CardModule } from 'primeng/card';
+import { CardModule } from 'primeng/card';
+import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
 
 
 
@@ -59,8 +59,8 @@ import { Card, CardModule } from 'primeng/card';
     TaskBoardComponent,
     ContactsComponent,
     ForgotPasswordDialogComponent,
-    SignUpDialogComponent,
     TaskDialogComponent,
+    SignupDialogComponent,
   ],
   imports: [
     BrowserModule,

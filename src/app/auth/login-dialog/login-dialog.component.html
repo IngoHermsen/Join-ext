@@ -1,6 +1,10 @@
 <div class="opacity-delay auth-dialog card">
 
     <h1>Log in</h1>
+    <!-- !!! Do not forget to delete after implementing invitation logic -->
+    <p-button routerLink="/signUp" class="sign-up-btn" label="Sign-Up"></p-button>
+    <!-- !!! Do not forget to delete after implementing invitation logic -->
+
 
     <form #loginForm="ngForm" (ngSubmit)="submitForm()">
 
@@ -25,7 +29,7 @@
             <p *ngIf="wrongInput && !loginForm.dirty">This did not work. <br>
                 Try again or reset your password.</p>
         </div>
-        
+
         <div class="flex gap-3 manage-password">
             <span class="remember-password">
                 <form class="align-items-center gap-1">

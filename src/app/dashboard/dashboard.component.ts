@@ -12,8 +12,4 @@ export class DashboardComponent {
 
   }
 
-  createNewTask() {
-    this.newTaskService.showDialog.next(true);
-  }
-
 }
