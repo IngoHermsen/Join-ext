@@ -8,6 +8,7 @@ import { AuthService } from 'src/services/auth.service';
   styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent {
+
   wrongInput: boolean;
   visible: boolean;
 

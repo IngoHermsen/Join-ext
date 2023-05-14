@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 })
 export class AuthService {
   userData: any; // Save logged in user data
+  userSpecValues: any;
   noMatchingData: Subject<boolean> = new Subject;
 
   constructor(
@@ -42,12 +43,12 @@ export class AuthService {
         this.SetUserData(result.user);
         this.afAuth.authState.subscribe((user) => {
           if (user && this.isLoggedIn == true) {
+
             this.router.navigate(['summary']);
           }
         });
       })
       .catch((error) => {
-        console.log("funktioniert nicht")
         this.noMatchingData.next(true);
         setTimeout(() => {
           this.noMatchingData.next(false)
@@ -55,22 +56,29 @@ export class AuthService {
       });
   }
 
-   // Sign up with email/password
-   SignUp(email: string, password: string) {
+  // Sign up with email/password
+  SignUp(formData: any) {
     return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(formData.email, formData.password)
       .then((result) => {
-        console.log(result)
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         this.SendVerificationMail();
-        this.SetUserData(result.user);
+        this.SetUserData(
+          result.user,
+          formData.firstName,
+          formData.lastName,
+          formData.initials,
+          []
+        );
       })
       .catch((error) => {
         window.alert(error.message);
-      });
+      })
+
   }
-    // Send email verfificaiton when new user sign up
+
+  // Send email verfificaiton when new user sign up
   SendVerificationMail() {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
@@ -81,28 +89,40 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
+  
     return user !== null && user.emailVerified !== false ? true : false;
   }
+
+
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user: any) {
+  SetUserData(user: any, firstName?: string, lastName?: string, initials?: string, projects?: any[]) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
 
-    };
+    this.afs.doc(`users/${user.uid}`).get().subscribe(ref => {
+      const userDocData: any = ref.data();
+    
+            
+      const userData: User = {
+        uid: user.uid,
+        firstName: firstName || userDocData.firstName, 
+        lastName: lastName || userDocData.lastName,
+        initials: initials || userDocData.initials,
+        email: user.email,
+        displayName: user.displayName,
+        emailVerified: user.emailVerified,
+        projects: projects || userDocData.projects,
+      };
 
-    return userRef.set(userData, {
-      merge: true,
-    });
+      return userRef.set(userData, {
+        merge: true,
+      });
+    })
   }
+
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {

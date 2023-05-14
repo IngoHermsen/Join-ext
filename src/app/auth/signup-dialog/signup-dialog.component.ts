@@ -19,6 +19,7 @@ export class SignupDialogComponent {
   formData = {
     firstName: '',
     lastName: '',
+    initials: '',
     email: '',
     password: '',
     passwordCheck: '',
@@ -30,7 +31,8 @@ export class SignupDialogComponent {
   }
 
   submitForm() {
-    this.authService.SignUp(this.formData.email, this.formData.password)
+    this.formData.initials = (this.formData.firstName.charAt(0) + this.formData.lastName.charAt(0))
+    this.authService.SignUp(this.formData)
   }
 }
 
