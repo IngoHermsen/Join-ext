@@ -3,9 +3,9 @@
 
     <div class="content-area">
         <div class="header">
-            <p-button label="New Task" (click)="authService.SignOut()" icon="pi pi-plus" styleClass="p-button" ></p-button>
-
-            <span>Kanban Board Management</span>
+            <div class="card flex justify-content-center">
+                <p-dropdown [options]="projects" optionLabel="name"></p-dropdown>
+            </div>
             <div>USERICON</div>
         </div>
         <p-button class="add-button" (click)="openTaskDialog()" label="New Task" icon="pi pi-plus" styleClass="p-button" ></p-button>

@@ -40,10 +40,11 @@ import { SidebarModule } from 'primeng/sidebar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { AuthService } from 'src/services/auth.service';
+import { AuthService } from 'src/services/auth/auth.service';
 import { MessagesModule } from 'primeng/messages';
 import { CardModule } from 'primeng/card';
 import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 
@@ -55,12 +56,13 @@ import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.compon
     AuthComponent,
     DashboardComponent,
     DefaultViewComponent,
-    LoginDialogComponent,
     TaskBoardComponent,
     ContactsComponent,
     ForgotPasswordDialogComponent,
     TaskDialogComponent,
     SignupDialogComponent,
+    LoginDialogComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -86,6 +88,7 @@ import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.compon
     AngularFireDatabaseModule,
     MessagesModule,
     CardModule,
+    DropdownModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

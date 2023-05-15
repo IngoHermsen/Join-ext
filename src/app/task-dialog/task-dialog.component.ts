@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from '../../services/task-dialog.service';
+import { TaskService } from '../../services/task-dialog/task-dialog.service';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({

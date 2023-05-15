@@ -108,7 +108,7 @@ export class AuthService {
             
       const userData: User = {
         uid: user.uid,
-        firstName: firstName || userDocData.firstName, 
+        firstName: firstName || userDocData.firstName,
         lastName: lastName || userDocData.lastName,
         initials: initials || userDocData.initials,
         email: user.email,
