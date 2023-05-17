@@ -4,7 +4,7 @@
     <div class="content-area">
         <div class="header">
             <div class="card flex justify-content-center">
-                <p-dropdown [options]="projects" optionLabel="name"></p-dropdown>
+                <p-dropdown [(ngModel)]="currentProjectId" [options]="projects" optionLabel="projectName"></p-dropdown>
             </div>
             <div>USERICON</div>
         </div>

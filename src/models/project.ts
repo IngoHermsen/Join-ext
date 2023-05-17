@@ -1,6 +1,6 @@
 export class Project {
     projectId: string;
-    name: string;
+    projectName: string;
     tasks: any[];
     projectOwnerId: string;
 }
