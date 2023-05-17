@@ -33,6 +33,7 @@ export class SignupDialogComponent {
   submitForm() {
     this.formData.initials = (this.formData.firstName.charAt(0) + this.formData.lastName.charAt(0))
     this.authService.SignUp(this.formData)
+    console.log('SIGN UP Form Data', this.formData)
   }
 }
 

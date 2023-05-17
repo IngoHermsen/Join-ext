@@ -69,7 +69,8 @@ export class AuthService {
           formData.firstName,
           formData.lastName,
           formData.initials,
-          []
+          [],
+          'none'
         );
       })
       .catch((error) => {
@@ -83,7 +84,7 @@ export class AuthService {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
       .then(() => {
-        this.router.navigate(['verify-email-address']);
+        // this.router.navigate(['verify-email-address']);
       });
   }
 
@@ -97,7 +98,14 @@ export class AuthService {
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user: any, firstName?: string, lastName?: string, initials?: string, projects?: any[]) {
+  SetUserData(
+    user: any,
+    firstName?: string,
+    lastName?: string,
+    initials?: string,
+    projects?: any[],
+    lastActiveProject?: string,
+    ) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
@@ -105,7 +113,6 @@ export class AuthService {
     this.afs.doc(`users/${user.uid}`).get().subscribe(ref => {
       const userDocData: any = ref.data();
     
-            
       const userData: User = {
         uid: user.uid,
         firstName: firstName || userDocData.firstName,
@@ -115,6 +122,7 @@ export class AuthService {
         displayName: user.displayName,
         emailVerified: user.emailVerified,
         projects: projects || userDocData.projects,
+        lastActiveProject: lastActiveProject || userDocData.lastActiveProject,
       };
 
       return userRef.set(userData, {

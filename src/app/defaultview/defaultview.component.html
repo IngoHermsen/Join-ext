@@ -3,8 +3,9 @@
 
     <div class="content-area">
         <div class="header">
+            <button (click)="authService.SignOut()">SIGN OUT</button>
             <div class="card flex justify-content-center">
-                <p-dropdown [(ngModel)]="currentProjectId" [options]="projects" optionLabel="projectName"></p-dropdown>
+                <p-dropdown (click)="checkActiveProject()" [(ngModel)]="selectedProject" [options]="projects" optionLabel="projectName"></p-dropdown>
             </div>
             <div>USERICON</div>
         </div>

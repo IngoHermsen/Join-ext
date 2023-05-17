@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Project } from 'src/models/project';
 import { AuthService } from 'src/services/auth/auth.service';
@@ -13,14 +13,31 @@ import { TaskService } from 'src/services/task-dialog/task-dialog.service';
 })
 export class DefaultViewComponent implements OnInit {
   projects: Project[];
-  currentProjectId: Subject<String>;
+  selectedProject: string;
+
+  projectNr = 0;
 
   constructor(
     public currentProjectService: CurrentProjectService,
     public taskService: TaskService,
     public authService: AuthService,
-  ) {}
+  ) {
+    currentProjectService.projectId.subscribe((value) => {
+      
+    })
 
+
+  }
+
+  checkActiveProject() {
+    let currentProjectIdFromService = this.currentProjectService.projectId;
+
+    if(this.selectedProject !== currentProjectIdFromService.getValue()) {
+      currentProjectIdFromService.next(this.selectedProject);
+      
+    }
+    
+  }
   
 
   loadProjectData(projectId) {
