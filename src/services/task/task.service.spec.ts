@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TaskService } from './task-dialog.service';
+import { TaskService } from './task.service';
 
 
 describe('TaskService', () => {

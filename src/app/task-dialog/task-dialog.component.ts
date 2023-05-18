@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from '../../services/task-dialog/task-dialog.service';
+import { TaskService } from '../../services/task/task.service';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -7,40 +7,39 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './task-dialog.component.html',
   styleUrls: ['./task-dialog.component.scss']
 })
-export class TaskDialogComponent implements OnInit{
+export class TaskDialogComponent implements OnInit {
   priorityOptions: any[] = [
     { name: 'Low', value: 1 },
     { name: 'Medium', value: 2 },
     { name: 'High', value: 3 }
-];
+  ];
 
-contacts = [
-  { name: 'contact 1'},
-  { name: 'contact 2'},
-  { name: 'contact 3'},
-  { name: 'contact 4'},
-  { name: 'contact 5'}
-];
+  contacts = [
+    { name: 'contact 1' },
+    { name: 'contact 2' },
+    { name: 'contact 3' },
+    { name: 'contact 4' },
+    { name: 'contact 5' }
+  ];
 
-
-  sidebarVisible: boolean; 
+  sidebarVisible: boolean;
 
   constructor(
-    public newTaskService: TaskService,
-    ) { }
+    public taskService: TaskService,
+  ) { }
 
   ngOnInit(): void {
-    this.newTaskService.showDialog.subscribe((value) => {
+    this.taskService.showDialog.subscribe((value) => {
       this.sidebarVisible = value;
     })
   }
 
   taskForm = new FormGroup({
-    title: new FormControl('', {nonNullable: true}),
-    description: new FormControl('', {nonNullable: true}),
-    assign: new FormControl('', {nonNullable: true}),
-    creationDate: new FormControl(new Date(), {nonNullable: true}),
-    dueDate: new FormControl('', {nonNullable: true}),
-    priority: new FormControl('', {nonNullable: true}),
+    title: new FormControl('', { nonNullable: true }),
+    description: new FormControl('', { nonNullable: true }),
+    assign: new FormControl('', { nonNullable: true }),
+    creationDate: new FormControl(new Date(), { nonNullable: true }),
+    dueDate: new FormControl('', { nonNullable: true }),
+    priority: new FormControl('', { nonNullable: true }),
   })
 }

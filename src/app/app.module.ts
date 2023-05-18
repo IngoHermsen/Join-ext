@@ -45,6 +45,7 @@ import { MessagesModule } from 'primeng/messages';
 import { CardModule } from 'primeng/card';
 import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
 
 
 
@@ -62,6 +63,7 @@ import { DropdownModule } from 'primeng/dropdown';
     TaskDialogComponent,
     SignupDialogComponent,
     LoginDialogComponent,
+    ProjectDialogComponent,
 
   ],
   imports: [

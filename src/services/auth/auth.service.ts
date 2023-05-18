@@ -24,8 +24,7 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
+        localStorage.setItem('user', JSON.stringify(user));
         JSON.parse(localStorage.getItem('user')!);
       } else {
         localStorage.setItem('user', 'null');
@@ -124,6 +123,9 @@ export class AuthService {
         projects: projects || userDocData.projects,
         lastActiveProject: lastActiveProject || userDocData.lastActiveProject,
       };
+
+      this.userData = userData;
+      console.log(`Active User: ${userData.firstName} ${userData.lastName}`, userData)
 
       return userRef.set(userData, {
         merge: true,

@@ -1,0 +1,19 @@
+<p-sidebar [(visible)]="topbarVisible" position="top" styleClass="left-50 max-w-max h-auto">
+    <h3>new Project / Edit Project</h3>
+
+    <form class="flex flex-column align-items-center" [formGroup]="projectForm" (ngsubmit)="submitForm()">
+        <fieldset class="input-fields flex flex-column mb-4">
+            <label for="title_input">Title:</label>
+            <input formControlName="title" type="text" pInputText id="title_input" />
+            <span class="character-count">{{titleInputCharacters}} / {{titleInputLimit}}</span>
+
+            <label class="mt-5 mb-2" for="description_input">Description (optional):</label>
+            <textarea formControlName="description" type="text" pInputText id="description_input"></textarea>
+            <span class="character-count">{{descriptionInputCharacters}} / {{descriptionInputLimit}}</span>
+
+        </fieldset>
+
+        <p-button [disabled]="projectForm.invalid" type="submit" label="Create project" icon="pi pi-check" styleClass="p-button"></p-button>
+    </form>
+
+</p-sidebar>

@@ -1,9 +1,8 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/models/project';
 import { AuthService } from 'src/services/auth/auth.service';
-import { CurrentProjectService } from 'src/services/current-project.service';
-import { TaskService } from 'src/services/task-dialog/task-dialog.service';
+import { ProjectService } from 'src/services/project/project.service';
+import { TaskService } from 'src/services/task/task.service';
 
 
 @Component({
@@ -12,39 +11,34 @@ import { TaskService } from 'src/services/task-dialog/task-dialog.service';
   styleUrls: ['./defaultview.component.scss']
 })
 export class DefaultViewComponent implements OnInit {
+  show: boolean;
   projects: Project[];
   selectedProject: string;
 
-  projectNr = 0;
-
   constructor(
-    public currentProjectService: CurrentProjectService,
+    public projectService: ProjectService,
     public taskService: TaskService,
     public authService: AuthService,
   ) {
-    currentProjectService.projectId.subscribe((value) => {
-      
+    projectService.currentId.subscribe((value) => {
+
     })
-
-
   }
 
   checkActiveProject() {
-    let currentProjectIdFromService = this.currentProjectService.projectId;
+    let currentProjectIdFromService = this.projectService.currentId
 
-    if(this.selectedProject !== currentProjectIdFromService.getValue()) {
+    if (this.selectedProject !== currentProjectIdFromService.getValue()) {
       currentProjectIdFromService.next(this.selectedProject);
-      
     }
-    
   }
-  
+
+
 
   loadProjectData(projectId) {
 
   }
 
-  
 
   // example JSON for testing dropdown:
   ngOnInit(): void {
@@ -71,9 +65,12 @@ export class DefaultViewComponent implements OnInit {
     ]
   }
 
+  showProjectDialog() {
+    this.projectService.showDialog.next(true);
 
+  }
 
-  openTaskDialog() {
+  showTaskDialog() {
     this.taskService.showDialog.next(true);
   }
 

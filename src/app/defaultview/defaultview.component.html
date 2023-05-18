@@ -1,16 +1,21 @@
 <div class="default-view">
     <app-navigation></app-navigation>
-
     <div class="content-area">
         <div class="header">
             <button (click)="authService.SignOut()">SIGN OUT</button>
-            <div class="card flex justify-content-center">
-                <p-dropdown (click)="checkActiveProject()" [(ngModel)]="selectedProject" [options]="projects" optionLabel="projectName"></p-dropdown>
+            <div class="flex">
+                <div class="card flex justify-content-center">
+                    <p-dropdown (click)="checkActiveProject()" [(ngModel)]="selectedProject" [options]="projects"
+                        optionLabel="projectName" styleClass="w-16rem"></p-dropdown>
+                </div>
+                <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
+                    styleClass="p-button-secondary"></p-button>
             </div>
-            <div>USERICON</div>
         </div>
-        <p-button class="add-button" (click)="openTaskDialog()" label="New Task" icon="pi pi-plus" styleClass="p-button" ></p-button>
-        <app-task-dialog></app-task-dialog>   
+        <p-button class="add-button" (click)="showTaskDialog()" label="New Task" icon="pi pi-plus"
+            styleClass="p-button"></p-button>
+        <app-project-dialog></app-project-dialog>
+        <app-task-dialog></app-task-dialog>
         <div class="outlet-content">
             <router-outlet></router-outlet>
         </div>

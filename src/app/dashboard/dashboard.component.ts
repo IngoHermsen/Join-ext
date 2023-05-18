@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TaskService } from '../../services/task-dialog/task-dialog.service';
+import { TaskService } from '../../services/task/task.service';
 
 @Component({
   selector: 'app-dashboard',
