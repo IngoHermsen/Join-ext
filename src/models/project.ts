@@ -1,6 +1,7 @@
 export class Project {
     projectId: string;
-    projectName: string;
+    projectTitle: string;
+    projectDescription: string;
     tasks: any[];
     projectOwnerId: string;
 }

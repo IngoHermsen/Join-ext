@@ -45,19 +45,22 @@ export class DefaultViewComponent implements OnInit {
     this.projects = [
       {
         projectId: '234567',
-        projectName: 'irgendein Projekt',
+        projectTitle: 'irgendein Projekt',
+        projectDescription: '',
         tasks: [],
         projectOwnerId: '222222'
       },
       {
         projectId: '123456',
-        projectName: 'noch ein Projekt',
+        projectTitle: 'noch ein Projekt',
+        projectDescription: '',
         tasks: [],
         projectOwnerId: '333333'
       },
       {
         projectId: '345678',
-        projectName: 'und noch eins',
+        projectTitle: 'und noch eins',
+        projectDescription: '',
         tasks: [],
         projectOwnerId: '444444'
       }

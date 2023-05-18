@@ -6,7 +6,7 @@
             <div class="flex">
                 <div class="card flex justify-content-center">
                     <p-dropdown (click)="checkActiveProject()" [(ngModel)]="selectedProject" [options]="projects"
-                        optionLabel="projectName" styleClass="w-16rem"></p-dropdown>
+                        optionLabel="projectTitle" styleClass="w-16rem"></p-dropdown>
                 </div>
                 <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>

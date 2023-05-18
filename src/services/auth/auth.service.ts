@@ -125,7 +125,6 @@ export class AuthService {
       };
 
       this.userData = userData;
-      console.log(`Active User: ${userData.firstName} ${userData.lastName}`, userData)
 
       return userRef.set(userData, {
         merge: true,

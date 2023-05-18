@@ -1,7 +1,7 @@
 <p-sidebar [(visible)]="topbarVisible" position="top" styleClass="left-50 max-w-max h-auto">
     <h3>new Project / Edit Project</h3>
 
-    <form class="flex flex-column align-items-center" [formGroup]="projectForm" (ngsubmit)="submitForm()">
+    <form class="flex flex-column align-items-center" [formGroup]="projectForm" (ngSubmit)="submitForm()">
         <fieldset class="input-fields flex flex-column mb-4">
             <label for="title_input">Title:</label>
             <input formControlName="title" type="text" pInputText id="title_input" />
@@ -13,7 +13,7 @@
 
         </fieldset>
 
-        <p-button [disabled]="projectForm.invalid" type="submit" label="Create project" icon="pi pi-check" styleClass="p-button"></p-button>
+        <p-button [disabled]="projectForm.invalid" type="ngSubmit" label="Create project" icon="pi pi-check" styleClass="p-button"></p-button>
     </form>
 
 </p-sidebar>
