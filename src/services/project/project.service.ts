@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
+import { arrayUnion } from "firebase/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,12 @@ export class ProjectService {
   getUserId() {
     let userItem = localStorage.getItem('user');
     let userObject = JSON.parse(userItem);
-    return userObject.uid;    
+    return userObject.uid;
+  }
+
+  updateProjectsFromUser(userId, projectId) {
+    let userCollectionRef = this.afs.collection('users');
+    userCollectionRef.doc(userId).update({projects: arrayUnion(projectId)})
   }
 
 
@@ -39,9 +45,12 @@ export class ProjectService {
     // create a firebase document with the projectData and then immediately update the docs
     // 'projectId' with its own doc ID as value
     projectCollectionRef.add(projectData)
-    .then((docRef) => {
-      docRef.update({projectId: docRef.id})
-    })
+      .then((docRef) => {
+        docRef.update({ projectId: docRef.id })
+        this.currentId.next(docRef.id)
+        this.updateProjectsFromUser(projectData.projectOwnerId, docRef.id)
+      })
 
   }
+
 }

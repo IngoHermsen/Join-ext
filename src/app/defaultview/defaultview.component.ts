@@ -21,15 +21,17 @@ export class DefaultViewComponent implements OnInit {
     public authService: AuthService,
   ) {
     projectService.currentId.subscribe((value) => {
-
+      this.showActiveProject();
     })
   }
 
-  checkActiveProject() {
-    let currentProjectIdFromService = this.projectService.currentId
+  showActiveProject(activatedBySelection?: boolean) {
+    let currentProjectId = this.projectService.currentId;
 
-    if (this.selectedProject !== currentProjectIdFromService.getValue()) {
-      currentProjectIdFromService.next(this.selectedProject);
+    if (this.selectedProject !== currentProjectId.getValue()) {
+        this.selectedProject = activatedBySelection ? this.selectedProject : currentProjectId.getValue();
+        currentProjectId.next(this.selectedProject);
+      
     }
   }
 

@@ -5,7 +5,7 @@
             <button (click)="authService.SignOut()">SIGN OUT</button>
             <div class="flex">
                 <div class="card flex justify-content-center">
-                    <p-dropdown (click)="checkActiveProject()" [(ngModel)]="selectedProject" [options]="projects"
+                    <p-dropdown (click)="showActiveProject(true)" [(ngModel)]="selectedProject" [options]="projects"
                         optionLabel="projectTitle" styleClass="w-16rem"></p-dropdown>
                 </div>
                 <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"

@@ -43,7 +43,7 @@ export class AuthService {
         this.afAuth.authState.subscribe((user) => {
           if (user && this.isLoggedIn == true) {
 
-            this.router.navigate(['summary']);
+            this.router.navigate(['project/summary']);
           }
         });
       })
@@ -136,7 +136,7 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['login']);
+      this.router.navigate(['auth/login']);
     });
   }
 }
