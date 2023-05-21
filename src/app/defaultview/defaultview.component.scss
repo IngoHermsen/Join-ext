@@ -18,3 +18,10 @@
         margin-top: 40px;
     }
 }
+
+p-avatar {
+
+    &:hover {
+        cursor: pointer;
+    }
+}

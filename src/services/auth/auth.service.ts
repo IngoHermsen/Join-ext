@@ -1,16 +1,16 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, resolveForwardRef } from '@angular/core';
 import { User } from 'src/models/user';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+  userData: Subject<any> = new Subject;
   userSpecValues: any;
   noMatchingData: Subject<boolean> = new Subject;
 
@@ -109,7 +109,7 @@ export class AuthService {
       `users/${user.uid}`
     );
 
-    this.afs.doc(`users/${user.uid}`).get().subscribe(ref => {
+    userRef.get().subscribe(ref => {
       const userDocData: any = ref.data();
     
       const userData: User = {
@@ -124,7 +124,7 @@ export class AuthService {
         lastActiveProject: lastActiveProject || userDocData.lastActiveProject,
       };
 
-      this.userData = userData;
+      this.userData.next(userData);
 
       return userRef.set(userData, {
         merge: true,

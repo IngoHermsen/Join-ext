@@ -14,6 +14,7 @@ export class DefaultViewComponent implements OnInit {
   show: boolean;
   projects: Project[];
   selectedProject: string;
+  avatarInitials: string;
 
   constructor(
     public projectService: ProjectService,
@@ -23,52 +24,37 @@ export class DefaultViewComponent implements OnInit {
     projectService.currentId.subscribe((value) => {
       this.showActiveProject();
     })
+    this.authService.userData.subscribe((data) => {
+      this.avatarInitials = data.initials;
+    })
+
+    this.projects = []
+    
   }
+
+  // example JSON for testing dropdown:
+  ngOnInit(): void {
+    this.projects =  [{
+      projectDescription: "project beschreibung",
+      projectId: 'dhfw0fhw0fwfwfw',
+      projectOwnerId: 'q200e9ewfw0fwd0fw0wf',
+      projectTitle: 'Projekt Nr. 1',
+      tasks: []
+   
+  }]
+  }
+
 
   showActiveProject(activatedBySelection?: boolean) {
     let currentProjectId = this.projectService.currentId;
 
     if (this.selectedProject !== currentProjectId.getValue()) {
-        this.selectedProject = activatedBySelection ? this.selectedProject : currentProjectId.getValue();
-        currentProjectId.next(this.selectedProject);
-      
+      this.selectedProject = activatedBySelection ? this.selectedProject : currentProjectId.getValue();
+      currentProjectId.next(this.selectedProject);
+
     }
   }
 
-
-
-  loadProjectData(projectId) {
-
-  }
-
-
-  // example JSON for testing dropdown:
-  ngOnInit(): void {
-    this.projects = [
-      {
-        projectId: '234567',
-        projectTitle: 'irgendein Projekt',
-        projectDescription: '',
-        tasks: [],
-        projectOwnerId: '222222'
-      },
-      {
-        projectId: '123456',
-        projectTitle: 'noch ein Projekt',
-        projectDescription: '',
-        tasks: [],
-        projectOwnerId: '333333'
-      },
-      {
-        projectId: '345678',
-        projectTitle: 'und noch eins',
-        projectDescription: '',
-        tasks: [],
-        projectOwnerId: '444444'
-      }
-
-    ]
-  }
 
   showProjectDialog() {
     this.projectService.showDialog.next(true);

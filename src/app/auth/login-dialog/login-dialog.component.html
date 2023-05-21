@@ -1,10 +1,6 @@
 <div class="opacity-delay auth-dialog card">
 
     <h1>Log in</h1>
-    <!-- !!! Do not forget to delete after implementing invitation logic -->
-    <p-button routerLink="/signUp" class="sign-up-btn" label="Sign-Up"></p-button>
-    <!-- !!! Do not forget to delete after implementing invitation logic -->
-
 
     <form #loginForm="ngForm" (ngSubmit)="submitForm()">
 
@@ -13,14 +9,14 @@
                 <span class="p-inputgroup-addon">
                     <i class="pi pi-envelope"></i>
                 </span>
-                <input [(ngModel)]="formData.usermail" required email pInputText name="email" placeholder="Email" />
+                <input [disabled]="!formActive" [(ngModel)]="formData.usermail" required email pInputText name="email" placeholder="Email" />
             </div>
 
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon">
                     <i class="pi pi-key"></i>
                 </span>
-                <input [(ngModel)]="formData.password" required minlength="5" pattern=".*\d.*" type="password"
+                <input [disabled]="!formActive" [(ngModel)]="formData.password" required minlength="5" pattern=".*\d.*" type="password"
                     pInputText name="password" placeholder="Password" />
             </div>
         </div>
@@ -42,12 +38,16 @@
             </span>
             <a routerLink="/forgotPassword">Forgot password?</a>
         </div>
-        <div class="flex justify-content-center align-items-center login-buttons gap-5 mt-5">
+        <div class="flex justify-content-center align-items-center login-buttons gap-5 mt-5 mb-5">
             <p-button [disabled]="loginForm.invalid" type="submit" label="Login"
                 styleClass="p-button-raised p-button-info"></p-button>
             <span>OR</span>
             <p-button routerLink="/summary" label="Guest Login"
                 styleClass="p-button-raised p-button-secondary"></p-button>
+        </div>
+        <div class="flex gap-3">
+            <span>Got a signup Code? <a href="" routerLink="/auth/signup">Register here</a></span>
+            
         </div>
 
 

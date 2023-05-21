@@ -16,7 +16,7 @@ const routes: Routes = [
     path: '', component: AuthComponent, children: [
       { path: 'auth/login', component: LoginDialogComponent},
       { path: 'auth/forgotPassword', component: ForgotPasswordDialogComponent},
-      { path: 'auth/signUp', component: SignupDialogComponent}
+      { path: 'auth/signup', component: SignupDialogComponent}
     ]
   },
   {

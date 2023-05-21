@@ -46,8 +46,7 @@ import { CardModule } from 'primeng/card';
 import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
-
-
+import { AvatarModule } from 'primeng/avatar';
 
 
 @NgModule({
@@ -91,6 +90,7 @@ import { ProjectDialogComponent } from './project-dialog/project-dialog.componen
     MessagesModule,
     CardModule,
     DropdownModule,
+    AvatarModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
