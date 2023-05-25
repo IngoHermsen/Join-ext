@@ -3,7 +3,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
-import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,8 @@ export class ProjectService {
   userCollectionRef = this.afs.collection('users');
 
   userId: string;
-
+  projectIds: any[];
+  projectsAsJson: Subject<any> = new Subject;
 
   currentId = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
@@ -22,7 +22,6 @@ export class ProjectService {
     public afs: AngularFirestore, // Inject Firebase auth service
   ) {
     this.userId = this.getUserId()
-    this.getProjectsAsJson()
   }
 
   getUserId() {
@@ -33,6 +32,7 @@ export class ProjectService {
 
   updateProjectsFromUser(userId, projectId) {
     this.userCollectionRef.doc(userId).update({ projects: arrayUnion(projectId) })
+    this.getProjectsAsJson();
   }
 
   createNewProject(object) {
@@ -56,32 +56,25 @@ export class ProjectService {
       })
   }
 
-  getProjectAsObject(projectId) {
-    let projectDocRef = this.projectCollectionRef.doc(projectId)
-    projectDocRef.get().subscribe((project) => {
-      project.data()
-      console.log(project.data());
-    })
-  }
 
   getProjectsAsJson() {
-    let projectsJson: any[];
-    let documentIds: any = this.getProjectIds();
+    let projectsData: any[] = [];
 
-    documentIds.forEach(projectId => {
-      let projectAsObject = this.getProjectAsObject(projectId)
-      // projectsJson.push(projectAsObject)
-    });
-  };
-
-  getProjectIds() {
+    // get projectIds for current User...
     const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(this.userId);
     usersDocRef.get().subscribe(ref => {
       const projectIds = ref.data().projects;
-      console.log(projectIds);
-      return projectIds
+
+      // ...then get project Data for each project Id...
+      projectIds.forEach(projectId => {
+        let projectDocRef = this.projectCollectionRef.doc(projectId);
+
+        projectDocRef.get().subscribe((project) => {
+          let projectAsObject = project.data()
+          projectsData.push(projectAsObject);
+        });    
+      });
+      this.projectsAsJson.next(projectsData)
     })
-
   }
-
 }
