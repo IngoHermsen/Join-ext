@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
@@ -9,36 +9,42 @@ import { TaskService } from 'src/services/task/task.service';
   templateUrl: './defaultview.component.html',
   styleUrls: ['./defaultview.component.scss']
 })
-export class DefaultViewComponent implements OnInit {
+export class DefaultViewComponent implements OnInit, OnDestroy {
+  userId: string;
   show: boolean;
   projects: any;
   selectedProject: string;
   avatarInitials: string;
+  userSubscription: any;
 
   constructor(
     public projectService: ProjectService,
     public taskService: TaskService,
     public authService: AuthService,
   ) {
-    projectService.currentId.subscribe((value) => {
+   
+  }
+
+  ngOnInit(): void {
+    this.projectService.currentId.subscribe((value) => {
       this.showActiveProject();
     })
 
-    projectService.projectsAsJson.subscribe((data) => {
+    this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
-      console.log('123', this.projects)
-      
     })
 
-    this.authService.userData.subscribe((data) => {
+    this.userSubscription = this.authService.userData.subscribe((data) => {
+      this.userId = data.uid;
       this.avatarInitials = data.initials;
+      this.projectService.getProjectsAsJson(this.userId);
+      console.log('projects', this.projects);
+      // this.authService.userData.unsubscribe();
     })
- 
   }
 
-  // example JSON for testing dropdown:
-  ngOnInit(): void {
-    this.projectService.getProjectsAsJson();
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 
 

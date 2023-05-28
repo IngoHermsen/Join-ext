@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
+import { BehaviorSubject, Subject, from, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
@@ -7,12 +8,11 @@ import { arrayUnion } from "firebase/firestore";
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
+export class ProjectService implements OnInit {
   projectCollectionRef = this.afs.collection('projects');
   userCollectionRef = this.afs.collection('users');
 
-  userId: string;
-  projectIds: any[];
+  userId;
   projectsAsJson: Subject<any> = new Subject;
 
   currentId = new BehaviorSubject('');
@@ -20,20 +20,12 @@ export class ProjectService {
 
   constructor(
     public afs: AngularFirestore, // Inject Firebase auth service
-  ) {
-    this.userId = this.getUserId()
+  ) { }
+
+  ngOnInit(): void {
+
   }
 
-  getUserId() {
-    let userItem = localStorage.getItem('user');
-    let userObject = JSON.parse(userItem);
-    return userObject.uid;
-  }
-
-  updateProjectsFromUser(userId, projectId) {
-    this.userCollectionRef.doc(userId).update({ projects: arrayUnion(projectId) })
-    this.getProjectsAsJson();
-  }
 
   createNewProject(object) {
     let projectData = new Project;
@@ -42,9 +34,10 @@ export class ProjectService {
       projectId: '',
       projectTitle: object.title,
       projectDescription: object.description,
-      projectOwnerId: this.getUserId(),
+      projectOwnerId: this.userId,
       tasks: []
     }
+
 
     // create a firebase document with the projectData and then immediately update the docs
     // 'projectId' with its own doc ID as value
@@ -56,25 +49,36 @@ export class ProjectService {
       })
   }
 
+  updateProjectsFromUser(userId, projectId) {
+    this.userCollectionRef.doc(userId).update({ projects: arrayUnion(projectId) })
+    this.getProjectsAsJson(userId);
+  }
 
-  getProjectsAsJson() {
+  getProjectsAsJson(userId) {
     let projectsData: any[] = [];
+    this.userId = userId;
 
     // get projectIds for current User...
-    const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(this.userId);
-    usersDocRef.get().subscribe(ref => {
-      const projectIds = ref.data().projects;
+    const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(userId);
 
-      // ...then get project Data for each project Id...
-      projectIds.forEach(projectId => {
-        let projectDocRef = this.projectCollectionRef.doc(projectId);
+    // Unbedingt nochmal durchgehen, um das zu verstehen!!!!!!!
+    usersDocRef.get().pipe(mergeMap((ref) => {
+      const usersProjectIds = ref.data().projects;
 
-        projectDocRef.get().subscribe((project) => {
-          let projectAsObject = project.data()
-          projectsData.push(projectAsObject);
-        });    
-      });
-      this.projectsAsJson.next(projectsData)
-    })
+      return from(usersProjectIds).pipe(map((id) => {
+        return id
+      }));
+    })).pipe(map((id: any) => {
+      let projectDocRef: AngularFirestoreDocument = this.projectCollectionRef.doc(id);
+      return projectDocRef
+    })).subscribe((ref) => {
+      ref.get().subscribe((ref) => {
+        projectsData.push(ref.data());
+      })
+    });
+
+    this.projectsAsJson.next(projectsData)
   }
 }
+
+

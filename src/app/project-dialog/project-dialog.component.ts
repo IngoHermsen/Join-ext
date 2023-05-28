@@ -16,6 +16,7 @@ export class ProjectDialogComponent implements OnInit {
 
 
   constructor(
+
     public projectService: ProjectService
   ) {
     this.projectForm.controls.title.valueChanges.subscribe((value) => {
@@ -36,22 +37,24 @@ export class ProjectDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectService.showDialog.subscribe((value) => {
-      this.topbarVisible = value
+      this.topbarVisible = value;
     })
   }
 
   projectForm = new FormGroup({
-    title: new FormControl('',
-      [
+    title: new FormControl('', {
+      nonNullable: true,
+      validators: [
         Validators.required,
         Validators.maxLength(this.titleInputLimit)
       ]
-    ),
-    description: new FormControl('',
-      [
+    }),
+    description: new FormControl('', {
+      nonNullable: true,
+      validators: [
         Validators.maxLength(this.descriptionInputLimit)
       ]
-    ),
+    }),
   })
 
   sliceInput(controlName, inputLimit) {
@@ -64,7 +67,8 @@ export class ProjectDialogComponent implements OnInit {
 
   submitForm() {
     this.projectService.showDialog.next(false);
-    this.projectService.createNewProject(this.projectForm.value)
-    
+    this.projectService.createNewProject(this.projectForm.value);
+    this.projectForm.reset()
+
   }
 }
