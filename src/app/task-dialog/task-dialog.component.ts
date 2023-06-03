@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, RequiredValidator, Validators } from '@angular/forms';
+import { MultiSelect } from 'primeng/multiselect';
+import { SelectButton } from 'primeng/selectbutton';
+import { compileNgModule } from '@angular/compiler';
 
 @Component({
   selector: 'app-task-dialog',
@@ -8,10 +11,13 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./task-dialog.component.scss']
 })
 export class TaskDialogComponent implements OnInit {
+  @ViewChild('assignUsers') userMultiSelect: MultiSelect;
+  @ViewChild('priorityButtons') prioritySelection: SelectButton;
+
   priorityOptions: any[] = [
-    { name: 'Low', value: 1 },
-    { name: 'Medium', value: 2 },
-    { name: 'High', value: 3 }
+    { name: 'Low' },
+    { name: 'Medium' },
+    { name: 'High', }
   ];
 
   contacts = [
@@ -34,12 +40,78 @@ export class TaskDialogComponent implements OnInit {
     })
   }
 
+  // formGroup
   taskForm = new FormGroup({
-    title: new FormControl('', { nonNullable: true }),
-    description: new FormControl('', { nonNullable: true }),
-    assign: new FormControl('', { nonNullable: true }),
-    creationDate: new FormControl(new Date(), { nonNullable: true }),
-    dueDate: new FormControl('', { nonNullable: true }),
-    priority: new FormControl('', { nonNullable: true }),
+    title: new FormControl('',
+      {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.maxLength(25),
+        ]
+      },
+
+    ),
+    description: new FormControl('',
+      {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(150)
+        ]
+      }
+    ),
+    assignedUsers: new FormControl([],
+      { nonNullable: true }
+    ),
+
+    creationDate: new FormControl(new Date(),
+      {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+        ]
+      }
+    ),
+    dueDate: new FormControl('',
+      {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+        ]
+      }
+
+    ),
+    priority: new FormControl('',
+      {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+        ]
+      }
+    ),
   })
+
+  // formGroup END
+
+  submitForm() {
+    console.log(this.taskForm.value);
+    
+    this.taskService.createNewTask(this.taskForm.value);
+    this.taskService.showDialog.next(false);
+
+    this.taskForm.reset()
+  }
+
+  // !!!! DELETE IF NOT NECESSARY ANYMORE !!!!  for testing purpose:
+
+  logUsers() {
+    // console.log(this.assignUsersInput.value)
+  }
+
+  logPriority() {
+    // console.log(this.prioritySelection.value);
+  }
+
 }

@@ -1,18 +1,19 @@
-export class Project {
+export class Task {
+    taskId: '';
     title: string;
     description: string;
-    category: string;
     assignedUsers: any[];
-    creationTimeStamp: string;
-    dueDateTimeStamp: number;
+    creationDate: Date;
+    dueDate: Date;
     priority: string[];
 
-    constructor(obj: any) {
+    constructor(obj?: any) {
+        this.taskId = obj.taskId;
         this.title = obj.title;
         this.description = obj.description;
         this.assignedUsers = obj.assignedUsers;
-        this.creationTimeStamp = obj.creationTimeStamp;
-        this.dueDateTimeStamp = obj.dueDateTimeStamp;
+        this.creationDate = obj.creationDate;
+        this.dueDate = obj.dueDate;
         this.priority = obj.priority;
     }
 }

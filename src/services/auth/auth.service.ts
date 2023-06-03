@@ -103,7 +103,7 @@ export class AuthService {
     lastName?: string,
     initials?: string,
     projects?: any[],
-    lastActiveProject?: string,
+    latestActiveProject?: string,
     ) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
@@ -121,10 +121,11 @@ export class AuthService {
         displayName: user.displayName,
         emailVerified: user.emailVerified,
         projects: projects || userDocData.projects,
-        lastActiveProject: lastActiveProject || userDocData.lastActiveProject,
+        latestActiveProject: latestActiveProject || userDocData.latestActiveProject,
       };
 
       this.userData.next(userData);
+     
 
       return userRef.set(userData, {
         merge: true,

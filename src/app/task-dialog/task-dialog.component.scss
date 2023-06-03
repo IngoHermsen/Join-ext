@@ -10,6 +10,9 @@ textarea {
 }
 
 form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 400px;  
 
     *{

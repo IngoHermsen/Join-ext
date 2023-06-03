@@ -57,7 +57,7 @@ export class ProjectDialogComponent implements OnInit {
     }),
   })
 
-  sliceInput(controlName, inputLimit) {
+  sliceInput(controlName: string, inputLimit: number) {
     let formControl = this.projectForm.get(controlName);
     let inputValue = formControl.value;
     let newInputValue = inputValue.slice(0, inputLimit)

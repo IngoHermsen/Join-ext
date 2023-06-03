@@ -7,6 +7,6 @@ export interface User {
     displayName: string;
     emailVerified: boolean;
     projects: any[];
-    lastActiveProject: string;
+    latestActiveProject: string;
     
 }
