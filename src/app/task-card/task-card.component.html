@@ -1,0 +1,15 @@
+<p-card pDraggable styleClass="border-solid border-blue-200 border-round-2xl">
+    <p-header class="header">
+        <div>Title</div>
+        <i class="pi pi-info-circle"></i>
+    </p-header>
+    <p class="flex flex-column">
+        <span>Description</span>
+        <span></span>
+        <span>Due Date</span>
+        <span>AssignedUsers</span>
+    </p>
+    <ng-template class="footer" pTemplate="footer">
+        <p-splitButton label="Edit" icon="pi pi-file-edit" [model]="btnItems"></p-splitButton>
+    </ng-template>
+</p-card>

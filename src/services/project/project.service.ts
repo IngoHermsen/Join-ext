@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Subject, from } from 'rxjs';
+import { BehaviorSubject, Subject, from } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
@@ -12,10 +12,10 @@ export class ProjectService implements OnInit {
   projectCollectionRef = this.afs.collection('projects');
   userCollectionRef = this.afs.collection('users');
 
-  userId;
+  userId: string;
   projectsAsJson: Subject<any> = new Subject;
 
-  currentId: string = 'RZBeLLA42nyPUOu5L9NA';
+  currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
 
   constructor(
@@ -27,14 +27,10 @@ export class ProjectService implements OnInit {
   }
 
   saveNewTask(data: any) {
-    console.log('TASK DATA', data);
-    console.log('project id', this.currentId);
-    
-    
-    this.projectCollectionRef.doc(this.currentId)
+      
+    this.projectCollectionRef.doc(this.currentId.getValue())
     .collection('tasks').add(data)
     .then((docRef) => {
-      console.log('docRef', docRef);
       docRef.update({ taskId: docRef.id })
     })
   }
@@ -55,17 +51,17 @@ export class ProjectService implements OnInit {
     this.projectCollectionRef.add(projectData)
       .then((docRef) => {
         docRef.update({ projectId: docRef.id })
-        this.currentId = docRef.id
+        this.currentId.next(docRef.id)
         this.updateProjectsFromUser(projectData.projectOwnerId, docRef.id)
       })
   }
 
-  updateProjectsFromUser(userId, projectId) {
+  updateProjectsFromUser(userId: string, projectId: string) {
     this.userCollectionRef.doc(userId).update({ projects: arrayUnion(projectId) })
     this.getProjectsAsJson(userId);
   }
 
-  getProjectsAsJson(userId) {
+  getProjectsAsJson(userId: string) {
     let projectsData: any[] = [];
     this.userId = userId;
 

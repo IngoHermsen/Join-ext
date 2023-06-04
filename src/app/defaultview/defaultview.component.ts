@@ -13,6 +13,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   userId: string;
   show: boolean;
   projects: any;
+  activeProject: string;
   avatarInitials: string;
   
   // subscriptions
@@ -28,24 +29,31 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
   }
 
+  changeActiveProject(projectId?: string) {
+    let id = projectId || this.activeProject
+    this.projectService.currentId.next(id)
+
+  }
+
   ngOnInit(): void {
-
-
     this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
     })
 
     this.userSubscription = this.authService.userData.subscribe((data) => {
-      this.userId = data.uid;
+      let userItem = localStorage.getItem('user');
+      let userJson = JSON.parse(userItem);
+
+      this.userId = userJson.uid;
       this.avatarInitials = data.initials;
       this.projectService.getProjectsAsJson(this.userId);
-      this.projectService.currentId = data.latestActiveProject;
+      this.projectService.currentId.next(data.latestActiveProject);
     })
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
       console.log('task data', data);
       
-      this.projectService.saveNewTask(data)
+      this.projectService.saveNewTask(data);
     })
   }
 

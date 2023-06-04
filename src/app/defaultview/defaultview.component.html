@@ -6,7 +6,7 @@
             <div class="flex">
                 <div class="card flex justify-content-center">
                     <p-dropdown [options]="projects" optionValue="projectId" optionLabel="projectTitle"
-                        [(ngModel)]="this.projectService.currentId" styleClass="w-16rem" placeholder="Select a project" ></p-dropdown>
+                        (onChange)="changeActiveProject()" [(ngModel)]="activeProject" styleClass="w-16rem" placeholder="Select a project" ></p-dropdown>
                 </div>
                 <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>

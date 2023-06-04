@@ -24,7 +24,8 @@ export class TaskService {
       assignedUsers: object.assignedUsers,
       creationDate: new Date(),
       dueDate: object.dueDate,
-      priority: object.priority
+      priority: object.priority,
+      status: 'todo'
     }
 
     console.log('create new Task-Data', taskData)

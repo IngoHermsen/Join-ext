@@ -47,6 +47,9 @@ import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.compon
 import { DropdownModule } from 'primeng/dropdown';
 import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
 import { AvatarModule } from 'primeng/avatar';
+import { TaskCardComponent } from './task-card/task-card.component';
+import { DragDropModule } from 'primeng/dragdrop';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 
 @NgModule({
@@ -63,6 +66,7 @@ import { AvatarModule } from 'primeng/avatar';
     SignupDialogComponent,
     LoginDialogComponent,
     ProjectDialogComponent,
+    TaskCardComponent,
 
   ],
   imports: [
@@ -71,7 +75,9 @@ import { AvatarModule } from 'primeng/avatar';
     AppRoutingModule,
     MenuModule,
     DialogModule,
+    DragDropModule,
     ButtonModule,
+    SplitButtonModule,
     InputTextModule,
     InputTextareaModule,
     CheckboxModule,
