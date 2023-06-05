@@ -15,10 +15,6 @@ export class TaskBoardComponent implements OnInit {
     inReview: [],
     done: []
   };
-
-  btnItems: any = {
-
-  }
   
   //subscriptions
   projectSubscription: any;
@@ -28,8 +24,6 @@ export class TaskBoardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setTasksAsObject(this.projectService.currentId.getValue());
-
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
       this.setTasksAsObject(value)
     })
@@ -46,10 +40,7 @@ export class TaskBoardComponent implements OnInit {
     })).subscribe((ref) => {
       const task = ref.data()
       const status = task.status
-      console.log('task status', task.status);
-      
-
-      this.tasksByStatus[status].push(task);
+       this.tasksByStatus[status].push(task);
     })
 
     console.log('tasks log',this.tasksByStatus);

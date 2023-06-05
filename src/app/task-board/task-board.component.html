@@ -1,6 +1,12 @@
 <p>{{this.projectService.currentId}}</p>
 <div class="board-wrapper">
-    <section>
+    <section class="to-do">
+        <h3>To Do</h3>
+        <div *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
+            <app-task-card [task]="task"></app-task-card>
+        </div>
+    </section>
+    <!-- <section>
         <h3 class="to-do">To Do</h3>
         <div class="card-wrapper">
             <app-task-card></app-task-card>
@@ -23,5 +29,5 @@
         <div class="card-wrapper">
             <app-task-card></app-task-card>
         </div>
-    </section>
+    </section> -->
 </div>

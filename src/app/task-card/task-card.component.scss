@@ -1,7 +1,3 @@
-.p-card-body {
-    padding: unset !important;
-}
-
 i {
     cursor: pointer;
 }
@@ -12,3 +8,6 @@ i {
     justify-content: space-between;
 }
 
+::ng-deep .p-card-body {
+    padding: 12px !important 
+}
