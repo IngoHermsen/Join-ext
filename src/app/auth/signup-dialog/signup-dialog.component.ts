@@ -30,10 +30,13 @@ export class SignupDialogComponent {
     this.passwordsMatching = (this.formData.password == this.formData.passwordCheck)
   }
 
-  submitForm() {
+  submitForm() {    
     this.formData.initials = (this.formData.firstName.charAt(0) + this.formData.lastName.charAt(0))
-    this.authService.SignUp(this.formData)
-    console.log('SIGN UP Form Data', this.formData)
+    this.authService.SignUp(this.formData);
+    
+    console.log('Form data', this.formData);
+    console.log('initials', this.formData.initials);
+    
   }
 }
 

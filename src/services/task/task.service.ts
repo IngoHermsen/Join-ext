@@ -16,7 +16,6 @@ export class TaskService {
   createNewTask(object) {    
     let taskData = new Task(object);
 
-
     taskData = {
       taskId: '',
       title: object.title,

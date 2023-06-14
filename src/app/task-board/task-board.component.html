@@ -2,32 +2,20 @@
 <div class="board-wrapper">
     <section class="to-do">
         <h3>To Do</h3>
-        <div *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
-            <app-task-card [task]="task"></app-task-card>
-        </div>
+            <div *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
+                <app-task-card [task]="task"></app-task-card>
+            </div>
     </section>
-    <!-- <section>
-        <h3 class="to-do">To Do</h3>
-        <div class="card-wrapper">
-            <app-task-card></app-task-card>
-        </div>
+    <section class="in-progress">
+        <h3>In Progress</h3>
+            
     </section>
-    <section>
-        <h3 class="in-progress">In Progress</h3>
-        <div class="card-wrapper">
-            <app-task-card></app-task-card>
-        </div>
+    <section class="in-review">
+        <h3>In Review</h3>
+           
     </section>
-    <section>
-        <h3 class="in-review">In Review</h3>
-        <div class="card-wrapper">
-            <app-task-card></app-task-card>
-        </div>
+    <section class="done">
+        <h3>Done</h3>
+           
     </section>
-    <section>
-        <h3 class="done">Done</h3>
-        <div class="card-wrapper">
-            <app-task-card></app-task-card>
-        </div>
-    </section> -->
 </div>

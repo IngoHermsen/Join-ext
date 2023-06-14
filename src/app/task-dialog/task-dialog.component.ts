@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
-import { FormGroup, FormControl, RequiredValidator, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { SelectButton } from 'primeng/selectbutton';
-import { compileNgModule } from '@angular/compiler';
 
 @Component({
   selector: 'app-task-dialog',
@@ -11,6 +10,8 @@ import { compileNgModule } from '@angular/compiler';
   styleUrls: ['./task-dialog.component.scss']
 })
 export class TaskDialogComponent implements OnInit {
+  minDueDate = new Date()
+  
   @ViewChild('assignUsers') userMultiSelect: MultiSelect;
   @ViewChild('priorityButtons') prioritySelection: SelectButton;
 

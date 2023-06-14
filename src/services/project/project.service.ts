@@ -17,6 +17,7 @@ export class ProjectService implements OnInit {
 
   currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
+  projectChange: boolean = false;
 
   constructor(
     public afs: AngularFirestore, // Inject Firebase auth service
@@ -27,12 +28,12 @@ export class ProjectService implements OnInit {
   }
 
   saveNewTask(data: any) {
-      
+
     this.projectCollectionRef.doc(this.currentId.getValue())
-    .collection('tasks').add(data)
-    .then((docRef) => {
-      docRef.update({ taskId: docRef.id })
-    })
+      .collection('tasks').add(data)
+      .then((docRef) => {
+        docRef.update({ taskId: docRef.id })
+      })
   }
 
   createNewProject(object: any) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Subject, mergeMap, switchMap } from 'rxjs';
 import { ProjectService } from 'src/services/project/project.service';
@@ -15,7 +15,7 @@ export class TaskBoardComponent implements OnInit {
     inReview: [],
     done: []
   };
-  
+
   //subscriptions
   projectSubscription: any;
 
@@ -25,12 +25,19 @@ export class TaskBoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
-      this.setTasksAsObject(value)
+      this.tasksByStatus = {
+        todo: [],
+        inProgress: [],
+        inReview: [],
+        done: []
+      };
+      
+      this.setTasksAsObject(value);
     })
   }
 
   setTasksAsObject(projectId: string) {
-    
+
     // get taskIds for current project...
     const projectDocRef: AngularFirestoreDocument<any> = this.projectService.projectCollectionRef.doc(projectId);
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
@@ -38,12 +45,12 @@ export class TaskBoardComponent implements OnInit {
     tasksCollectionRef.get().pipe(switchMap((ref) => {
       return ref.docs;
     })).subscribe((ref) => {
-      const task = ref.data()
-      const status = task.status
-       this.tasksByStatus[status].push(task);
+      const task = ref.data();
+      const status = task.status;
+      this.tasksByStatus[status].push(task);
     })
 
-    console.log('tasks log',this.tasksByStatus);
-    
+    console.log('tasks log', this.tasksByStatus);
+
   }
 }

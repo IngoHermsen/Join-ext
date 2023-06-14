@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
@@ -30,9 +30,8 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   }
 
   changeActiveProject(projectId?: string) {
-    let id = projectId || this.activeProject
+    let id = projectId || this.activeProject;
     this.projectService.currentId.next(id)
-
   }
 
   ngOnInit(): void {

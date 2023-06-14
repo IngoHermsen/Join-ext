@@ -69,6 +69,7 @@ export class AuthService {
           formData.lastName,
           formData.initials,
           [],
+          [],
           'none'
         );
       })
@@ -102,6 +103,7 @@ export class AuthService {
     firstName?: string,
     lastName?: string,
     initials?: string,
+    contacts?: any[],
     projects?: any[],
     latestActiveProject?: string,
     ) {
@@ -120,6 +122,7 @@ export class AuthService {
         email: user.email,
         displayName: user.displayName,
         emailVerified: user.emailVerified,
+        contacts: contacts || userDocData.contacts,
         projects: projects || userDocData.projects,
         latestActiveProject: latestActiveProject || userDocData.latestActiveProject,
       };

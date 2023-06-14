@@ -6,7 +6,7 @@ export interface User {
     email: string;
     displayName: string;
     emailVerified: boolean;
+    contacts: any[];
     projects: any[];
     latestActiveProject: string;
-    
 }

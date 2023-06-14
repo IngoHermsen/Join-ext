@@ -17,7 +17,6 @@ export class TaskCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.task.description)
   }
 
   btnItems: any[] = [
