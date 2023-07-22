@@ -1,21 +1,27 @@
 <p>{{this.projectService.currentId}}</p>
 <div class="board-wrapper">
-    <section class="to-do">
+    <section pDroppable (drop)="drop('todo')" class="to-do">
         <h3>To Do</h3>
-            <div *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
-                <app-task-card [task]="task"></app-task-card>
-            </div>
+        <div pDraggable (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
+            <app-task-card [task]="task"></app-task-card>
+        </div>
     </section>
-    <section class="in-progress">
+    <section pDroppable (drop)="drop('inProgress')" class="in-progress">
         <h3>In Progress</h3>
-            
+        <div pDraggable (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.inProgress; index as i" class="card-wrapper">
+            <app-task-card [task]="task"></app-task-card>
+        </div>
     </section>
-    <section class="in-review">
+    <section pDroppable (drop)="drop('inReview')" class="in-review">
         <h3>In Review</h3>
-           
+        <div pDraggable (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.inReview; index as i" class="card-wrapper">
+            <app-task-card [task]="task"></app-task-card>
+        </div>
     </section>
-    <section class="done">
+    <section pDroppable (drop)="drop('done')" class="done">
         <h3>Done</h3>
-           
+        <div pDraggable (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.done; index as i" class="card-wrapper">
+            <app-task-card [task]="task"></app-task-card>
+        </div>
     </section>
 </div>

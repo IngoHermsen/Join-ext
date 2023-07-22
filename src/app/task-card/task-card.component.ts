@@ -8,15 +8,17 @@ import { ProjectService } from 'src/services/project/project.service';
 })
 export class TaskCardComponent implements OnInit {
   @Input() task: any;
+  dueDateAsDateString: string;
 
   constructor(
-
-      public projectService: ProjectService
+    public projectService: ProjectService
   ) {
 
   }
 
   ngOnInit(): void {
+    this.transformDueDate();
+
   }
 
   btnItems: any[] = [
@@ -24,10 +26,17 @@ export class TaskCardComponent implements OnInit {
       label: 'Delete',
       icon: 'pi pi-trash',
       command: () => {
-        // this.delete();
       }
     },
-
   ]
+
+  transformDueDate() {
+    const dueDateAsDate = new Date(this.task.dueDate.seconds * 1000);
+    this.dueDateAsDateString = dueDateAsDate.toLocaleDateString();
+    console.log(this.dueDateAsDateString);
+    
+
+
+  }
 
 }

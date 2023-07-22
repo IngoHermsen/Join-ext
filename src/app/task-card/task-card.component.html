@@ -1,14 +1,14 @@
-<p-card pDraggable [header]="" styleClass="border-solid border-blue-200 border-round-2xl">
-    <p-header class="header">
-        <div>{{ task.title }}</div>
+<div pDraggable="" class="task-card">
+    <header class="header">
+        <h3>{{ task.title }}</h3>
         <i class="pi pi-info-circle"></i>
-    </p-header>
-    <p class="flex flex-column">
-        <span>{{ task.description }}</span>
-        <span>{{ task.dueDate }}</span>
+    </header>
+    <div class="flex flex-column">
+        <div class="task-description">{{ task.description }}</div>
+        <div class="flex justify-content-between"><span>Due Date:</span><span>{{ dueDateAsDateString }}</span></div>
         <span>{{ task.assignedUsers }}</span>
-    </p>
+    </div>
     <ng-template class="footer" pTemplate="footer">
         <p-splitButton label="Edit" icon="pi pi-file-edit" [model]="btnItems"></p-splitButton>
     </ng-template>
-</p-card>
+</div>

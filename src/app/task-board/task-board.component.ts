@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Subject, mergeMap, switchMap } from 'rxjs';
+import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
+import { TaskService } from 'src/services/task/task.service';
 
 @Component({
   selector: 'app-task-board',
@@ -16,11 +18,14 @@ export class TaskBoardComponent implements OnInit {
     done: []
   };
 
+  draggedTask: Task;
+
   //subscriptions
   projectSubscription: any;
 
   constructor(
-    public projectService: ProjectService
+    public projectService: ProjectService,
+    public taskService: TaskService
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +36,7 @@ export class TaskBoardComponent implements OnInit {
         inReview: [],
         done: []
       };
-      
+
       this.setTasksAsObject(value);
     })
   }
@@ -49,8 +54,45 @@ export class TaskBoardComponent implements OnInit {
       const status = task.status;
       this.tasksByStatus[status].push(task);
     })
+  }
 
-    console.log('tasks log', this.tasksByStatus);
+  dragStart(task: Task) {
+    this.draggedTask = task;
+  }
 
+
+  drop(status: string) {
+    if (this.draggedTask.status != status) {
+      this.updateTaskView(this.draggedTask, status);
+      this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
+    }
+
+  }
+
+  dragEnd() {
+    this.draggedTask = null;
+
+  }
+
+  updateTaskView(task: Task, newStatus: string) {
+    const taskIndex = this.findIndex(task);
+    const previousTaskStatus = task.status
+    
+    this.tasksByStatus[previousTaskStatus].splice(taskIndex, 1);
+
+    task.status = newStatus
+    this.tasksByStatus[newStatus].push(task);
+
+  }
+
+  findIndex(task: Task) {
+    let index: number = -1;
+    for (let i = 0; i < this.tasksByStatus[task.status].length; i++) {
+      if(task.taskId == this.tasksByStatus[task.status][i].taskId) {
+        index = i;
+        break;
+      }
+    }
+    return index;
   }
 }
