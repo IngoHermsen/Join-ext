@@ -3,7 +3,7 @@
     <section (dragover)="showDropIndication('todo')" [class.drop]="draggedOverSection == 'todo'" pDroppable="task"
         (drop)="drop('todo')" class="to-do task-section">
         <h3>To Do</h3>
-        <div pDraggable="task" (onDragStart)="dragStart(task)" (dragend)="dragEnd()" *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
+        <div pDraggable="task" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.todo; index as i" class="card-wrapper">
             <app-task-card [task]="task"></app-task-card>
         </div>
         <div class="placeholder cardwrapper"></div>
@@ -11,14 +11,14 @@
     <section (dragover)="showDropIndication('inProgress')" [class.drop]="draggedOverSection == 'inProgress'"
         pDroppable="task" (drop)="drop('inProgress')" class="in-progress task-section">
         <h3>In Progress</h3>
-        <div pDraggable="task" (onDragStart)="dragStart(task)" (dragend)="dragEnd()" *ngFor="let task of tasksByStatus.inProgress; index as i" class="card-wrapper">
+        <div pDraggable="task" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.inProgress; index as i" class="card-wrapper">
             <app-task-card [task]="task"></app-task-card>
         </div>
         <div class="placeholder cardwrapper"></div>
     </section>
     <section (dragover)="showDropIndication('inPreview')" [class.drop]="draggedOverSection == 'inPreview'" pDroppable="task" (drop)="drop('inReview')" class="in-review task-section">
         <h3>In Review</h3>
-        <div pDraggable="task" (onDragStart)="dragStart(task)" (dragend)="dragEnd()" *ngFor="let task of tasksByStatus.inReview; index as i" class="card-wrapper">
+        <div pDraggable="task" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.inReview; index as i" class="card-wrapper">
             <app-task-card [task]="task"></app-task-card>
         </div>
         <div class="placeholder cardwrapper"></div>
@@ -26,7 +26,7 @@
     <section (dragover)="showDropIndication('done')" [class.drop]="draggedOverSection == 'done'" pDroppable="task"
         (drop)="drop('done')" class="done task-section">
         <h3>Done</h3>
-        <div pDraggable="task" (onDragStart)="dragStart(task)" (dragend)="dragEnd()" *ngFor="let task of tasksByStatus.done; index as i" class="card-wrapper">
+        <div pDraggable="task" (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd()" *ngFor="let task of tasksByStatus.done; index as i" class="card-wrapper">
             <app-task-card [task]="task"></app-task-card>
         </div>
         <div class="placeholder cardwrapper"></div>
