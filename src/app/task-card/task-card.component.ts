@@ -9,6 +9,7 @@ import { ProjectService } from 'src/services/project/project.service';
 export class TaskCardComponent implements OnInit {
   @Input() task: any;
   dueDateAsDateString: string;
+  status: string;
 
   constructor(
     public projectService: ProjectService
@@ -18,7 +19,7 @@ export class TaskCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.transformDueDate();
-
+    this.status = this.setStatus();
   }
 
   btnItems: any[] = [
@@ -34,9 +35,16 @@ export class TaskCardComponent implements OnInit {
     const dueDateAsDate = new Date(this.task.dueDate.seconds * 1000);
     this.dueDateAsDateString = dueDateAsDate.toLocaleDateString();
     console.log(this.dueDateAsDateString);
+  }
+
+  setStatus() {
+      switch(this.task.status) {
+        case 'todo': return 'to-do'; break;
+        case 'inProgress': return 'in-progress'; break;
+        case 'inReview': return 'in-review'; break;
+        default: return 'done'; break
+      }
     
-
-
   }
 
 }

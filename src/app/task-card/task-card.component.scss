@@ -20,3 +20,19 @@
         margin-bottom: 8px;
     }
 }
+
+.to-do {
+    border-color: rgb(243, 55, 55);
+}
+
+.in-progress {
+    border-color: rgb(55, 136, 243);
+}
+
+.in-review {
+    border-color: rgb(251, 255, 0);
+}
+
+.done {
+    border-color: rgb(39, 158, 15);
+}
