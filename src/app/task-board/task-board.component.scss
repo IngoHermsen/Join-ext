@@ -4,16 +4,38 @@
     width: 100%;
 
     section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         height: 600px;
         width: 25%;
+        gap: 24px;
 
         h3 {
-            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .placeholder {
+            width: 250px;
+            height: 250px;
+            border-radius: 25px;
+            display: none;
         }
 
         .card-wrapper {
             width: 90%;
             max-width: 250px;
         }
+
+
+    }
+
+    .drop {
+        .placeholder {
+            border: 2px dashed rgba(0, 0, 0, 0.6);
+            display: block;
+        }
     }
 }
+
+.task-section {}
