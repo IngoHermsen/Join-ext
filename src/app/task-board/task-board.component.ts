@@ -73,8 +73,6 @@ export class TaskBoardComponent implements OnInit {
   }
 
   dragStart(task: Task) {
-    console.log(task);
-
     this.draggedTask = task;
 
   }

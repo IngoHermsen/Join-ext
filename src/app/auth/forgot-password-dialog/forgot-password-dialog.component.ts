@@ -16,7 +16,6 @@ export class ForgotPasswordDialogComponent {
   }
 
   submitForm() {
-    console.log(this.formData);
     this.forgotPasswordForm?.reset();
   }
 

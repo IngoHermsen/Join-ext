@@ -12,7 +12,6 @@ import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.compon
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
-  // { path: '', redirectTo: 'project/tasks', pathMatch: 'full'},
   { 
     path: '', component: AuthComponent, children: [
       { path: 'auth/login', component: LoginDialogComponent},
@@ -22,9 +21,9 @@ const routes: Routes = [
   },
   {
     path: '', component: DefaultViewComponent, children: [
-      { path: 'project/summary', component: DashboardComponent },
-      { path: 'project/tasks', component: TaskBoardComponent },
-      { path: 'project/contacts', component: ContactsComponent },
+      { path: 'summary', component: DashboardComponent },
+      { path: 'tasks', component: TaskBoardComponent },
+      { path: 'contacts', component: ContactsComponent },
     ]
   },
 ];

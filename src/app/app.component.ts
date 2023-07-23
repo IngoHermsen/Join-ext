@@ -9,16 +9,16 @@ import { CanActivateChildFn, Router } from '@angular/router';
 })
 
 export class AppComponent implements OnInit {
-
+  userIsLoggedIn: boolean = null;
+  title = 'ng-join';
+  
   constructor(private router: Router) {}
 
   ngOnInit() {
-    //TODO: do not redirect on login page on refresh if user is already logged in 
-    this.router.navigate([''])
+    if(localStorage.getItem('user')) {
+      this.router.navigate(['summary'])            
+    }
   }
-
-  title = 'ng-join';
-  currentRoute: string;
 
 }
 

@@ -1,4 +1,6 @@
+import { getLocaleCurrencyCode } from '@angular/common';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
@@ -27,33 +29,54 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     public authService: AuthService,
   ) {
 
-  }
 
-  changeActiveProject(projectId?: string) {
-    let id = projectId || this.activeProject;
-    this.projectService.currentId.next(id)
-  }
-
-  ngOnInit(): void {
     this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
     })
 
-    this.userSubscription = this.authService.userData.subscribe((data) => {
-      let userItem = localStorage.getItem('user');
-      let userJson = JSON.parse(userItem);
+    this.userSubscription = this.authService.userData.subscribe((user) => {
+        
+      this.initializeView(user)
 
-      this.userId = userJson.uid;
-      this.avatarInitials = data.initials;
-      this.projectService.getProjectsAsJson(this.userId);
-      this.projectService.currentId.next(data.latestActiveProject);
     })
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
-      console.log('task data', data);
       
       this.projectService.saveNewTask(data);
-    })
+    })    
+
+    if(localStorage.getItem('user')) {
+      let pseudoUser: User = new User()
+      const userAsJson: any = JSON.parse(localStorage.getItem('user'));
+      const userInitials: string = localStorage.getItem('initials');
+      const activeProject: string = localStorage.getItem('activeProject');
+
+      pseudoUser.uid = userAsJson.uid;
+      pseudoUser.initials = userInitials;
+      pseudoUser.latestActiveProject = activeProject;
+
+      this.initializeView(pseudoUser)
+    }
+  }
+
+  initializeView(user: User) {
+     this.userId = user.uid;
+      this.avatarInitials = user.initials;
+      this.projectService.getProjectsAsJson(user.uid);
+      this.projectService.currentId.next(user.latestActiveProject);
+  }
+
+  changeActiveProject(projectId?: string) {
+    let id = projectId || this.activeProject;
+    this.projectService.currentId.next(id);
+
+    // die neue ID muss noch als "latestActiveProject" beim User eingetragen werden in firebase
+   
+    localStorage.setItem('activeProject', id);
+  }
+
+  ngOnInit(): void {
+   
   }
 
   ngOnDestroy(): void {

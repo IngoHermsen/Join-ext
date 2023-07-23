@@ -97,8 +97,7 @@ export class TaskDialogComponent implements OnInit {
   // formGroup END
 
   submitForm() {
-    console.log(this.taskForm.value);
-    
+
     this.taskService.createNewTask(this.taskForm.value);
     this.taskService.showDialog.next(false);
 

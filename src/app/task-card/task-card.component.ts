@@ -34,7 +34,6 @@ export class TaskCardComponent implements OnInit {
   transformDueDate() {
     const dueDateAsDate = new Date(this.task.dueDate.seconds * 1000);
     this.dueDateAsDateString = dueDateAsDate.toLocaleDateString();
-    console.log(this.dueDateAsDateString);
   }
 
   setStatus() {

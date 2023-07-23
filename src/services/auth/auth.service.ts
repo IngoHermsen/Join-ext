@@ -20,6 +20,9 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
+    if(localStorage.getItem('user')){
+
+    }
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
@@ -33,7 +36,6 @@ export class AuthService {
     });
   }
 
-
   // Sign in with email/password
   SignIn(email: string, password: string) {
     return this.afAuth
@@ -43,7 +45,7 @@ export class AuthService {
         this.afAuth.authState.subscribe((user) => {
           if (user && this.isLoggedIn == true) {
 
-            this.router.navigate(['project/summary']);
+            this.router.navigate(['summary']);
           }
         });
       })
@@ -128,7 +130,9 @@ export class AuthService {
       };
 
       this.userData.next(userData);
-     
+      localStorage.setItem('initials', userData.initials);
+      localStorage.setItem('activeProject', userData.latestActiveProject);
+
 
       return userRef.set(userData, {
         merge: true,
@@ -140,6 +144,9 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
+      localStorage.removeItem('initials');
+      localStorage.removeItem('activeProject');
+
       this.router.navigate(['auth/login']);
     });
   }

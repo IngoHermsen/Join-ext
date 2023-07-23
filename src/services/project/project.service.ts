@@ -62,7 +62,8 @@ export class ProjectService implements OnInit {
     this.getProjectsAsJson(userId);
   }
 
-  getProjectsAsJson(userId: string) {
+  getProjectsAsJson(userId: string) {    
+
     let projectsData: any[] = [];
     this.userId = userId;
 
@@ -81,7 +82,9 @@ export class ProjectService implements OnInit {
       return projectDocRef
     })).subscribe((ref) => {
       ref.get().subscribe((ref) => {
+
         projectsData.push(ref.data());
+        
       })
     });
 
