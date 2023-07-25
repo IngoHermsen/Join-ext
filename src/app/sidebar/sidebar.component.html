@@ -1,0 +1,6 @@
+<div class="sidebar-wrapper card flex justify-content-center">
+    <p-sidebar [(visible)]="isVisible" class="flex justify-content-center" styleClass="w-5">
+    <app-task-dialog *ngIf="viewService.dialogContent == 'task'"></app-task-dialog>
+    <app-contacts-dialog *ngIf="viewService.dialogContent == 'contacts'"></app-contacts-dialog>
+    </p-sidebar>
+</div>

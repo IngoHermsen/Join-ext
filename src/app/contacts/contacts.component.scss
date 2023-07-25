@@ -1,0 +1,12 @@
+.no-contacts {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    color: rgba(0,0,0,0.6);
+
+    .add-new {
+        display: flex;
+        gap: 12px;
+        cursor: pointer;
+    }
+}

@@ -3,13 +3,15 @@ import { TaskService } from '../../services/task/task.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { SelectButton } from 'primeng/selectbutton';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-task-dialog',
   templateUrl: './task-dialog.component.html',
   styleUrls: ['./task-dialog.component.scss']
 })
-export class TaskDialogComponent implements OnInit {
+
+export class TaskDialogComponent {
   minDueDate = new Date()
   
   @ViewChild('assignUsers') userMultiSelect: MultiSelect;
@@ -29,17 +31,12 @@ export class TaskDialogComponent implements OnInit {
     { name: 'contact 5' }
   ];
 
-  sidebarVisible: boolean;
-
   constructor(
     public taskService: TaskService,
+    public viewService: ViewService,
   ) { }
 
-  ngOnInit(): void {
-    this.taskService.showDialog.subscribe((value) => {
-      this.sidebarVisible = value;
-    })
-  }
+
 
   // formGroup
   taskForm = new FormGroup({
@@ -99,7 +96,7 @@ export class TaskDialogComponent implements OnInit {
   submitForm() {
 
     this.taskService.createNewTask(this.taskForm.value);
-    this.taskService.showDialog.next(false);
+    this.viewService.showDialog.next(false);
 
     this.taskForm.reset()
   }
@@ -113,5 +110,4 @@ export class TaskDialogComponent implements OnInit {
   logPriority() {
     // console.log(this.prioritySelection.value);
   }
-
 }

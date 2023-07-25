@@ -14,10 +14,12 @@
             <p-avatar label={{avatarInitials}} styleClass="mr-2" shape="circle" size="large"
                 [style]="{ 'background-color': '#64748B', color: '#ffffff'}"></p-avatar>
         </div>
-        <p-button class="add-button" (click)="showTaskDialog()" label="New Task" icon="pi pi-plus"
+        <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="showDialog('task')" label="Add task" icon="pi pi-plus"
+            styleClass="p-button"></p-button>
+        <p-button *ngIf="currentRoute == '/contacts'" class="add-button" (click)="showDialog('contacts')" label="Add contacts" icon="pi pi-plus"
             styleClass="p-button"></p-button>
         <app-project-dialog></app-project-dialog>
-        <app-task-dialog></app-task-dialog>
+        <app-sidebar></app-sidebar>
         <div class="outlet-content">
             <router-outlet></router-outlet>
         </div>

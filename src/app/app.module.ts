@@ -49,12 +49,15 @@ import { TaskBoardComponent } from './task-board/task-board.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
-import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+
 
 import { AuthService } from 'src/services/auth/auth.service';
 import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
 import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
 import { TaskCardComponent } from './task-card/task-card.component';
+import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.component';
 
 
 
@@ -68,11 +71,13 @@ import { TaskCardComponent } from './task-card/task-card.component';
     TaskBoardComponent,
     ContactsComponent,
     ForgotPasswordDialogComponent,
-    TaskDialogComponent,
     SignupDialogComponent,
     LoginDialogComponent,
     ProjectDialogComponent,
     TaskCardComponent,
+    SidebarComponent,
+    TaskDialogComponent,
+    ContactsDialogComponent,
 
   ],
   imports: [

@@ -9,10 +9,9 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 })
 export class TaskService {
   newTask: Subject<any> = new Subject;
-  showDialog: Subject<boolean> = new Subject;
 
   constructor(
-    public afs: AngularFirestore, // Inject Firebase auth service
+    public afs: AngularFirestore
   ) {
     
   }
@@ -44,6 +43,4 @@ export class TaskService {
     console.log('create new Task-Data', taskData)
     this.newTask.next(taskData)
   }
-
-
 }

@@ -1,37 +1,33 @@
-<div class="sidebar-wrapper card flex justify-content-center">
-    <p-sidebar [(visible)]="sidebarVisible" class="flex justify-content-center" styleClass="w-5">
-        <h3>new Task / Edit task</h3>
-        <!-- The content of the <h3> must be context-based -->
-        <form [formGroup]="taskForm" (ngSubmit)="submitForm()">
+<h3>new Task / Edit task</h3>
+<!-- The content of the <h3> must be context-based -->
+<form [formGroup]="taskForm" (ngSubmit)="submitForm()">
 
-            <label>Title:
-                <input formControlName="title" type="text" pInputText id="title_input" />
-            </label>
+    <label>Title:
+        <input formControlName="title" type="text" pInputText id="title_input" />
+    </label>
 
-            <label>Description (optional):
-                <textarea formControlName="description" type="text" pInputText id="description_input"></textarea>
-            </label>
+    <label>Description (optional):
+        <textarea formControlName="description" type="text" pInputText id="description_input"></textarea>
+    </label>
 
-            <label>Assign Users:
-                <p-multiSelect formControlName="assignedUsers" [options]="contacts" defaultLabel="Select contacts"
-                   (onChange)="logUsers()" optionLabel="name" display="chip" id="assign_input" styleClass="w-full" #assignUsers></p-multiSelect>
-            </label>
+    <label>Assign Users:
+        <p-multiSelect formControlName="assignedUsers" [options]="contacts" defaultLabel="Select contacts"
+           (onChange)="logUsers()" optionLabel="name" display="chip" id="assign_input" styleClass="w-full" #assignUsers></p-multiSelect>
+    </label>
 
 
-            <label>Due Date:
-                <p-calendar [minDate]="minDueDate" formControlName="dueDate" id="dueDate_input" [showIcon]="true" dateFormat="dd.mm.yy"
-                    styleClass="w-full"></p-calendar>
-            </label>
+    <label>Due Date:
+        <p-calendar [minDate]="minDueDate" formControlName="dueDate" id="dueDate_input" [showIcon]="true" dateFormat="dd.mm.yy"
+            styleClass="w-full"></p-calendar>
+    </label>
 
 
-            <label>Priority:
-                <p-selectButton formControlName="priority" [options]="priorityOptions" [multiple]="false" optionLabel="name" optionValue="name"
-                    (onChange)="logPriority()" styleClass="w-full" #priorityButtons></p-selectButton>
-            </label>
+    <label>Priority:
+        <p-selectButton formControlName="priority" [options]="priorityOptions" [multiple]="false" optionLabel="name" optionValue="name"
+            (onChange)="logPriority()" styleClass="w-full" #priorityButtons></p-selectButton>
+    </label>
 
-            <p-button [disabled]="taskForm.invalid" type="ngSubmit" label="Create task" icon="pi pi-check"
-                styleClass="p-button"></p-button>
+    <p-button [disabled]="taskForm.invalid" type="ngSubmit" label="Create task" icon="pi pi-check"
+        styleClass="p-button"></p-button>
 
-        </form>
-    </p-sidebar>
-</div>
+</form>
