@@ -12,6 +12,7 @@ import { TaskService } from 'src/services/task/task.service';
   styleUrls: ['./defaultview.component.scss']
 })
 export class DefaultViewComponent implements OnInit, OnDestroy {
+  viewInitialized: boolean = false;
   userId: string;
   show: boolean;
   projects: any;
@@ -29,23 +30,13 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     public authService: AuthService,
   ) {
 
-
     this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
     })
 
-    this.userSubscription = this.authService.userData.subscribe((user) => {
-        
-      this.initializeView(user)
-
-    })
-
-    this.taskSubscription = this.taskService.newTask.subscribe((data) => {
+     if(localStorage.getItem('user') !== 'null' && !authService.loggedIn) {      
+      console.log('was here');
       
-      this.projectService.saveNewTask(data);
-    })    
-
-    if(localStorage.getItem('user')) {
       let pseudoUser: User = new User()
       const userAsJson: any = JSON.parse(localStorage.getItem('user'));
       const userInitials: string = localStorage.getItem('initials');
@@ -57,13 +48,31 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
       this.initializeView(pseudoUser)
     }
+
+    this.userSubscription = this.authService.userData.subscribe((user) => {
+      this.initializeView(user)
+    })
+
+    this.taskSubscription = this.taskService.newTask.subscribe((data) => {
+      
+      this.projectService.saveNewTask(data);
+    })    
+
+   
   }
 
   initializeView(user: User) {
-     this.userId = user.uid;
+    if(!this.viewInitialized) {
+      console.log(user.initials);
+      console.log(user);
+      
+       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
       this.projectService.currentId.next(user.latestActiveProject);
+      this.viewInitialized = true;
+      console.log(this.viewInitialized);
+    }
   }
 
   changeActiveProject(projectId?: string) {

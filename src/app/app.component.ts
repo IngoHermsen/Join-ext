@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    if(localStorage.getItem('user')) {
+    if(localStorage.getItem('user') !== 'null') {
       this.router.navigate(['summary'])            
     }
   }

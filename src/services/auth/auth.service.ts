@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  loggedIn: boolean = false;
   userData: Subject<any> = new Subject;
   userSpecValues: any;
   noMatchingData: Subject<boolean> = new Subject;
@@ -27,10 +28,11 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
+        this.loggedIn = true;
         localStorage.setItem('user', JSON.stringify(user));        
         JSON.parse(localStorage.getItem('user')!);
       } else {
-        localStorage.setItem('user', 'null');
+        localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user')!);
       }
     });
