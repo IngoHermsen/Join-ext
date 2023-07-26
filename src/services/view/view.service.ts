@@ -13,4 +13,12 @@ export class ViewService implements OnInit {
   ngOnInit(): void {
     
   }
+
+
+  showSidebar(contentType: string) {
+    this.dialogContent = contentType;
+    this.showDialog.next(true);
+
+  }
+
 }

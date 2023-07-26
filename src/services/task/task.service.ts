@@ -40,7 +40,7 @@ export class TaskService {
       status: 'todo'
     }
 
-    console.log('create new Task-Data', taskData)
+    // console.log('create new Task-Data', taskData)
     this.newTask.next(taskData)
   }
 }

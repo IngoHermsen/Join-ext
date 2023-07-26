@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-contacts',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent {
+  
+    constructor(
+      public viewService: ViewService
+    ) {
 
+    }
 }

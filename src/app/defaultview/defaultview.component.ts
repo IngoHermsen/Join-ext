@@ -47,7 +47,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     })
 
     if (localStorage.getItem('user') !== 'null' && !authService.loggedIn) {
-      console.log('was here');
 
       let pseudoUser: User = new User()
       const userAsJson: any = JSON.parse(localStorage.getItem('user'));
@@ -68,15 +67,10 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
       this.projectService.saveNewTask(data);
     })
-
-
   }
 
   initializeView(user: User) {
     if (!this.viewInitialized) {
-      console.log(user.initials);
-      console.log(user);
-
       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
@@ -107,12 +101,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     this.projectService.showDialog.next(true);
   }
 
-
-  showDialog(contentType: string) {
-      this.viewService.dialogContent = contentType;
-      this.viewService.showDialog.next(true);
-
-    }
   }
 
 
