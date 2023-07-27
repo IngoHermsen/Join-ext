@@ -13,9 +13,7 @@
                 <span class="user-email">{{ user.email }}</span>
             </div>
         </div>
-
-
-        <p-button draggable="false" icon="pi pi-plus" styleClass="p-button-secondary"></p-button>
+        <p-button (click)="contactService.addUserAsContact(user.uid)" draggable="false" icon="pi pi-plus" styleClass="p-button-secondary"></p-button>
     </div>
 
 </div>

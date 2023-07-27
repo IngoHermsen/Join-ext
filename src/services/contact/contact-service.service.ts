@@ -15,11 +15,9 @@ export class ContactService {
   ) { 
   }
 
-  createNewContact(object) {    
-    let contactData = new Contact();
+  addUserAsContact(userId: string) {
 
-  
-
-
+    
   }
+  
 }
