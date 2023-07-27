@@ -21,10 +21,12 @@ export class ProjectService implements OnInit {
 
   constructor(
     public afs: AngularFirestore, // Inject Firebase auth service
-  ) { }
+  ) {
+    
+  }
 
   ngOnInit(): void {
-
+    
   }
 
   saveNewTask(data: any) {

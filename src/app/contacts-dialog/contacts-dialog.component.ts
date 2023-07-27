@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Subscriber, map } from 'rxjs';
 import { Contact } from 'src/models/contact';
-import { ContactService } from 'src/services/contact/contact-service.service';
+import { ContactService } from 'src/services/contact/contact.service';
 
 @Component({
   selector: 'app-contacts-dialog',
