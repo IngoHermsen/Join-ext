@@ -33,12 +33,17 @@ export class ContactsDialogComponent {
           email: userData['email'],
           initials: userData['initials']
         }
-        this.users.push(dbUser);
-        console.log('this.users:', this.users);
+
+        if (dbUser.uid != contactService.activeUserId) {
+          this.users.push(dbUser);
+          console.log(
+            'this.users:', this.users);
+        }
+
 
       })
     })
   }
 
-  
+
 }

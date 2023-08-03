@@ -8,6 +8,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 //UI Library
 import { MenuModule } from 'primeng/menu';
@@ -108,6 +109,7 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     CardModule,
     DropdownModule,
     AvatarModule,
+    ProgressBarModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
