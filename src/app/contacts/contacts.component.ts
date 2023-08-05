@@ -14,7 +14,6 @@ import { __values } from 'tslib';
 })
 export class ContactsComponent implements OnInit {
   usersCollection = this.afs.collection('users');
-  activeUsersDoc = this.usersCollection.doc(this.contactService.activeUserId);
   contactUsersDoc = null;
   characters = [];
   isLoading: boolean = true;
@@ -26,10 +25,10 @@ export class ContactsComponent implements OnInit {
   ) {
 
     this.contactService.newContactId.subscribe((contactId) => {
-      this.activeUsersDoc.update({ contacts: arrayUnion(contactId) })
-      .then(() => {
-        this.getContactList()
-      })
+      this.contactService.activeUsersDoc.update({ contacts: arrayUnion(contactId) })
+        .then(() => {
+          this.contactService.getContactList()
+        })
 
     })
   }
@@ -39,62 +38,11 @@ export class ContactsComponent implements OnInit {
       this.isLoading = false;
     }, 800);
 
-    this.getContactList()
-
+    this.contactService.getContactList()
   }
 
   ngAfterViewInit(): void {
 
   }
 
-  getContactList() {
-    this.contactService.usersContacts = [];
-    this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => {
-      return from<string[]>(userSnapshot.data()['contacts']);
-    })).subscribe((contactId) => {
-      this.contactUsersDoc = this.usersCollection.doc(contactId);
-      this.getContactData(contactId)
-    })
-  }
-
-
-  getContactData(userId) {
-    const contactUserDoc = this.usersCollection.doc(userId);
-    contactUserDoc.get().subscribe((userSnapshot) => {
-      const contact: Contact = new Contact(
-        {
-          uid: userSnapshot.data()['uid'],
-          firstName: userSnapshot.data()['firstName'],
-          lastName: userSnapshot.data()['lastName'],
-          initials: userSnapshot.data()['initials'],
-          email: userSnapshot.data()['email'],
-          displayName: userSnapshot.data()['displayName'],
-        }
-      )
-      this.contactService.usersContacts.push(contact);
-      this.updateCharacters(contact.lastName.charAt(0));
-      console.log(this.contactService.usersContacts);
-    })
-  }
-
-  updateCharacters(character: string) {
-    if (this.characters.indexOf(character) === -1) {
-      this.characters.push(character)
-      this.sortCharacters();
-    }
-  }
-
-  sortCharacters() {
-    this.characters.sort((a, b) => {
-      switch(a < b) {
-        case true: return 1; break;
-        default: return -1;
-      }
-    })
-    
-  }
-
-  lastNameMatchesCharacter(contactsLastName: any, character: string) {
-    return contactsLastName.charAt(0) === character;
-  }
 }

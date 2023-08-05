@@ -10,11 +10,11 @@
             <i (click)="viewService.showSidebar('contacts')" class="pi pi-plus-circle" style="font-size: 1.5rem"></i>
         </div>
     </div>
-    <ng-container *ngFor="let character of characters">
+    <ng-container *ngFor="let character of this.contactService.characters">
         <div class="character">{{ character }}</div>
 
         <ng-container *ngFor="let contact of contactService.usersContacts">
-            <div *ngIf="lastNameMatchesCharacter(contact.lastName, character)" class="contact-entry">
+            <div *ngIf="this.contactService.lastNameMatchesCharacter(contact.lastName, character)" class="contact-entry">
                 <div class="left">
                     <p-avatar label="{{contact.initials}}" pBadge styleClass="mr-5" value="4" size="large"
                         [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
