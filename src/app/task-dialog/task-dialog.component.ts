@@ -12,7 +12,7 @@ import { ContactService } from 'src/services/contact/contact.service';
   styleUrls: ['./task-dialog.component.scss']
 })
 
-export class TaskDialogComponent {
+export class TaskDialogComponent implements OnInit {
   minDueDate = new Date()
   
   @ViewChild('assignUsers') userMultiSelect: MultiSelect;
@@ -31,9 +31,12 @@ export class TaskDialogComponent {
     public viewService: ViewService,
     public contactService: ContactService,
   ) {
-    this.contacts = contactService.usersContacts;
     console.log(this.contacts);
-    
+
+  }
+
+  ngOnInit(): void {
+    this.contactService.getContactList();
   }
 
 

@@ -11,8 +11,8 @@
     </label>
 
     <label>Assign Users:
-        <p-multiSelect formControlName="assignedUsers" [options]="contacts" defaultLabel="Select contacts"
-           (onChange)="logUsers()" optionLabel="name" display="chip" id="assign_input" styleClass="w-full" #assignUsers></p-multiSelect>
+        <p-multiSelect formControlName="assignedUsers" [options]="contactService.usersContacts" defaultLabel="Select contacts"
+           (onChange)="logUsers()" optionLabel="displayName" display="chip" id="assign_input" styleClass="w-full" #assignUsers></p-multiSelect>
     </label>
 
 
