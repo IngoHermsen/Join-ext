@@ -3,7 +3,7 @@
     <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
 </div>
 <div *ngIf="!isLoading" class="contacts-area">
-    <div *ngIf="contacts.length == 0" class="no-contacts">
+    <div *ngIf="contactService.usersContacts.length == 0" class="no-contacts">
         <span>You have no assignable contacts.</span>
         <div class="add-new">
             <span>Add new contacts</span>
@@ -11,9 +11,9 @@
         </div>
     </div>
     <ng-container *ngFor="let character of characters">
-        <div class="letter">{{ character }}</div>
+        <div class="character">{{ character }}</div>
 
-        <ng-container *ngFor="let contact of contacts">
+        <ng-container *ngFor="let contact of contactService.usersContacts">
             <div *ngIf="lastNameMatchesCharacter(contact.lastName, character)" class="contact-entry">
                 <div class="left">
                     <p-avatar label="{{contact.initials}}" pBadge styleClass="mr-5" value="4" size="large"

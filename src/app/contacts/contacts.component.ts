@@ -1,9 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { user } from '@angular/fire/auth';
+import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { get } from '@angular/fire/database';
 import { arrayUnion } from '@angular/fire/firestore';
-import { Observable, concatMap, filter, find, from, map, mergeMap, of, switchMap } from 'rxjs';
+import { from, mergeMap } from 'rxjs';
 import { Contact } from 'src/models/contact';
 import { ContactService } from 'src/services/contact/contact.service';
 import { ViewService } from 'src/services/view/view.service';
@@ -18,7 +16,6 @@ export class ContactsComponent implements OnInit {
   usersCollection = this.afs.collection('users');
   activeUsersDoc = this.usersCollection.doc(this.contactService.activeUserId);
   contactUsersDoc = null;
-  contacts = [];
   characters = [];
   isLoading: boolean = true;
 
@@ -51,7 +48,7 @@ export class ContactsComponent implements OnInit {
   }
 
   getContactList() {
-    this.contacts = [];
+    this.contactService.usersContacts = [];
     this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => {
       return from<string[]>(userSnapshot.data()['contacts']);
     })).subscribe((contactId) => {
@@ -74,9 +71,9 @@ export class ContactsComponent implements OnInit {
           displayName: userSnapshot.data()['displayName'],
         }
       )
-      this.contacts.push(contact);
+      this.contactService.usersContacts.push(contact);
       this.updateCharacters(contact.lastName.charAt(0));
-      console.log(this.contacts);
+      console.log(this.contactService.usersContacts);
     })
   }
 

@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Subject } from 'rxjs';
 import { Contact } from 'src/models/contact';
 
@@ -6,13 +7,16 @@ import { Contact } from 'src/models/contact';
   providedIn: 'root'
 })
 export class ContactService implements OnInit {
+  usersCollection = this.afs.collection('users');
   contactData: Contact;
   showDialog: Subject<boolean> = new Subject;
   activeUserId: string;
   newContactId: Subject<string> = new Subject;
   usersContacts: Array<any> = [];
 
-  constructor() {
+  constructor(
+    public afs: AngularFirestore,
+  ) {
     const userAsJson = JSON.parse(localStorage.getItem('user'));
     this.activeUserId = userAsJson.uid;
   }
@@ -24,5 +28,7 @@ export class ContactService implements OnInit {
   addUserAsContact(userId: string) {
     this.newContactId.next(userId)
   }
+
+
 
 }

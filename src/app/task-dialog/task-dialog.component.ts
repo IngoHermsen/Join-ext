@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { SelectButton } from 'primeng/selectbutton';
 import { ViewService } from 'src/services/view/view.service';
+import { ContactService } from 'src/services/contact/contact.service';
 
 @Component({
   selector: 'app-task-dialog',
@@ -23,18 +24,17 @@ export class TaskDialogComponent {
     { name: 'High', }
   ];
 
-  contacts = [
-    { name: 'contact 1' },
-    { name: 'contact 2' },
-    { name: 'contact 3' },
-    { name: 'contact 4' },
-    { name: 'contact 5' }
-  ];
+  contacts;
 
   constructor(
     public taskService: TaskService,
     public viewService: ViewService,
-  ) { }
+    public contactService: ContactService,
+  ) {
+    this.contacts = contactService.usersContacts;
+    console.log(this.contacts);
+    
+  }
 
 
 
