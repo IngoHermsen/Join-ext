@@ -18,8 +18,8 @@ export class TaskCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.transformDueDate();
-    this.status = this.setStatus();
+    this._transformDueDate();
+    this.status = this._setStatus();
   }
 
   btnItems: any[] = [
@@ -31,12 +31,12 @@ export class TaskCardComponent implements OnInit {
     },
   ]
 
-  transformDueDate() {
+  _transformDueDate() {
     const dueDateAsDate = new Date(this.task.dueDate.seconds * 1000);
     this.dueDateAsDateString = dueDateAsDate.toLocaleDateString();
   }
 
-  setStatus() {
+  _setStatus() {
       switch(this.task.status) {
         case 'todo': return 'to-do'; break;
         case 'inProgress': return 'in-progress'; break;

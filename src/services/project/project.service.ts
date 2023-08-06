@@ -21,6 +21,7 @@ export class ProjectService implements OnInit {
 
   constructor(
     public afs: AngularFirestore,
+  
   ) {
     
   }
@@ -38,7 +39,6 @@ export class ProjectService implements OnInit {
         console.log('THEN');
         
         docRef.update({ taskId: docRef.id })
-
       })
    
   }

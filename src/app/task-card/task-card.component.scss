@@ -1,9 +1,13 @@
 .task-card {
-    border: 3px solid rgba(41, 41, 216, 0.5);
+    border: 3px solid #ffffff;
     border-radius: 40px;
     padding: 12px;
     width: 100%;
     height: 250px;
+
+    .content-label {
+        font-weight: 600;
+    }
 
     i {
         cursor: pointer;
@@ -13,11 +17,16 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
+
+        h3 {
+            margin-bottom: 12px;
+        }
     }
 
     .task-description {
         overflow-y: auto;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
+        min-height: 80px;
     }
 }
 

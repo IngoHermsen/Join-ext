@@ -37,6 +37,7 @@ export class TaskDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.contactService.getContactList();
+    
   }
 
 
@@ -97,7 +98,6 @@ export class TaskDialogComponent implements OnInit {
   // formGroup END
 
   submitForm() {
-
     this.taskService.createNewTask(this.taskForm.value);
     this.viewService.showDialog.next(false);
 
