@@ -33,7 +33,11 @@ export class TaskBoardComponent implements OnInit {
       })
 
     })
-
+    
+    this.taskService.newTask.subscribe((Task: Task) => {        
+      this.tasksByStatus['todo'].push(Task);
+    })
+    
   }
 
   ngOnInit(): void {
@@ -79,7 +83,7 @@ export class TaskBoardComponent implements OnInit {
 
   drop(status: string) {
     if (this.draggedTask.status != status) {
-      this.updateTaskView(this.draggedTask, status);
+      this._updateTaskView(this.draggedTask, status);
       this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
       this.draggedTask = null;
       this.draggedOverSection = null;
@@ -92,8 +96,8 @@ export class TaskBoardComponent implements OnInit {
     }
   }
 
-  updateTaskView(task: Task, newStatus: string) {
-    const taskIndex = this.findIndex(task);
+  _updateTaskView(task: Task, newStatus: string) {
+    const taskIndex = this._findIndex(task);
     const previousTaskStatus = task.status
 
     this.tasksByStatus[previousTaskStatus].splice(taskIndex, 1);
@@ -103,7 +107,7 @@ export class TaskBoardComponent implements OnInit {
 
   }
 
-  findIndex(task: Task) {
+  _findIndex(task: Task) {
     let index: number = -1;
     for (let i = 0; i < this.tasksByStatus[task.status].length; i++) {
       if (task.taskId == this.tasksByStatus[task.status][i].taskId) {

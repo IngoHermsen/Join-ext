@@ -2,7 +2,7 @@ export class Task {
     taskId: string;
     title: string;
     description: string;
-    assignedUsers: any[];
+    assignedUsers: any;
     creationDate: Date;
     dueDate: Date;
     priority: string[];

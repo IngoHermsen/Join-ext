@@ -36,15 +36,14 @@ export class ContactService implements OnInit {
   }
 
   getContactList() {    
-    this.usersContacts = [];
-    console.log('WAS HERE');
-    
+    this.usersContacts = [];    
     this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => { 
                        
       return from<string[]>(userSnapshot.data()['contacts']);
     })).subscribe((contactId) => {      
       this.contactUsersDoc = this.usersCollection.doc(contactId);
-      this._getContactData(contactId)
+      this._getContactData(contactId);
+      
     })
   }
 
@@ -64,9 +63,7 @@ export class ContactService implements OnInit {
         }
       )      
       this.usersContacts.push(contact);
-      console.log('WAS HERE', this.usersContacts);
-
-      
+    
       this._updateCharacters(contact.lastName.charAt(0));
     })
   }

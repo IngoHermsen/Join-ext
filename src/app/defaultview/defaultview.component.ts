@@ -64,8 +64,9 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       this.initializeView(user)
     })
 
-    this.taskSubscription = this.taskService.newTask.subscribe((data) => {
+    this.taskSubscription = this.taskService.newTask.subscribe((data) => {            
       this.projectService.saveNewTask(data);
+      
     })
   }
 

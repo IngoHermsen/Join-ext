@@ -20,7 +20,7 @@ export class ProjectService implements OnInit {
   projectChange: boolean = false;
 
   constructor(
-    public afs: AngularFirestore, // Inject Firebase auth service
+    public afs: AngularFirestore,
   ) {
     
   }
@@ -30,12 +30,17 @@ export class ProjectService implements OnInit {
   }
 
   saveNewTask(data: any) {
-
+    console.log('SAVE NEW TASK DATA', data);
+    
     this.projectCollectionRef.doc(this.currentId.getValue())
       .collection('tasks').add(data)
       .then((docRef) => {
+        console.log('THEN');
+        
         docRef.update({ taskId: docRef.id })
+
       })
+   
   }
 
   createNewProject(object: any) {
