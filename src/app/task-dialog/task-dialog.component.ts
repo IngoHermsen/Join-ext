@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
@@ -12,7 +12,7 @@ import { ContactService } from 'src/services/contact/contact.service';
   styleUrls: ['./task-dialog.component.scss']
 })
 
-export class TaskDialogComponent implements OnInit {
+export class TaskDialogComponent implements OnInit, AfterViewInit {
   minDueDate = new Date()
   
   @ViewChild('assignUsers') userMultiSelect: MultiSelect;
@@ -37,10 +37,14 @@ export class TaskDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.contactService.getContactList();
-    
+
   }
 
+  ngAfterViewInit() {
+    if(this.taskService.activeTask !== "") {
 
+    }
+  }
 
   // formGroup
   taskForm = new FormGroup({
@@ -104,13 +108,4 @@ export class TaskDialogComponent implements OnInit {
     this.taskForm.reset()
   }
 
-  // !!!! DELETE IF NOT NECESSARY ANYMORE !!!!  for testing purpose:
-
-  logUsers() {
-    // console.log(this.assignUsersInput.value)
-  }
-
-  logPriority() {
-    // console.log(this.prioritySelection.value);
-  }
 }

@@ -9,6 +9,7 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
 import { LoginDialogComponent } from './auth/login-dialog/login-dialog.component';
 import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -23,6 +24,7 @@ const routes: Routes = [
     path: '', component: DefaultViewComponent, children: [
       { path: 'summary', component: DashboardComponent },
       { path: 'tasks', component: TaskBoardComponent },
+      { path: 'tasks/:id', component: TaskBoardComponent },
       { path: 'contacts', component: ContactsComponent },
     ]
   },

@@ -3,19 +3,21 @@ import { Subject } from 'rxjs';
 import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Contact } from 'src/models/contact';
+import { Router } from '@angular/router';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  editMode: boolean = false;
+  activeTask: Task | string;
   newTask: Subject<Task> = new Subject;
 
   constructor(
-    public afs: AngularFirestore
-  ) {
-    
-  }
+    public afs: AngularFirestore,
+    public router: Router
+  ) {}
 
   updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
     const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
@@ -28,7 +30,6 @@ export class TaskService {
   }  
 
   createNewTask(object) { 
-   
     let taskData = new Task(object);
 
     taskData = {
@@ -59,6 +60,9 @@ export class TaskService {
       reducedData.push(reducedObject)
     })
     return reducedData
-    
+  }
+
+  setTaskEdit(task: string) {
+      
   }
 }

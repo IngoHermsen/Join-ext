@@ -1,13 +1,17 @@
 <div pDraggable [ngClass]="status" class="task-card">
     <header class="header">
         <h3>{{ task.title }}</h3>
-        <i class="pi pi-info-circle"></i>
+        <div class="header-right">
+            <i class="pi pi-info-circle"></i>
+            <i (click)="setTaskEdit(task)" class="pi pi-file-edit"></i>
+        </div>
     </header>
     <div class="flex flex-column">
         <div class="task-description">{{ task.description }}</div>
         <div class="flex justify-content-between">
             <span class="content-label">Due Date:</span>
-            <span>{{ dueDateAsDateString }}</span></div>
+            <span>{{ dueDateAsDateString }}</span>
+        </div>
         <span>
             <ng-container *ngFor="let user of task.assignedUsers">
                 <p-avatar label="{{user.initials}}" pBadge styleClass="mr-1 mt-3" value="4" size="small"

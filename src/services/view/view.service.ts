@@ -14,11 +14,10 @@ export class ViewService implements OnInit {
     
   }
 
-
   showSidebar(contentType: string) {
     this.dialogContent = contentType;
     this.showDialog.next(true);
-
+    
   }
 
 }

@@ -1,5 +1,5 @@
 .task-card {
-    border: 3px solid #ffffff;
+    border: 3px solid #e4e2e2;
     border-radius: 40px;
     padding: 12px;
     width: 100%;
@@ -20,6 +20,12 @@
 
         h3 {
             margin-bottom: 12px;
+        }
+
+        .header-right {
+            color: grey;
+            display: flex;
+            gap: 8px;
         }
     }
 
