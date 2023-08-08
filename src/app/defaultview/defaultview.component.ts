@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
+import { ContactService } from 'src/services/contact/contact.service';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
@@ -13,6 +14,7 @@ import { ViewService } from 'src/services/view/view.service';
   selector: 'app-defaultview',
   templateUrl: './defaultview.component.html',
   styleUrls: ['./defaultview.component.scss']
+  
 })
 export class DefaultViewComponent implements OnInit, OnDestroy {
   viewInitialized: boolean = false;
@@ -31,6 +33,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
   constructor(
     public projectService: ProjectService,
+    public contactService: ContactService,
     public taskService: TaskService,
     public viewService: ViewService,
     public authService: AuthService,
@@ -91,7 +94,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this.contactService.getContactList();
   }
 
   ngOnDestroy(): void {

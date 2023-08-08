@@ -12,7 +12,7 @@ import { ViewService } from 'src/services/view/view.service';
 })
 export class TaskCardComponent implements OnInit {
   @Input() task: any;
-  dueDateAsDateString: string;
+  dueDateAsDateString: string | Date;
   status: string;
 
   constructor(
@@ -25,7 +25,7 @@ export class TaskCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._transformDueDate();
+    this.dueDateAsDateString = this.taskService.transformDueDate(this.task.dueDate.seconds);
     this.status = this._setStatus();
   }
 
@@ -38,11 +38,6 @@ export class TaskCardComponent implements OnInit {
     },
   ]
 
-  _transformDueDate() {
-    const dueDateAsDate = new Date(this.task.dueDate.seconds * 1000);
-    this.dueDateAsDateString = dueDateAsDate.toLocaleDateString();
-  }
-
   _setStatus() {
     switch (this.task.status) {
       case 'todo': return 'to-do'; break;
@@ -53,10 +48,10 @@ export class TaskCardComponent implements OnInit {
 
   }
 
-  setTaskEdit(task: Task) {
+  openTaskEdit(task: Task) {
     this.router.navigate(['/tasks', task['taskId']], { replaceUrl: true });
-    this.viewService.showSidebar('task')
-    this.taskService.editMode = true;
-    this.taskService.activeTask = task;
+    this.viewService.showSidebar('task');
+    this.taskService.editMode = true
+    this.taskService.activeTask.next(task);
   }
 }

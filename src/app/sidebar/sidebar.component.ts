@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
 
 
@@ -10,17 +11,26 @@ import { ViewService } from 'src/services/view/view.service';
 
 export class SidebarComponent implements OnInit {
   isVisible: boolean;
-  
+
 
   constructor(
     public viewService: ViewService,
+    public taskService: TaskService,
   ) {
-    
+
   }
-  
+
   ngOnInit(): void {
     this.viewService.showDialog.subscribe((value) => {
       this.isVisible = value;
-    })
+    });
+
+  }
+
+  leaveTaskEditMode() {
+    setTimeout(() => {
+      this.taskService.activeTask.next(null);
+      this.taskService.editMode = false;
+    }, 500)
   }
 }

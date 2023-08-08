@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Contact } from 'src/models/contact';
@@ -11,25 +11,25 @@ import { Router } from '@angular/router';
 })
 export class TaskService {
   editMode: boolean = false;
-  activeTask: Task | string;
+  activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
 
   constructor(
     public afs: AngularFirestore,
     public router: Router
-  ) {}
+  ) { }
 
   updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
     const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
     const projectDocRef: AngularFirestoreDocument<any> = projectCollectionRef.doc(projectId);
     const taskCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks');
     const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);
-    taskDocumentRef.update({status: status});
+    taskDocumentRef.update({ status: status });
     console.log(status);
-    
-  }  
 
-  createNewTask(object) { 
+  }
+
+  createNewTask(object) {
     let taskData = new Task(object);
 
     taskData = {
@@ -44,7 +44,7 @@ export class TaskService {
     }
 
     console.log('TASK DATA', taskData);
-    
+
     this.newTask.next(taskData)
   }
 
@@ -62,7 +62,13 @@ export class TaskService {
     return reducedData
   }
 
-  setTaskEdit(task: string) {
-      
+
+  transformDueDate(timestampSeconds: number, asDate?: boolean) {
+    const dueDateAsDate = new Date(timestampSeconds * 1000);
+    if (asDate) {
+      return dueDateAsDate.toString();
+    } else {
+      return dueDateAsDate.toLocaleDateString();
+    }
   }
 }

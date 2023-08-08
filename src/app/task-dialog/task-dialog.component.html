@@ -1,7 +1,7 @@
 <h3 *ngIf="taskService.editMode">Edit task</h3>
 <h3 *ngIf="!taskService.editMode">New task</h3>
 <form [formGroup]="taskForm" (ngSubmit)="submitForm()">
-    
+
     <label>Title:
         <input formControlName="title" type="text" pInputText id="title_input" />
     </label>
@@ -11,20 +11,20 @@
     </label>
 
     <label>Assign Users:
-        <p-multiSelect formControlName="assignedUsers" [options]="contactService.usersContacts" defaultLabel="Select contacts"
-           optionLabel="displayName" display="chip" id="assign_input" styleClass="w-full" #assignUsers></p-multiSelect>
+        <p-multiSelect formControlName="assignedUsers" [options]="contactService.usersContacts"
+            defaultLabel="Select contacts" optionLabel="displayName" display="chip" id="assign_input"
+        [(ngModel)]="assignedContacts" (onBlur)="logAssignedUsers()" styleClass="w-full" #assignUsers></p-multiSelect>
     </label>
 
-
     <label>Due Date:
-        <p-calendar [minDate]="minDueDate" formControlName="dueDate" id="dueDate_input" [showIcon]="true" dateFormat="dd.mm.yy"
-            styleClass="w-full"></p-calendar>
+        <p-calendar [minDate]="minDueDate" formControlName="dueDate" id="dueDate_input" [showIcon]="true"
+            dateFormat="dd.mm.yy" [(ngModel)]="dueDate" styleClass="w-full"></p-calendar>
     </label>
 
 
     <label>Priority:
-        <p-selectButton formControlName="priority" [options]="priorityOptions" [multiple]="false" optionLabel="name" optionValue="name"
-            styleClass="w-full" #priorityButtons></p-selectButton>
+        <p-selectButton formControlName="priority" [options]="priorityOptions" [multiple]="false" optionLabel="name"
+            optionValue="name" styleClass="w-full" #priorityButtons></p-selectButton>
     </label>
 
     <p-button [disabled]="taskForm.invalid" type="ngSubmit" label="Create task" icon="pi pi-check"

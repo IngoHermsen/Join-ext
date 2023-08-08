@@ -14,7 +14,7 @@ export class ContactService implements OnInit {
   activeUsersDoc: AngularFirestoreDocument;
   contactUsersDoc: AngularFirestoreDocument;
   newContactId: Subject<string> = new Subject;
-  usersContacts: Array<any> = [];
+  usersContacts: Array<Contact>;
   characters = [];
 
   constructor(
@@ -63,6 +63,8 @@ export class ContactService implements OnInit {
         }
       )      
       this.usersContacts.push(contact);
+      console.log('AFTER GET CONTACT DATA', this.usersContacts);
+      
     
       this._updateCharacters(contact.lastName.charAt(0));
     })

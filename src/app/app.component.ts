@@ -12,7 +12,9 @@ export class AppComponent implements OnInit {
   userIsLoggedIn: boolean = null;
   title = 'ng-join';
   
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    ) {}
 
   ngOnInit() {
     if(localStorage.getItem('user') !== 'null') {

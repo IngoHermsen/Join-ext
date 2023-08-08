@@ -5,7 +5,7 @@ export class Task {
     assignedUsers: any;
     creationDate: Date;
     dueDate: Date;
-    priority: string[];
+    priority: string;
     status: string;
 
     constructor(obj?: any) {
