@@ -19,6 +19,7 @@ export class TaskDialogComponent implements OnInit {
   assignedContacts: Array<Contact>;
   dueDate: Date;
   minDueDate = new Date();
+  taskId: string | null;
 
   @ViewChild('assignUsers') userMultiSelect: MultiSelect;
   @ViewChild('priorityButtons') prioritySelection: SelectButton;
@@ -36,8 +37,7 @@ export class TaskDialogComponent implements OnInit {
     public viewService: ViewService,
     public contactService: ContactService,
   ) {
-    console.log(this.contacts);
-
+    this.taskId = null;
   }
 
   ngOnInit(): void {
@@ -46,6 +46,7 @@ export class TaskDialogComponent implements OnInit {
     this.taskService.activeTask.subscribe((task) => {
       if (task) {
         this.setTaskFormValues(task)
+        this.taskId = task.taskId;
       } else {
         this.taskForm.reset();
       }
@@ -113,9 +114,10 @@ export class TaskDialogComponent implements OnInit {
   // formGroup END
 
   submitForm() {
-    this.taskService.createNewTask(this.taskForm.value);
+    this.taskService.saveTask(this.taskForm.value, this.taskId);
     this.viewService.showDialog.next(false);
     this.taskForm.reset()
+
   }
 
   setTaskFormValues(taskObj: Task) {
@@ -132,14 +134,11 @@ export class TaskDialogComponent implements OnInit {
 
     })
 
-    console.log(this.taskForm);
-
   }
 
   setAssignedContacts(assignedUsers) {
     this.assignedContacts = [];
-    console.log(this.contactService.usersContacts);
-    
+
     assignedUsers.map((user) => {
       const contactList = this.contactService.usersContacts
       for (let i = 0; i < contactList.length; i++) {

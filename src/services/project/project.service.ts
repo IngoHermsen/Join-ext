@@ -31,12 +31,22 @@ export class ProjectService implements OnInit {
   }
 
   saveNewTask(data: any) {
-    console.log('SAVE NEW TASK DATA', data);
-    
-    this.projectCollectionRef.doc(this.currentId.getValue())
+    const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())
+    if(data.taskId) {
+      
+      projectCollectionRef
+      .collection('tasks').doc(data.taskId).update({
+        title: data.title,
+        description: data.description,
+        assignedUsers: data.assignedUsers,
+        dueDate: data.dueDate,
+        priority: data.priority,
+      })
+
+    } else
+      projectCollectionRef
       .collection('tasks').add(data)
       .then((docRef) => {
-        console.log('THEN');
         
         docRef.update({ taskId: docRef.id })
       })

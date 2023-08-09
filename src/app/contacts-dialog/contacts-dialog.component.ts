@@ -32,10 +32,7 @@ export class ContactsDialogComponent {
           email: userData['email'],
           initials: userData['initials'],
           isContact: this.userIsContact(userData['uid'])
-        }
-
-        console.log('USER FROM DB', dbUser);
-        
+        }        
 
         if (dbUser.uid != contactService.activeUserId) {
           this.users.push(dbUser);

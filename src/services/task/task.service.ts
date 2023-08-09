@@ -25,15 +25,14 @@ export class TaskService {
     const taskCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks');
     const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);
     taskDocumentRef.update({ status: status });
-    console.log(status);
-
   }
 
-  createNewTask(object) {
+  saveTask(object: any, taskId: string | null) {
     let taskData = new Task(object);
-
+    console.log('OBJECT', object);
+    
     taskData = {
-      taskId: '',
+      taskId: taskId,
       title: object.title,
       description: object.description,
       assignedUsers: this.reduceContactData(object.assignedUsers),
@@ -42,9 +41,7 @@ export class TaskService {
       priority: object.priority,
       status: 'todo'
     }
-
-    console.log('TASK DATA', taskData);
-
+    
     this.newTask.next(taskData)
   }
 

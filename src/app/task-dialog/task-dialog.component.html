@@ -27,7 +27,7 @@
             optionValue="name" styleClass="w-full" #priorityButtons></p-selectButton>
     </label>
 
-    <p-button [disabled]="taskForm.invalid" type="ngSubmit" label="Create task" icon="pi pi-check"
+    <p-button *ngIf="this.taskService.activeTask" [disabled]="taskForm.invalid" type="ngSubmit" label="Save task" icon="pi pi-check"
         styleClass="p-button"></p-button>
 
 </form>

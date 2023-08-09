@@ -80,7 +80,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       this.projectService.getProjectsAsJson(user.uid);
       this.projectService.currentId.next(user.latestActiveProject);
       this.viewInitialized = true;
-      console.log(this.viewInitialized);
     }
   }
 

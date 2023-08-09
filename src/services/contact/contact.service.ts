@@ -62,9 +62,7 @@ export class ContactService implements OnInit {
           displayName: userData['firstName'] + " " + userData['lastName']
         }
       )      
-      this.usersContacts.push(contact);
-      console.log('AFTER GET CONTACT DATA', this.usersContacts);
-      
+      this.usersContacts.push(contact);     
     
       this._updateCharacters(contact.lastName.charAt(0));
     })
