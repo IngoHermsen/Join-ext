@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ViewService implements OnInit {
+  showSignUpNote: boolean = false;
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
 

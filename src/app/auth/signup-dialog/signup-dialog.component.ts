@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth/auth.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class SignupDialogComponent {
   passwordsMatching: boolean;
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router,
   ) {}
 
   @ViewChild('signUpForm') signUpForm?: NgForm;
@@ -30,9 +32,14 @@ export class SignupDialogComponent {
     this.passwordsMatching = (this.formData.password == this.formData.passwordCheck)
   }
 
-  submitForm() {    
-    this.formData.initials = (this.formData.firstName.charAt(0) + this.formData.lastName.charAt(0))
-    this.authService.SignUp(this.formData);    
+  submitForm(signUpForm: NgForm) {        
+    this.formData.initials = (this.formData.firstName.charAt(0) + this.formData.lastName.charAt(0));
+    this.authService.SignUp(this.formData)
+    .then(() => {
+      signUpForm.resetForm();
+      this.router.navigate(['auth/login'])
+    }); 
+
   }
 }
 

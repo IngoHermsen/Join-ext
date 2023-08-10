@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-auth',
@@ -8,7 +9,8 @@ import { Component } from '@angular/core';
 export class AuthComponent {
   animateJoinLogo: boolean = true;
     
-  constructor() {
-    
+  constructor(
+    public viewService: ViewService,
+  ) {
   }
 }

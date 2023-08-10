@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ViewService } from '../view/view.service';
 
 
 @Injectable({
@@ -19,14 +20,15 @@ export class AuthService {
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
-  ) {    
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+    private viewService: ViewService,
+  ) {
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.loggedIn = true;
-        localStorage.setItem('user', JSON.stringify(user));        
+        localStorage.setItem('user', JSON.stringify(user));
         JSON.parse(localStorage.getItem('user')!);
       } else {
         localStorage.setItem('user', null);
@@ -61,18 +63,20 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then((result) => {
+        console.log('REGISTERED');
+        
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         this.SendVerificationMail();
-        this.SetUserData(
+        this.SetNewUserData(
           result.user,
-          formData.firstName,
-          formData.lastName,
-          formData.initials,
-          [],
-          [],
-          'none'
+          formData
         );
+        this.router.navigate(['auth/login']);
+        this.viewService.showSignUpNote = true;
+        setTimeout(() => {
+          this.viewService.showSignUpNote = false;
+        }, 4000)
       })
       .catch((error) => {
         window.alert(error.message);
@@ -91,47 +95,75 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-  
+
     return user !== null && user.emailVerified !== false ? true : false;
   }
 
 
-  /* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  SetNewUserData(
+    user: any,
+    formData: any
+  ) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
+
+    console.log('form data', formData);
+    
+
+    userRef.get().subscribe(ref => {
+      const userDocData: any = ref.data();
+
+      const userData: User = {
+        uid: user.uid,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        initials: formData.initials,
+        email: user.email,
+        displayName: user.displayName,
+        emailVerified: user.emailVerified,
+        contacts: [],
+        projects: [],
+        latestActiveProject: 'none',
+      };
+
+      console.log('USER DATA NEW', userData);
+
+      this.userData.next(userData);
+
+      return userRef.set(userData, {
+        merge: true,
+      });
+    })
+  }
+
+
   SetUserData(
     user: any,
-    firstName?: string,
-    lastName?: string,
-    initials?: string,
-    contacts?: any[],
-    projects?: any[],
-    latestActiveProject?: string,
-    ) {
+  ) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
 
     userRef.get().subscribe(ref => {
       const userDocData: any = ref.data();
-    
+
       const userData: User = {
         uid: user.uid,
-        firstName: firstName || userDocData.firstName,
-        lastName: lastName || userDocData.lastName,
-        initials: initials || userDocData.initials,
+        firstName: userDocData.firstName,
+        lastName: userDocData.lastName,
+        initials: userDocData.initials,
         email: user.email,
         displayName: user.displayName,
         emailVerified: user.emailVerified,
-        contacts: contacts || userDocData.contacts,
-        projects: projects || userDocData.projects,
-        latestActiveProject: latestActiveProject || userDocData.latestActiveProject,
+        contacts: userDocData.contacts,
+        projects: userDocData.projects,
+        latestActiveProject: userDocData.latestActiveProject,
       };
 
       this.userData.next(userData);
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
-
 
       return userRef.set(userData, {
         merge: true,

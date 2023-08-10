@@ -19,6 +19,9 @@
         justify-content: space-between;
 
         h3 {
+            color: white;
+            border-radius: 15px;
+            padding: 2px 8px;
             margin-bottom: 12px;
         }
 
@@ -38,16 +41,32 @@
 
 .to-do {
     border-color: rgb(243, 55, 55);
+
+    h3 {
+        background-color: rgb(243, 55, 55);
+    }
 }
 
 .in-progress {
     border-color: rgb(55, 136, 243);
+
+    h3 {
+        background-color: rgb(55, 136, 243);
+    }
 }
 
 .in-review {
-    border-color: rgb(251, 255, 0);
+    border-color: rgb(112, 9, 133);
+
+    h3 {
+        background-color: rgb(112, 9, 133);
+    }
 }
 
 .done {
-    border-color: rgb(39, 158, 15);
+    border-color: rgb(45, 196, 15);
+
+    h3 {
+        background-color: rgb(45, 196, 15);
+    }
 }

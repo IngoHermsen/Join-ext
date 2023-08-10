@@ -5,7 +5,6 @@ import { MultiSelect } from 'primeng/multiselect';
 import { SelectButton } from 'primeng/selectbutton';
 import { ViewService } from 'src/services/view/view.service';
 import { ContactService } from 'src/services/contact/contact.service';
-import { Timestamp } from '@angular/fire/firestore';
 import { Task } from 'src/models/task';
 import { Contact } from 'src/models/contact';
 
@@ -16,7 +15,7 @@ import { Contact } from 'src/models/contact';
 })
 
 export class TaskDialogComponent implements OnInit {
-  assignedContacts: Array<Contact>;
+  assignedContacts: Contact[] = null;
   dueDate: Date;
   minDueDate = new Date();
   taskId: string | null;
@@ -37,25 +36,22 @@ export class TaskDialogComponent implements OnInit {
     public viewService: ViewService,
     public contactService: ContactService,
   ) {
+    
     this.taskId = null;
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.dueDate = new Date()
 
-    this.taskService.activeTask.subscribe((task) => {
+    this.taskService.activeTask.subscribe((task) => {      
       if (task) {
         this.setTaskFormValues(task)
         this.taskId = task.taskId;
       } else {
         this.taskForm.reset();
+        console.log(this.taskForm);
       }
     })
-
-  }
-
-
-  ngOnDestroy() {
   }
 
   // formGroup
@@ -120,7 +116,7 @@ export class TaskDialogComponent implements OnInit {
 
   }
 
-  setTaskFormValues(taskObj: Task) {
+  setTaskFormValues(taskObj: Task) {    
     this.assignedContacts = [];
     const dueDateAsDate = this.taskService.transformDueDate(taskObj.dueDate['seconds'], true);
     this.dueDate = new Date(dueDateAsDate);
@@ -130,32 +126,23 @@ export class TaskDialogComponent implements OnInit {
       title: taskObj.title,
       description: taskObj.description,
       priority: taskObj.priority,
-      assignedUsers: taskObj.assignedUsers,
-
+      
     })
 
   }
 
   setAssignedContacts(assignedUsers) {
-    this.assignedContacts = [];
-
-    assignedUsers.map((user) => {
+    assignedUsers.map((user) => {      
       const contactList = this.contactService.usersContacts
       for (let i = 0; i < contactList.length; i++) {
 
         if (user.uid == contactList[i].uid) {
-
           this.assignedContacts.push(contactList[i]);
           break;
         }
       }
     }
     )
-
   }
 
-  logAssignedUsers() {
-
-
-  }
 }

@@ -28,13 +28,6 @@
 
         <div class="flex gap-3 manage-password">
             <span class="remember-password">
-                <form class="align-items-center gap-1">
-                    <div class="flex align-items-center">
-                        <p-checkbox [(ngModel)]="formData.rememberPassword" type="p-checkbox" name="remember-pw"
-                            class="mr-1" value="Remember password" inputId="pw"></p-checkbox>
-                        <label for="pw">Remember password</label>
-                    </div>
-                </form>
             </span>
             <a routerLink="/forgotPassword">Forgot password?</a>
         </div>
@@ -46,7 +39,7 @@
                 styleClass="p-button-raised p-button-secondary"></p-button>
         </div>
         <div class="flex gap-3">
-            <span>Got a signup Code? <a href="" routerLink="/auth/signup">Register here</a></span>
+            <span>No registered yet? <a href="" routerLink="/auth/signup">Sign up here</a></span>
             
         </div>
 

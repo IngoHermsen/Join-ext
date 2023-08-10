@@ -17,14 +17,12 @@ export class SidebarComponent implements OnInit {
     public viewService: ViewService,
     public taskService: TaskService,
   ) {
-
   }
 
   ngOnInit(): void {
     this.viewService.showDialog.subscribe((value) => {
       this.isVisible = value;
     });
-
   }
 
   leaveTaskEditMode() {

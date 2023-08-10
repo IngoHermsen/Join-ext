@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CanActivateChildFn, Router } from '@angular/router';
+import { ViewService } from 'src/services/view/view.service';
 
 
 @Component({

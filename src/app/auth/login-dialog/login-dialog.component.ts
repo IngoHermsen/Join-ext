@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/services/auth/auth.service';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -13,7 +14,8 @@ export class LoginDialogComponent {
   visible: boolean;
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    public viewService: ViewService,
   ) {
     this.visible = true;
     authService.noMatchingData.subscribe((value) => {

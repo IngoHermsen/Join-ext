@@ -13,7 +13,7 @@
     <label>Assign Users:
         <p-multiSelect formControlName="assignedUsers" [options]="contactService.usersContacts"
             defaultLabel="Select contacts" optionLabel="displayName" display="chip" id="assign_input"
-        [(ngModel)]="assignedContacts" (onBlur)="logAssignedUsers()" styleClass="w-full" #assignUsers></p-multiSelect>
+        [(ngModel)]="assignedContacts" styleClass="w-full" #assignUsers></p-multiSelect>
     </label>
 
     <label>Due Date:

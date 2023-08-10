@@ -5,6 +5,30 @@
     height: 100vh;
 }
 
+.sign-up-note {
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+    padding: 12px;
+    z-index: 2;
+    top: 25px;
+    opacity: 0;
+    max-width: 320px;
+    max-height: 60px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 25px;
+    background-color: white;
+    animation: showAndHide 5s forwards;
+
+    @keyframes showAndHide {
+        50% {
+            display: inline;
+            opacity: 1;
+        }
+    }
+
+}
+
 .animated-logo {
     position: absolute;
     z-index: 1;
