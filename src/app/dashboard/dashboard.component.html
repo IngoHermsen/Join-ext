@@ -1,23 +1,32 @@
 <h1>Summary</h1>
 <div class="card-area">
     <div class="card small">
-        <span>Tasks in board</span>
-    </div>
-    <div class="card small^">
-        <span>Tasks in progress</span>
+        <div class="value">{{ taskService.amountOfTasks }}</div>
+        <span>Tasks<br>in board</span>
     </div>
     <div class="card small">
-        <span>Tasks in review</span>
+        <div class="value">{{ taskService.tasksByStatus['inProgress'].length }}</div>
+        <span>Tasks<br>in progress</span>
+    </div>
+    <div class="card small">
+        <div class="value">{{ taskService.tasksByStatus['inReview'].length }}</div>
+        <span>Tasks<br>in review</span>
     </div>
     <div class="card large">
         <span>urgent</span>
     </div>
     <div class="card medium">
-        <i></i>
-        <span>to-do</span>
+        <i class="icon pi pi-flag"></i>
+        <div class="text">
+            <div class="value">{{ taskService.tasksByStatus['todo'].length }}</div>
+            <span>to-do</span>
+        </div>
     </div>
     <div class="card medium">
-        <span>done</span>
+        <i class="icon pi pi-check-circle"></i>
+        <div class="text">
+            <div class="value">{{ taskService.tasksByStatus['done'].length }}</div>
+            <span>done</span>
+        </div>
     </div>
 </div>
-

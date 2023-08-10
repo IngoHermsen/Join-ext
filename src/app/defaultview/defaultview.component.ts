@@ -1,7 +1,5 @@
-import { getLocaleCurrencyCode } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ContactService } from 'src/services/contact/contact.service';
@@ -13,8 +11,8 @@ import { ViewService } from 'src/services/view/view.service';
 @Component({
   selector: 'app-defaultview',
   templateUrl: './defaultview.component.html',
-  styleUrls: ['./defaultview.component.scss']
-  
+  styleUrls: ['./defaultview.component.scss'],
+
 })
 export class DefaultViewComponent implements OnInit, OnDestroy {
   viewInitialized: boolean = false;
@@ -22,6 +20,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   show: boolean;
   projects: any;
   activeProject: string;
+  projectTitle: string;
   avatarInitials: string;
   currentRoute: string;
   routeIsContacts: boolean = null;
@@ -57,12 +56,12 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       let pseudoUser: User = new User()
       const userAsJson: any = JSON.parse(localStorage.getItem('user'));
       const userInitials: string = localStorage.getItem('initials');
-      const activeProject: string = localStorage.getItem('activeProject');
+      const latestProject: string = localStorage.getItem('activeProject');
 
       pseudoUser.uid = userAsJson.uid;
       pseudoUser.initials = userInitials;
-      pseudoUser.latestActiveProject = activeProject;
-      this.activeProject = activeProject;
+      pseudoUser.latestActiveProject = latestProject;
+      
 
       this.initializeView(pseudoUser)
     }
@@ -71,9 +70,9 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       this.initializeView(user)
     })
 
-    this.taskSubscription = this.taskService.newTask.subscribe((data) => {            
+    this.taskSubscription = this.taskService.newTask.subscribe((data) => {
       this.projectService.saveNewTask(data);
-      
+
     })
   }
 
@@ -82,7 +81,9 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
-      this.projectService.currentId.next(user.latestActiveProject);
+      this.projectService.setActiveProject(user.latestActiveProject);
+      this.activeProject = user.latestActiveProject;      
+
       this.viewInitialized = true;
     }
   }
@@ -96,6 +97,10 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     localStorage.setItem('activeProject', id);
   }
 
+  ngAfterViewInit() {
+   
+  }
+
   ngOnInit(): void {
     this.contactService.getContactList();
   }
@@ -107,7 +112,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   showProjectDialog() {
     this.projectService.showDialog.next(true);
   }
-
-  }
+}
 
 

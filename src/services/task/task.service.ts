@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, mergeMap, switchMap } from 'rxjs';
 import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Contact } from 'src/models/contact';
@@ -15,6 +15,7 @@ export class TaskService {
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
+  amountOfTasks: number = 0;
 
   constructor(
     public afs: AngularFirestore,
@@ -25,7 +26,9 @@ export class TaskService {
       inProgress: [],
       inReview: [],
       done: []
-    };
+    };  
+
+
 
   }
 
@@ -80,6 +83,7 @@ export class TaskService {
   }
 
   setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
+    this.amountOfTasks = 0;
     this.tasksByStatus = {
       todo: [],
       inProgress: [],
@@ -89,13 +93,13 @@ export class TaskService {
 
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
 
-    tasksCollectionRef.get().pipe(switchMap((ref) => {
+    tasksCollectionRef.get().pipe(mergeMap((ref) => {
       return ref.docs;
     })).subscribe((ref) => {
       const task = ref.data();
       const status = task.status;
-      this.tasksByStatus[status].push(task);
-
+      this.tasksByStatus[status].push(task); 
+      this.amountOfTasks++
     })
   }
 }

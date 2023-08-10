@@ -24,24 +24,22 @@ export class ProjectService implements OnInit {
     public afs: AngularFirestore,
     public taskService: TaskService,
   ) {
-    
+
   }
 
   ngOnInit(): void {
   }
 
-  setActiveProject(projectId: string) {
+  setActiveProject(projectId: string) {    
     const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
       this.projectTitle = ref.data().projectTitle;
       return ref.data()
     }))
       .subscribe((data) => {
+        this.taskService.setTasksAsObject(projectDocRef)
       })
-    this.taskService.setTasksAsObject(projectDocRef);
   }
-
-  
 
   saveNewTask(data: any) {
     const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())

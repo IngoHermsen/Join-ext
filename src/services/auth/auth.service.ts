@@ -64,9 +64,7 @@ export class AuthService {
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then((result) => {
         console.log('REGISTERED');
-        
-        /* Call the SendVerificaitonMail() function when new user sign 
-        up and returns promise */
+
         this.SendVerificationMail();
         this.SetNewUserData(
           result.user,
