@@ -11,16 +11,11 @@ import { TaskService } from 'src/services/task/task.service';
   styleUrls: ['./task-board.component.scss']
 })
 export class TaskBoardComponent implements OnInit {
-  tasksByStatus: any;
-  projectTitle: string = null;
-
   draggedTask: Task = null;
   draggedOverSection: string = null;
 
   //subscriptions
   projectSubscription: any;
-
-
 
   constructor(
     public projectService: ProjectService,
@@ -35,7 +30,7 @@ export class TaskBoardComponent implements OnInit {
     })
     
     this.taskService.newTask.subscribe((Task: Task) => {        
-      this.tasksByStatus['todo'].push(Task);
+      this.taskService.tasksByStatus['todo'].push(Task);
     })
     
   }
@@ -43,36 +38,7 @@ export class TaskBoardComponent implements OnInit {
   ngOnInit(): void {
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
 
-      this.tasksByStatus = {
-        todo: [],
-        inProgress: [],
-        inReview: [],
-        done: []
-      };
-      this.setActiveProject(value);
-    })
-  }
-
-  setActiveProject(projectId: string) {
-    const projectDocRef: AngularFirestoreDocument<any> = this.projectService.projectCollectionRef.doc(projectId);
-    projectDocRef.get().pipe(map((ref) => {
-      this.projectTitle = ref.data().projectTitle;
-      return ref.data()
-    }))
-      .subscribe((data) => {
-      })
-    this.setTasksAsObject(projectDocRef);
-  }
-
-  setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
-    const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
-
-    tasksCollectionRef.get().pipe(switchMap((ref) => {
-      return ref.docs;
-    })).subscribe((ref) => {
-      const task = ref.data();
-      const status = task.status;
-      this.tasksByStatus[status].push(task);
+      this.projectService.setActiveProject(value);
     })
   }
 
@@ -100,17 +66,17 @@ export class TaskBoardComponent implements OnInit {
     const taskIndex = this._findIndex(task);
     const previousTaskStatus = task.status
 
-    this.tasksByStatus[previousTaskStatus].splice(taskIndex, 1);
+    this.taskService.tasksByStatus[previousTaskStatus].splice(taskIndex, 1);
 
     task.status = newStatus
-    this.tasksByStatus[newStatus].push(task);
+    this.taskService.tasksByStatus[newStatus].push(task);
 
   }
 
   _findIndex(task: Task) {
     let index: number = -1;
-    for (let i = 0; i < this.tasksByStatus[task.status].length; i++) {
-      if (task.taskId == this.tasksByStatus[task.status][i].taskId) {
+    for (let i = 0; i < this.taskService.tasksByStatus[task.status].length; i++) {
+      if (task.taskId == this.taskService.tasksByStatus[task.status][i].taskId) {
         index = i;
         break;
       }

@@ -31,6 +31,9 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   userSubscription: any;
   routeSubscription: any;
 
+  // usersFirebaseDoc
+
+
   constructor(
     public projectService: ProjectService,
     public contactService: ContactService,
@@ -59,6 +62,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       pseudoUser.uid = userAsJson.uid;
       pseudoUser.initials = userInitials;
       pseudoUser.latestActiveProject = activeProject;
+      this.activeProject = activeProject;
 
       this.initializeView(pseudoUser)
     }
@@ -86,7 +90,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   changeActiveProject(projectId?: string) {
     let id = projectId || this.activeProject;
     this.projectService.currentId.next(id);
-
+    this.projectService.setLatestProjectInUserDoc(id)
     // die neue ID muss noch als "latestActiveProject" beim User eingetragen werden in firebase
 
     localStorage.setItem('activeProject', id);

@@ -2,7 +2,7 @@
     <app-navigation></app-navigation>
     <div class="content-area">
         <div class="header">
-            <button (click)="authService.SignOut()">SIGN OUT</button>
+            <h2>{{projectService.projectTitle}}</h2>
             <div class="flex">
                 <div class="card flex justify-content-center">
                     <p-dropdown [options]="projects" optionValue="projectId" optionLabel="projectTitle"
@@ -11,6 +11,8 @@
                 <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>
             </div>
+            <button (click)="authService.SignOut()">SIGN OUT</button>
+
             <p-avatar label={{avatarInitials}} styleClass="mr-2" shape="circle" size="large"
                 [style]="{ 'background-color': '#64748B', color: '#ffffff'}"></p-avatar>
         </div>

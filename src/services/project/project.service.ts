@@ -4,6 +4,7 @@ import { map, mergeMap } from 'rxjs/operators'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
+import { TaskService } from '../task/task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +15,33 @@ export class ProjectService implements OnInit {
 
   userId: string;
   projectsAsJson: Subject<any> = new Subject;
+  projectTitle: string = null;
 
   currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
-  projectChange: boolean = false;
 
   constructor(
     public afs: AngularFirestore,
-  
+    public taskService: TaskService,
   ) {
     
   }
 
   ngOnInit(): void {
-    
   }
+
+  setActiveProject(projectId: string) {
+    const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
+    projectDocRef.get().pipe(map((ref) => {
+      this.projectTitle = ref.data().projectTitle;
+      return ref.data()
+    }))
+      .subscribe((data) => {
+      })
+    this.taskService.setTasksAsObject(projectDocRef);
+  }
+
+  
 
   saveNewTask(data: any) {
     const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())
@@ -106,6 +119,18 @@ export class ProjectService implements OnInit {
     });
 
     this.projectsAsJson.next(projectsData)
+  }
+
+  setLatestProjectInUserDoc(id) {
+    const currentUserAsJson = JSON.parse(localStorage.getItem('user'));
+    const currentUserId: string = currentUserAsJson.uid
+
+    console.log('CURRENT USER JSON', currentUserAsJson);
+    
+
+    this.userCollectionRef.doc(currentUserId)
+    .update({ latestActiveProject: id })
+    
   }
 }
 

@@ -1,23 +1,33 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap } from 'rxjs';
 import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Contact } from 'src/models/contact';
 import { Router } from '@angular/router';
+import { ProjectService } from '../project/project.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  tasksByStatus: any;
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
 
   constructor(
     public afs: AngularFirestore,
-    public router: Router
-  ) { }
+    public router: Router,
+  ) {
+    this.tasksByStatus = {
+      todo: [],
+      inProgress: [],
+      inReview: [],
+      done: []
+    };
+
+  }
 
   updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
     const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
@@ -30,7 +40,7 @@ export class TaskService {
   saveTask(object: any, taskId: string | null) {
     let taskData = new Task(object);
     console.log('OBJECT', object);
-    
+
     taskData = {
       taskId: taskId,
       title: object.title,
@@ -41,7 +51,7 @@ export class TaskService {
       priority: object.priority,
       status: 'todo'
     }
-    
+
     this.newTask.next(taskData)
   }
 
@@ -67,5 +77,25 @@ export class TaskService {
     } else {
       return dueDateAsDate.toLocaleDateString();
     }
+  }
+
+  setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
+    this.tasksByStatus = {
+      todo: [],
+      inProgress: [],
+      inReview: [],
+      done: []
+    };
+
+    const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
+
+    tasksCollectionRef.get().pipe(switchMap((ref) => {
+      return ref.docs;
+    })).subscribe((ref) => {
+      const task = ref.data();
+      const status = task.status;
+      this.tasksByStatus[status].push(task);
+
+    })
   }
 }

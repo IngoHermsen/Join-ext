@@ -7,8 +7,13 @@ import { TaskService } from '../../services/task/task.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  
-  constructor(public newTaskService: TaskService) {
+  numberOfTasks: number;
+
+  constructor(
+    public taskService: TaskService,
+  ) {
+
+    console.log(this.taskService.tasksByStatus);
 
   }
 

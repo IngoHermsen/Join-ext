@@ -106,10 +106,7 @@ export class AuthService {
   ) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
-    );
-
-    console.log('form data', formData);
-    
+    );  
 
     userRef.get().subscribe(ref => {
       const userDocData: any = ref.data();
@@ -126,8 +123,6 @@ export class AuthService {
         projects: [],
         latestActiveProject: 'none',
       };
-
-      console.log('USER DATA NEW', userData);
 
       this.userData.next(userData);
 

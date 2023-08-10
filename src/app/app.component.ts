@@ -10,7 +10,7 @@ import { ViewService } from 'src/services/view/view.service';
 })
 
 export class AppComponent implements OnInit {
-  userIsLoggedIn: boolean = null;
+  
   title = 'ng-join';
   
   constructor(

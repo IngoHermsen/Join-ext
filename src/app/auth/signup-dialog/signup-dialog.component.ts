@@ -14,7 +14,9 @@ export class SignupDialogComponent {
   constructor(
     public authService: AuthService,
     private router: Router,
-  ) {}
+  ) {
+    
+  }
 
   @ViewChild('signUpForm') signUpForm?: NgForm;
 
