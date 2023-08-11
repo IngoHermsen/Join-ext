@@ -35,12 +35,8 @@ export class TaskBoardComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {
-    this.projectSubscription = this.projectService.currentId.subscribe((value) => {
-
-      this.projectService.setActiveProject(value);
-    })
-  }
+  ngOnInit(): void {}
+  
 
   dragStart(task: Task) {
     this.draggedTask = task;

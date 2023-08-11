@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, mergeMap, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, from, map, mergeMap, switchMap } from 'rxjs';
 import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Contact } from 'src/models/contact';
@@ -15,7 +15,7 @@ export class TaskService {
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
-  amountOfTasks: number = 0;
+  amountOfTasks: number = null;
 
   constructor(
     public afs: AngularFirestore,
@@ -27,8 +27,6 @@ export class TaskService {
       inReview: [],
       done: []
     };  
-
-
 
   }
 
@@ -83,23 +81,29 @@ export class TaskService {
   }
 
   setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
-    this.amountOfTasks = 0;
-    this.tasksByStatus = {
+    let amountOfTasks: number = 0;
+    
+    let tasksByStatus = {
       todo: [],
       inProgress: [],
       inReview: [],
       done: []
-    };
+    };  
+
 
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
 
-    tasksCollectionRef.get().pipe(mergeMap((ref) => {
-      return ref.docs;
-    })).subscribe((ref) => {
-      const task = ref.data();
+    tasksCollectionRef.get().pipe(mergeMap(ref => {
+      return from(ref.docs);
+    })).pipe(map(doc => {
+      const task = doc.data();
       const status = task.status;
-      this.tasksByStatus[status].push(task); 
-      this.amountOfTasks++
+      tasksByStatus[status].push(task); 
+      amountOfTasks++
+    }))
+    .subscribe((ref) => {
+      this.amountOfTasks = amountOfTasks;
+      this.tasksByStatus = tasksByStatus;
     })
   }
 }

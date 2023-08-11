@@ -30,7 +30,8 @@ export class ProjectService implements OnInit {
   ngOnInit(): void {
   }
 
-  setActiveProject(projectId: string) {    
+  setActiveProject(projectId: string) { 
+    this.currentId   
     const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
       this.projectTitle = ref.data().projectTitle;
@@ -122,8 +123,6 @@ export class ProjectService implements OnInit {
   setLatestProjectInUserDoc(id) {
     const currentUserAsJson = JSON.parse(localStorage.getItem('user'));
     const currentUserId: string = currentUserAsJson.uid
-
-    console.log('CURRENT USER JSON', currentUserAsJson);
     
 
     this.userCollectionRef.doc(currentUserId)

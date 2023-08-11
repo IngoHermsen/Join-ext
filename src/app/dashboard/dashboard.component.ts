@@ -8,7 +8,6 @@ import { take } from 'rxjs';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  numberOfTasks: number;
 
   constructor(
     public taskService: TaskService,

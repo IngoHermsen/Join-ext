@@ -26,6 +26,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   routeIsContacts: boolean = null;
 
   // subscriptions
+  projectSubscription: any;
   taskSubscription: any;
   userSubscription: any;
   routeSubscription: any;
@@ -41,15 +42,22 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     public router: Router
   ) {
+
+    
     this.routeSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
       }
-    })
+    });
 
     this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
-    })
+    });
+
+    this.projectSubscription = this.projectService.currentId.subscribe((value) => {
+      this.projectService.setActiveProject(value);
+      
+    });
 
     if (localStorage.getItem('user') !== 'null' && !authService.loggedIn) {
 
@@ -81,8 +89,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
-      this.projectService.setActiveProject(user.latestActiveProject);
-      this.activeProject = user.latestActiveProject;      
+      this.projectService.currentId.next(user.latestActiveProject)
 
       this.viewInitialized = true;
     }
@@ -92,7 +99,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     let id = projectId || this.activeProject;
     this.projectService.currentId.next(id);
     this.projectService.setLatestProjectInUserDoc(id)
-    // die neue ID muss noch als "latestActiveProject" beim User eingetragen werden in firebase
 
     localStorage.setItem('activeProject', id);
   }
