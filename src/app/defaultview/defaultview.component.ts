@@ -28,7 +28,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   // subscriptions
   projectSubscription: any;
   taskSubscription: any;
-  userSubscription: any;
+  userDataSubscription: any;
   routeSubscription: any;
 
   // usersFirebaseDoc
@@ -50,33 +50,17 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.projectService.projectsAsJson.subscribe((data) => {
+    this.projectService.projectsAsJson.subscribe((data) => {      
       this.projects = data;
     });
+
+    this.initializeView(this._getUserData())
+
 
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
       this.projectService.setActiveProject(value);
       
     });
-
-    if (localStorage.getItem('user') !== 'null' && !authService.loggedIn) {
-
-      let pseudoUser: User = new User()
-      const userAsJson: any = JSON.parse(localStorage.getItem('user'));
-      const userInitials: string = localStorage.getItem('initials');
-      const latestProject: string = localStorage.getItem('activeProject');
-
-      pseudoUser.uid = userAsJson.uid;
-      pseudoUser.initials = userInitials;
-      pseudoUser.latestActiveProject = latestProject;
-      
-
-      this.initializeView(pseudoUser)
-    }
-
-    this.userSubscription = this.authService.userData.subscribe((user) => {
-      this.initializeView(user)
-    })
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
       this.projectService.saveNewTask(data);
@@ -84,11 +68,19 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     })
   }
 
-  initializeView(user: User) {
+  _getUserData() {
+    if (localStorage.getItem('user') !== 'null' && !this.authService.loggedIn) {
+      return this._getUserDataFromLocalStorage()
+    } else {      
+      return this._getUserDataFromAuth()
+    }
+  }
+
+  initializeView(user: User) {        
     if (!this.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
-      this.projectService.getProjectsAsJson(user.uid);
+      this.projectService.getProjectsAsJson(user.uid);      
       this.projectService.currentId.next(user.latestActiveProject)
 
       this.viewInitialized = true;
@@ -109,10 +101,32 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.contactService.getContactList();
+    this.initializeView(this._getUserData());
+    let date = new Date();
+    console.log(Date.parse(date.toDateString()));
+    
+        
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    // this.userSubscription.unsubscribe();
+  }
+
+  _getUserDataFromLocalStorage() {
+    let pseudoUser: User = new User()
+    const userAsJson: any = JSON.parse(localStorage.getItem('user'));
+    const userInitials: string = localStorage.getItem('initials');
+    const latestProject: string = localStorage.getItem('activeProject');
+
+    pseudoUser.uid = userAsJson.uid;
+    pseudoUser.initials = userInitials;
+    pseudoUser.latestActiveProject = latestProject;
+
+    return pseudoUser
+  }
+
+  _getUserDataFromAuth() {    
+    return this.authService.userData;
   }
 
   showProjectDialog() {

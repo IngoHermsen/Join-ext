@@ -5,6 +5,12 @@
     gap: 8px;
     justify-content: space-between;
 
+
+    .text {
+        display: flex;
+        flex-direction: column;
+    }
+
     .card {
         display: flex;
         justify-content: center;
@@ -12,7 +18,7 @@
         padding: 16px;
         width: 140px;
         height: 140px;
-        border: 2px solid rgba(0,0,0,0.3);
+        border: 2px solid rgba(0, 0, 0, 0.3);
         border-radius: 25px;
 
         &:hover {
@@ -25,12 +31,9 @@
             padding: 8px;
             color: white;
             font-size: 2.5rem;
+            height: fit-content;
         }
 
-        .text {
-            display: flex;
-            flex-direction: column;
-        }
 
         .value {
             font-size: 3rem;
@@ -48,10 +51,10 @@
         text-align: center;
     }
 
-   .small {
-    display: flex;
-    flex-direction: column;
-   }
+    .small {
+        display: flex;
+        flex-direction: column;
+    }
 
     .medium {
         gap: 32px;
@@ -60,6 +63,48 @@
 
     .large {
         min-width: 100%;
+        text-align: center;
+
+        .content {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+
+
+            .area {
+                width: 100%;
+
+            }
+
+            .upcoming-deadline {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 24px;    
+                
+                .due-date {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .dl-text {
+                    color: red;
+                }
+            }
+
+            .left {
+                display: flex;
+                gap: 32px;
+                justify-content: center;
+                align-items: center;
+                border-right: 2px solid rgba(0, 0, 0, 0.3);
+
+                .amount {
+                    text-align: center;
+                }
+            }
+        }
     }
 
 

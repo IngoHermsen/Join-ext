@@ -13,7 +13,20 @@
         <span>Tasks<br>in review</span>
     </div>
     <div class="card large">
-        <span>urgent</span>
+        <div class="content">
+            <div class="area left">
+                <i class="icon pi pi-angle-double-right"></i>
+                <div class="amount">
+                    <div class="value">{{ taskService.amountOfUrgent }}</div>
+                    <span>urgent</span>
+                </div>
+            </div>
+            <div class="area upcoming-deadline">
+                <span class="due-date">{{ deadlineDate }}</span>
+                <span class="dl-text">Upcoming Deadline</span>
+            </div>
+        </div>
+
     </div>
     <div class="card medium">
         <i class="icon pi pi-flag"></i>

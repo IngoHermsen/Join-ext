@@ -28,6 +28,9 @@ export class ProjectService implements OnInit {
   }
 
   ngOnInit(): void {
+    const date = new Date()
+    console.log('LOG', date.setUTCSeconds);
+    
   }
 
   setActiveProject(projectId: string) { 
@@ -91,17 +94,15 @@ export class ProjectService implements OnInit {
     this.getProjectsAsJson(userId);
   }
 
-  getProjectsAsJson(userId: string) {    
-
+  getProjectsAsJson(userId: string) {      
     let projectsData: any[] = [];
     this.userId = userId;
 
     // get projectIds for current User...
     const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(userId);
 
-    // Unbedingt nochmal durchgehen, um das zu verstehen!!!!!!!
     usersDocRef.get().pipe(mergeMap((ref) => {
-      const usersProjectIds = ref.data().projects;
+      const usersProjectIds = ref.data().projects;     
 
       return from(usersProjectIds).pipe(map((id) => {
         return id
@@ -111,13 +112,11 @@ export class ProjectService implements OnInit {
       return projectDocRef
     })).subscribe((ref) => {
       ref.get().subscribe((ref) => {
-
         projectsData.push(ref.data());
-        
       })
     });
 
-    this.projectsAsJson.next(projectsData)
+    this.projectsAsJson.next(projectsData);
   }
 
   setLatestProjectInUserDoc(id) {

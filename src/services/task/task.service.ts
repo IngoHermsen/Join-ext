@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Contact } from 'src/models/contact';
 import { Router } from '@angular/router';
 import { ProjectService } from '../project/project.service';
+import { Timestamp } from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -16,6 +17,8 @@ export class TaskService {
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
   amountOfTasks: number = null;
+  amountOfUrgent: number = null;
+  earliestDueDate: Subject<Timestamp> = new Subject();
 
   constructor(
     public afs: AngularFirestore,
@@ -26,7 +29,7 @@ export class TaskService {
       inProgress: [],
       inReview: [],
       done: []
-    };  
+    };
 
   }
 
@@ -75,20 +78,22 @@ export class TaskService {
     const dueDateAsDate = new Date(timestampSeconds * 1000);
     if (asDate) {
       return dueDateAsDate.toString();
-    } else {
+    } else {      
       return dueDateAsDate.toLocaleDateString();
     }
   }
 
   setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
     let amountOfTasks: number = 0;
-    
+    let earliestDueDate: Timestamp = null;
+    let amountOfUrgent: number = 0;
+
     let tasksByStatus = {
       todo: [],
       inProgress: [],
       inReview: [],
       done: []
-    };  
+    };
 
 
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
@@ -98,12 +103,33 @@ export class TaskService {
     })).pipe(map(doc => {
       const task = doc.data();
       const status = task.status;
-      tasksByStatus[status].push(task); 
+
+      if (earliestDueDate == null || earliestDueDate > task.dueDate) {
+        earliestDueDate = task.dueDate
+      }
+
+      if (this.checkUrgency(task.dueDate)) {
+        amountOfUrgent++;
+      }
+      tasksByStatus[status].push(task);
       amountOfTasks++
     }))
-    .subscribe((ref) => {
-      this.amountOfTasks = amountOfTasks;
-      this.tasksByStatus = tasksByStatus;
-    })
+      .subscribe((ref) => {
+        this.earliestDueDate.next(earliestDueDate)
+        this.amountOfTasks = amountOfTasks;
+        this.amountOfUrgent = amountOfUrgent;
+        this.tasksByStatus = tasksByStatus;
+
+      })
   }
+
+  checkUrgency(timestamp: Timestamp) {    
+    const date = new Date()
+    const dateAsSeconds = Date.parse(date.toString()) / 1000;
+    const differenceInSeconds = timestamp.seconds - dateAsSeconds;
+    const differenceInDays = (differenceInSeconds / 60 / 60 / 24)
+    
+    return differenceInDays <= 5;
+  }
+
 }

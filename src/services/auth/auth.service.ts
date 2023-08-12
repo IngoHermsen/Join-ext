@@ -12,7 +12,8 @@ import { ViewService } from '../view/view.service';
 })
 export class AuthService {
   loggedIn: boolean = false;
-  userData: Subject<any> = new Subject;
+  userData: User;
+  userDataSet: Subject<boolean> = new Subject;
   userSpecValues: any;
   noMatchingData: Subject<boolean> = new Subject;
 
@@ -41,16 +42,10 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.SetUserData(result.user);
-        this.afAuth.authState.subscribe((user) => {
-          if (user && this.isLoggedIn == true) {
-
-            this.router.navigate(['summary']);
-          }
-        });
+      .then((result) => {        
+          this.SetUserData(result.user);
       })
-      .catch((error) => {
+      .catch(() => {
         this.noMatchingData.next(true);
         setTimeout(() => {
           this.noMatchingData.next(false)
@@ -63,8 +58,6 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then((result) => {
-        console.log('REGISTERED');
-
         this.SendVerificationMail();
         this.SetNewUserData(
           result.user,
@@ -104,7 +97,7 @@ export class AuthService {
   ) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
-    );  
+    );
 
     userRef.get().subscribe(ref => {
       const userDocData: any = ref.data();
@@ -122,7 +115,7 @@ export class AuthService {
         latestActiveProject: 'none',
       };
 
-      this.userData.next(userData);
+      this.userData = userData;
 
       return userRef.set(userData, {
         merge: true,
@@ -154,14 +147,22 @@ export class AuthService {
         latestActiveProject: userDocData.latestActiveProject,
       };
 
-      this.userData.next(userData);
+      this.userData = userData;
+      this.userDataSet.next(true)
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
+
+      this.afAuth.authState.subscribe((user) => {
+        if (user && this.isLoggedIn == true) {
+          this.router.navigate(['summary']);
+        }
+      });
 
       return userRef.set(userData, {
         merge: true,
       });
     })
+
   }
 
   // Sign out
