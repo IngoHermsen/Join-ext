@@ -5,6 +5,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
 import { TaskService } from '../task/task.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Task } from 'src/models/task';
 
 @Injectable({
   providedIn: 'root'
@@ -23,18 +25,18 @@ export class ProjectService implements OnInit {
   constructor(
     public afs: AngularFirestore,
     public taskService: TaskService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
 
   }
 
   ngOnInit(): void {
-    const date = new Date()
-    console.log('LOG', date.setUTCSeconds);
-    
+
   }
 
-  setActiveProject(projectId: string) { 
-    this.currentId   
+  setActiveProject(projectId: string) {
+    this.currentId
     const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
       this.projectTitle = ref.data().projectTitle;
@@ -47,26 +49,28 @@ export class ProjectService implements OnInit {
 
   saveNewTask(data: any) {
     const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())
-    if(data.taskId) {
-      
+    if (data.taskId) {
       projectCollectionRef
-      .collection('tasks').doc(data.taskId).update({
-        title: data.title,
-        description: data.description,
-        assignedUsers: data.assignedUsers,
-        dueDate: data.dueDate,
-        priority: data.priority,
-      })
+        .collection('tasks').doc(data.taskId).update({
+          title: data.title,
+          description: data.description,
+          assignedUsers: data.assignedUsers,
+          dueDate: data.dueDate,
+          priority: data.priority,
+        })
 
     } else
       projectCollectionRef
-      .collection('tasks').add(data)
-      .then((docRef) => {
-        
-        docRef.update({ taskId: docRef.id })
-      })
-   
+        .collection('tasks').add(data)
+        .then((docRef) => {
+
+          docRef.update({ taskId: docRef.id })
+          .then(() => {
+            this.taskService.setTaskAsObject(projectCollectionRef, docRef.id);
+          })          
+        })
   }
+
 
   createNewProject(object: any) {
     let projectData = new Project;
@@ -94,7 +98,7 @@ export class ProjectService implements OnInit {
     this.getProjectsAsJson(userId);
   }
 
-  getProjectsAsJson(userId: string) {      
+  getProjectsAsJson(userId: string) {
     let projectsData: any[] = [];
     this.userId = userId;
 
@@ -102,7 +106,7 @@ export class ProjectService implements OnInit {
     const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(userId);
 
     usersDocRef.get().pipe(mergeMap((ref) => {
-      const usersProjectIds = ref.data().projects;     
+      const usersProjectIds = ref.data().projects;
 
       return from(usersProjectIds).pipe(map((id) => {
         return id
@@ -122,11 +126,11 @@ export class ProjectService implements OnInit {
   setLatestProjectInUserDoc(id) {
     const currentUserAsJson = JSON.parse(localStorage.getItem('user'));
     const currentUserId: string = currentUserAsJson.uid
-    
+
 
     this.userCollectionRef.doc(currentUserId)
-    .update({ latestActiveProject: id })
-    
+      .update({ latestActiveProject: id })
+
   }
 }
 

@@ -16,6 +16,7 @@ export class TaskService {
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
+  addTaskToView: Subject<string> = new Subject;
   amountOfTasks: number = null;
   amountOfUrgent: number = null;
   earliestDueDate: Subject<Timestamp> = new Subject();
@@ -43,7 +44,6 @@ export class TaskService {
 
   saveTask(object: any, taskId: string | null) {
     let taskData = new Task(object);
-    console.log('OBJECT', object);
 
     taskData = {
       taskId: taskId,
@@ -55,7 +55,7 @@ export class TaskService {
       priority: object.priority,
       status: 'todo'
     }
-
+    
     this.newTask.next(taskData)
   }
 
@@ -74,12 +74,12 @@ export class TaskService {
   }
 
 
-  transformDueDate(timestampSeconds: number, asDate?: boolean) {
-    const dueDateAsDate = new Date(timestampSeconds * 1000);
-    if (asDate) {
-      return dueDateAsDate.toString();
+  transformDueDate(dueDate: Timestamp | Date) {    
+    if (dueDate instanceof Timestamp) {
+      const secondsAsDate = new Date(dueDate.seconds * 1000);   
+      return secondsAsDate.toLocaleDateString();    
     } else {      
-      return dueDateAsDate.toLocaleDateString();
+      return dueDate.toLocaleDateString();
     }
   }
 
@@ -123,12 +123,34 @@ export class TaskService {
       })
   }
 
-  checkUrgency(timestamp: Timestamp) {    
+  setTaskAsObject(projectDocRef: AngularFirestoreDocument, taskId: string) {
+    const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
+    console.log('this.taskByStatus', this.tasksByStatus);
+    console.log(taskId);
+    
+    tasksCollectionRef.doc(taskId)
+    .get()
+    .pipe(map((doc) => {
+      const task = doc.data();
+      const status = task.status;
+
+      if (this.checkUrgency(task.dueDate)) {
+        this.amountOfUrgent++;
+      }
+      this.tasksByStatus[status].push(task);
+      this.amountOfTasks++
+      console.log(this.tasksByStatus);
+    }))
+    .subscribe()
+  }
+
+
+  checkUrgency(timestamp: Timestamp) {
     const date = new Date()
     const dateAsSeconds = Date.parse(date.toString()) / 1000;
     const differenceInSeconds = timestamp.seconds - dateAsSeconds;
     const differenceInDays = (differenceInSeconds / 60 / 60 / 24)
-    
+
     return differenceInDays <= 5;
   }
 

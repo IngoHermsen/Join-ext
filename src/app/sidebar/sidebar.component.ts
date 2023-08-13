@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
 
@@ -16,6 +17,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     public viewService: ViewService,
     public taskService: TaskService,
+    private router: Router
   ) {
   }
 
@@ -26,7 +28,8 @@ export class SidebarComponent implements OnInit {
   }
 
   leaveTaskEditMode() {
-    setTimeout(() => {
+    console.log('THIS');
+        setTimeout(() => {
       this.taskService.activeTask.next(null);
       this.taskService.editMode = false;
     }, 500)

@@ -43,13 +43,13 @@ export class TaskDialogComponent implements OnInit {
   ngOnInit(): void {    
     this.dueDate = new Date()
 
-    this.taskService.activeTask.subscribe((task) => {      
+    this.taskService.activeTask.subscribe((task) => {  
+          
       if (task) {
-        this.setTaskFormValues(task)
+        this._setTaskFormValues(task)
         this.taskId = task.taskId;
       } else {
         this.taskForm.reset();
-        console.log(this.taskForm);
       }
     })
   }
@@ -109,16 +109,16 @@ export class TaskDialogComponent implements OnInit {
 
   // formGroup END
 
-  submitForm() {
+  submitForm() {    
     this.taskService.saveTask(this.taskForm.value, this.taskId);
     this.viewService.showDialog.next(false);
     this.taskForm.reset()
 
   }
 
-  setTaskFormValues(taskObj: Task) {    
+  _setTaskFormValues(taskObj: Task) {    
     this.assignedContacts = [];
-    const dueDateAsDate = this.taskService.transformDueDate(taskObj.dueDate['seconds'], true);
+    const dueDateAsDate = new Date(taskObj.dueDate['seconds'] * 1000);
     this.dueDate = new Date(dueDateAsDate);
     this.setAssignedContacts(taskObj.assignedUsers)
 

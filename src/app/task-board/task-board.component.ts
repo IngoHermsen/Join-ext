@@ -27,11 +27,7 @@ export class TaskBoardComponent implements OnInit {
         this.draggedOverSection = null;
       })
 
-    })
-    
-    this.taskService.newTask.subscribe((Task: Task) => {        
-      this.taskService.tasksByStatus['todo'].push(Task);
-    })
+    }) 
     
   }
 

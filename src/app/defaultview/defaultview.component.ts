@@ -102,9 +102,7 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.contactService.getContactList();
     this.initializeView(this._getUserData());
-    let date = new Date();
-    console.log(Date.parse(date.toDateString()));
-    
+    let date = new Date();    
         
   }
 

@@ -10,7 +10,7 @@
         <div class="task-description">{{ task.description }}</div>
         <div class="flex justify-content-between">
             <span class="content-label">Due Date:</span>
-            <span>{{ dueDateAsDateString }}</span>
+            <span>{{ dueDateAsString }}</span>
         </div>
         <span>
             <ng-container *ngFor="let user of task.assignedUsers">

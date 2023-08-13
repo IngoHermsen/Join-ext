@@ -11,8 +11,8 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent implements OnInit {
-  @Input() task: any;
-  dueDateAsDateString: string | Date;
+  @Input() task: Task;
+  dueDateAsString: string;
   status: string;
 
   constructor(
@@ -25,7 +25,7 @@ export class TaskCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dueDateAsDateString = this.taskService.transformDueDate(this.task.dueDate.seconds);
+    this.dueDateAsString = this.taskService.transformDueDate(this.task.dueDate);
     this.status = this._setStatus();
   }
 
@@ -54,4 +54,5 @@ export class TaskCardComponent implements OnInit {
     this.taskService.editMode = true
     this.taskService.activeTask.next(task);
   }
+
 }
