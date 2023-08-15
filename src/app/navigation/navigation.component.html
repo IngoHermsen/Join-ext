@@ -1,4 +1,5 @@
 <div class="nav-content">
+    <i *ngIf="!viewService.fixedNav" (click)="closeNav()" class="close-icon pi pi-times"></i>
     <img routerLink="summary" class="join-logo-white" src="./assets/join-logo-white.png" alt="white-join-logo">
     <div class="navigation-links flex flex-column gap-4">
         <a href="" routerLink="summary">

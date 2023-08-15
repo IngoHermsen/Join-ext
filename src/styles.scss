@@ -57,3 +57,27 @@ a {
     bottom: 32px;
     left: 32px;
 }
+
+.close-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    opacity: 0.6;
+
+    &:hover {
+        cursor: pointer;
+        opacity: unset;
+    }
+}
+
+.task-card {
+    border: 3px solid #e4e2e2;
+    border-radius: 40px;
+    padding: 12px;
+    width: 100%;
+    height: 250px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

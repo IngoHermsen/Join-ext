@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
@@ -15,6 +15,12 @@ import { ViewService } from 'src/services/view/view.service';
 
 })
 export class DefaultViewComponent implements OnInit, OnDestroy {
+@Input() showNav: boolean = false;
+
+@HostListener('window:resize', ['$event'])
+onResize(event) {
+  this.viewService.setNavViewMode()
+}
   viewInitialized: boolean = false;
   userId: string;
   show: boolean;
@@ -30,7 +36,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   taskSubscription: any;
   userDataSubscription: any;
   routeSubscription: any;
-
   // usersFirebaseDoc
 
 
@@ -42,7 +47,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     public router: Router
   ) {
-
     
     this.routeSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -129,6 +133,10 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
   showProjectDialog() {
     this.projectService.showDialog.next(true);
+  }
+
+  hideNav(value) {    
+    this.showNav = false;
   }
 }
 

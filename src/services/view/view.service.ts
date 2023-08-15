@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ViewService implements OnInit {
+  fixedNav: boolean;
   showSignUpNote: boolean = false;
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
@@ -15,10 +16,14 @@ export class ViewService implements OnInit {
     
   }
 
+  setNavViewMode() {
+    const windowWidth = window.innerWidth;
+      this.fixedNav = windowWidth > 1450 ? true : false;
+    }
+
   showSidebar(contentType: string) {
     this.dialogContent = contentType;
     this.showDialog.next(true);
-    
   }
 
 }

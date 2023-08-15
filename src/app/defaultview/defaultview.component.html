@@ -1,12 +1,22 @@
 <div class="default-view">
-    <app-navigation></app-navigation>
+    <div *ngIf="showNav && !this.viewService.fixedNav" (click)="showNav = false" class="shadow-layer"></div>
+    <div *ngIf="this.viewService.fixedNav" class="fixed-nav">
+        <app-navigation></app-navigation>
+    </div>
+    <div *ngIf="!this.viewService.fixedNav" [class.nav-visible]="showNav" class="sidebar-nav">
+        <div>
+            <app-navigation (closeEvent)="hideNav($event)"></app-navigation>
+        </div>
+    </div>
     <div class="content-area">
+        <i *ngIf="!this.viewService.fixedNav" (click)="showNav = true" class="burger pi pi-bars"></i>
         <div class="header">
             <h2>{{projectService.projectTitle}}</h2>
             <div class="flex">
                 <div class="card flex justify-content-center">
                     <p-dropdown [options]="projects" optionValue="projectId" optionLabel="projectTitle"
-                        (onChange)="changeActiveProject()" [(ngModel)]="activeProject" styleClass="w-16rem" placeholder="Select a project" ></p-dropdown>
+                        (onChange)="changeActiveProject()" [(ngModel)]="activeProject" styleClass="w-16rem"
+                        placeholder="Select a project"></p-dropdown>
                 </div>
                 <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>
@@ -16,10 +26,10 @@
             <p-avatar label={{avatarInitials}} styleClass="mr-2" shape="circle" size="large"
                 [style]="{ 'background-color': '#64748B', color: '#ffffff'}"></p-avatar>
         </div>
-        <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="viewService.showSidebar('task')" label="Add task" icon="pi pi-plus"
-            styleClass="p-button"></p-button>
-        <p-button *ngIf="currentRoute == '/contacts'" class="add-button" (click)="viewService.showSidebar('contacts')" label="Add contacts" icon="pi pi-plus"
-            styleClass="p-button"></p-button>
+        <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="viewService.showSidebar('task')"
+            label="Add task" icon="pi pi-plus" styleClass="p-button"></p-button>
+        <p-button *ngIf="currentRoute == '/contacts'" class="add-button" (click)="viewService.showSidebar('contacts')"
+            label="Add contacts" icon="pi pi-plus" styleClass="p-button"></p-button>
         <app-project-dialog></app-project-dialog>
         <app-sidebar></app-sidebar>
         <div class="outlet-content">
