@@ -11,6 +11,8 @@
     padding: 12px 0px;
 
     .join-logo-white {
+        max-height: 100%;
+
         -webkit-user-drag: none;
         &:hover {
             cursor: pointer;
@@ -19,6 +21,9 @@
 }
 
 .navigation-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
     margin-left: 80px;
     width: 100%;
 
@@ -39,4 +44,49 @@
 
 .legal-notice {
     height: calc(100vh/3);
+}
+
+@media only screen and (max-width: 520px) {
+    .nav-content {
+        padding-left: 12px;
+        position: fixed;
+        height: 50px;
+        z-index: 1;
+        height: 80px;
+        width: 100vw;
+        bottom: 0px;
+        flex-direction: unset;
+
+        .join-logo-white {
+            max-width: 50px;
+            // max-height: 100%;
+        }
+    }
+
+    .navigation-links {
+        max-width: 300px;
+        flex-direction: unset;
+        justify-content: space-around;
+        margin-left: 0px;
+
+        a { 
+            min-width: 90px;
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+
+            span {
+                margin-left: unset;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        .navigation-links {
+            span {
+                font-size: 14px;
+            }
+        }
+    }
+        
 }

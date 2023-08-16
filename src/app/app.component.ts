@@ -15,12 +15,15 @@ export class AppComponent implements OnInit {
   
   constructor(
     private router: Router,
+    public viewService: ViewService
     ) {}
 
   ngOnInit() {
     if(localStorage.getItem('user') !== 'null') {
       // this.router.navigate(['summary'])            
     }
+
+    this.viewService.setNavViewMode();    
   }
 }
 

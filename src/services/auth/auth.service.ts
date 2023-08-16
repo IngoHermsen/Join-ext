@@ -151,13 +151,14 @@ export class AuthService {
       this.userDataSet.next(true)
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
+      this.viewService.displayName = userData.firstName
 
       this.afAuth.authState.subscribe((user) => {
         if (user && this.isLoggedIn == true) {
           this.router.navigate(['summary']);
         }
       });
-
+    
       return userRef.set(userData, {
         merge: true,
       });

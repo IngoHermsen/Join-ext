@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { AfterViewInit, Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -9,17 +9,22 @@ export class ViewService implements OnInit {
   showSignUpNote: boolean = false;
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
+  displayName: string;
 
   constructor() { }
   
   ngOnInit(): void {
-    
+
   }
 
+
   setNavViewMode() {
+    const minViewWidth: number = 520;
+    const maxViewWidth: number = 1450
     const windowWidth = window.innerWidth;
-      this.fixedNav = windowWidth > 1450 ? true : false;
-    }
+
+    this.fixedNav = windowWidth < minViewWidth || windowWidth > maxViewWidth;
+  }
 
   showSidebar(contentType: string) {
     this.dialogContent = contentType;
