@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { take } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,11 +10,14 @@ import { Timestamp } from '@angular/fire/firestore';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  daytimeGreeting: string;
+  greetingName: string;
   deadlineDate: string;
-  months;
+  months: any;
 
   constructor(
     public taskService: TaskService,
+    public viewService: ViewService
   ) {
     this.taskService.earliestDueDate.subscribe(timestamp => {     
       const timestampAsDate = new Date(timestamp.seconds * 1000);      
@@ -27,7 +31,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.greetingName = localStorage.getItem('greetName');    
     this.setDisplayMonths();
+    this.daytimeGreeting = this.getDaytimeGreeting();
+    
+    
   }
 
   setDisplayMonths() {
@@ -45,7 +53,20 @@ export class DashboardComponent implements OnInit {
       10: 'November',
       11: 'December',
     }
+  }
 
+
+  getDaytimeGreeting() {
+    let date = new Date();
+    let hours = date.getHours();    
+    
+    if (hours <= 12) {
+      return "Good morning, "
+    } else if (hours <= 18) {
+      return "Good afternoon, "
+    } else {
+      return "Good evening, "
+    }
   }
 
 }

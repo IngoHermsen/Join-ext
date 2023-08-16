@@ -10,7 +10,6 @@ import { ViewService } from 'src/services/view/view.service';
 })
 
 export class AppComponent implements OnInit {
-  
   title = 'ng-join';
   
   constructor(
@@ -18,7 +17,7 @@ export class AppComponent implements OnInit {
     public viewService: ViewService
     ) {}
 
-  ngOnInit() {
+  ngOnInit() {    
     if(localStorage.getItem('user') !== 'null') {
       // this.router.navigate(['summary'])            
     }

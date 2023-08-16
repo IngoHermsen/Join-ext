@@ -151,7 +151,7 @@ export class AuthService {
       this.userDataSet.next(true)
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
-      this.viewService.displayName = userData.firstName
+      localStorage.setItem('greetName', userData.firstName)
 
       this.afAuth.authState.subscribe((user) => {
         if (user && this.isLoggedIn == true) {
@@ -172,6 +172,7 @@ export class AuthService {
       localStorage.removeItem('user');
       localStorage.removeItem('initials');
       localStorage.removeItem('activeProject');
+      localStorage.removeItem('greetName');
 
       this.router.navigate(['auth/login']);
     });
