@@ -1,21 +1,26 @@
-
-label {
-    margin: 24px 0px 8px;
-    display: block;
-}
-
-textarea {
-    min-height: 120px;
-    resize: vertical; 
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 400px;  
-
-    *{
-        width: 100%;
+    label {
+        margin: 24px 0px 8px;
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
     }
-}
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+
+        * > * {
+            width: 300px;
+        }
+        
+
+    }
+
+

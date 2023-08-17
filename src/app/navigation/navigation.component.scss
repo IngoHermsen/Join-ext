@@ -48,7 +48,7 @@
 
 @media only screen and (max-width: 520px) {
     .nav-content {
-        padding-left: 12px;
+        padding: 12px;        
         position: fixed;
         height: 50px;
         z-index: 1;
@@ -70,7 +70,7 @@
         margin-left: 0px;
 
         a { 
-            min-width: 90px;
+            min-width: 80px;
             display: flex;
             text-align: center;
             flex-direction: column;

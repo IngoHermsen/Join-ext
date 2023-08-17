@@ -29,28 +29,37 @@
     }
 
     .content-area {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         padding: 0px 32px;
-
-        .burger {
-            font-size: 24px;
-            margin-top: 12px;
-
-            &:hover {
-                cursor: pointer;
-            }
-        }
+        overflow-y: hidden;
 
         .header {
             display: flex;
-            height: 64px;
+            background-color: white;
+            margin: unset;
+            height: 80px;
             width: 100%;
             justify-content: space-between;
             align-items: center;
+
+            .burger {
+                font-size: 24px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+
         }
 
         .outlet-content {
             margin-top: 40px;
+            height: 100%;
+            overflow-y: auto;
+
         }
     }
 
@@ -60,4 +69,14 @@
             cursor: pointer;
         }
     }
+}
+
+@media only screen and (max-width: 620px) {
+    .default-view {
+        .content-area {
+            padding: 0px 8px;
+        }
+
+    }
+
 }
