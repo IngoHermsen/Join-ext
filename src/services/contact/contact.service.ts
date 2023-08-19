@@ -35,12 +35,13 @@ export class ContactService implements OnInit {
     this.newContactId.next(userId)
   }
 
-  getContactList() {    
-    this.usersContacts = [];    
+  getContactList() {        
+    this.usersContacts = [];        
     this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => { 
                        
       return from<string[]>(userSnapshot.data()['contacts']);
-    })).subscribe((contactId) => {      
+    })).subscribe((contactId) => {  
+
       this.contactUsersDoc = this.usersCollection.doc(contactId);
       this._getContactData(contactId);
       
@@ -62,7 +63,7 @@ export class ContactService implements OnInit {
           displayName: userData['firstName'] + " " + userData['lastName']
         }
       )      
-      this.usersContacts.push(contact);     
+      this.usersContacts.push(contact);           
     
       this._updateCharacters(contact.lastName.charAt(0));
     })

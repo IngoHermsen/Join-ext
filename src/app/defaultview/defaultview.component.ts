@@ -104,7 +104,6 @@ onResize(event) {
   }
 
   ngOnInit(): void {
-    this.contactService.getContactList();
     this.initializeView(this._getUserData());
     let date = new Date();    
         

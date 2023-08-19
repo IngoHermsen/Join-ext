@@ -34,6 +34,8 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('Contact init');
+    
     setTimeout(() => {
       this.isLoading = false;
     }, 800);
