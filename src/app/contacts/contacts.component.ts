@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { arrayUnion } from '@angular/fire/firestore';
 import { from, mergeMap } from 'rxjs';
@@ -12,11 +12,10 @@ import { __values } from 'tslib';
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent implements OnInit, AfterViewInit {
   usersCollection = this.afs.collection('users');
   contactUsersDoc = null;
   characters = [];
-  isLoading: boolean = true;
 
   constructor(
     public afs: AngularFirestore,
@@ -34,16 +33,10 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Contact init');
-    
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 800);
-
-    this.contactService.getContactList()
   }
 
   ngAfterViewInit(): void {
+    this.contactService.getContactList()
 
   }
 

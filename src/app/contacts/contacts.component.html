@@ -1,8 +1,8 @@
 <h1>Contacts</h1>
-<div *ngIf="isLoading" class="loading-screen">
+<div *ngIf="!contactService.contactListComplete" class="loading-screen">
     <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
 </div>
-<div *ngIf="!isLoading" class="contacts-area">
+<div *ngIf="contactService.contactListComplete" class="contacts-area">
     <div *ngIf="contactService.usersContacts.length == 0" class="no-contacts">
         <span>You have no assignable contacts.</span>
         <div class="add-new">

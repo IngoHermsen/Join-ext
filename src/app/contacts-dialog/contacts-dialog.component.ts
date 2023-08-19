@@ -31,11 +31,14 @@ export class ContactsDialogComponent {
           fullName: userData['firstName'] + ' ' + userData['lastName'],
           email: userData['email'],
           initials: userData['initials'],
-          isContact: this.userIsContact(userData['uid'])
-        }        
+          isContact: this.userIsContact(userData['uid']),
+          entryAdded: false
+        }
 
         if (dbUser.uid != contactService.activeUserId) {
           this.users.push(dbUser);
+          console.log(this.users);
+
         }
       })
     })
@@ -44,8 +47,8 @@ export class ContactsDialogComponent {
   userIsContact(userId) {
     let value = false;
     for (let i = 0; i < this.contactService.usersContacts.length; i++) {
-      if(userId == this.contactService.usersContacts[i].uid) {
-        value = true; 
+      if (userId == this.contactService.usersContacts[i].uid) {
+        value = true;
         break;
       }
     }
@@ -73,6 +76,12 @@ export class ContactsDialogComponent {
     } else {
       return false;
     }
+  }
+
+  addToContactList(userId: string, index: number) {
+    this.users[index].entryAdded = true;
+    this.contactService.addUserAsContact(userId)
+
   }
 
 

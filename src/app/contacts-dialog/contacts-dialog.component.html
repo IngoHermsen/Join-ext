@@ -4,7 +4,7 @@
 </span>
 <div class="result-area">
 
-    <ng-container *ngFor="let user of users; index as i">
+    <ng-container *ngFor="let user of users; index as index">
         <div *ngIf="inputValue.length == 0 || inputMatches(user)" class="user-result">
             <div class="left">
                 <p-avatar label="{{user.initials}}" pBadge styleClass="mr-5" value="4" size="large"
@@ -14,7 +14,7 @@
                     <span class="user-email">{{ user.email }}</span>
                 </div>
             </div>
-            <p-button [disabled]="user.isContact" (click)="contactService.addUserAsContact(user.uid)" draggable="false" icon="pi pi-plus"
+            <p-button [disabled]="user.isContact || user.entryAdded" (click)="this.addToContactList(user.uid, index)" draggable="false" icon="pi pi-plus"
                 styleClass="p-button-secondary"></p-button>
         </div>
     </ng-container>

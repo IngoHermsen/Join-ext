@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat
 import { Subject, from, mergeMap } from 'rxjs';
 import { Contact } from 'src/models/contact';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +13,9 @@ export class ContactService implements OnInit {
   showDialog: Subject<boolean> = new Subject;
   activeUserId: string;
   activeUsersDoc: AngularFirestoreDocument;
-  contactUsersDoc: AngularFirestoreDocument;
   newContactId: Subject<string> = new Subject;
   usersContacts: Array<Contact>;
+  contactListComplete: boolean;
   characters = [];
 
   constructor(
@@ -35,55 +36,79 @@ export class ContactService implements OnInit {
     this.newContactId.next(userId)
   }
 
-  getContactList() {        
-    this.usersContacts = [];        
-    this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => { 
-                       
+  getContactList() {
+    this.usersContacts = [];
+    this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => {
+
       return from<string[]>(userSnapshot.data()['contacts']);
-    })).subscribe((contactId) => {  
+    })).subscribe({
+      next: (contactId) => {
+        const contactUsersDoc: AngularFirestoreDocument = this.usersCollection.doc(contactId);
+        contactUsersDoc.get().subscribe((userSnapshot) => {
+          const userData = userSnapshot.data();
+          const contact: Contact = new Contact(
+            {
+              uid: userData['uid'],
+              firstName: userData['firstName'],
+              lastName: userData['lastName'],
+              initials: userData['initials'],
+              email: userData['email'],
+              displayName: userData['firstName'] + " " + userData['lastName']
+            }
+          )
+          this.usersContacts.push(contact);            
 
-      this.contactUsersDoc = this.usersCollection.doc(contactId);
-      this._getContactData(contactId);
-      
-    })
+          this._updateCharacters(contact.lastName.charAt(0));
+        })
+        // this._getContactData(contactId);
+      },
+      complete: () => {
+        setTimeout(() => {
+            this.contactListComplete = true;
+        }, 500)
+      }
+
+
+    },)
   }
 
 
-  _getContactData(userId) {    
-    const contactUserDoc = this.usersCollection.doc(userId);
-    contactUserDoc.get().subscribe((userSnapshot) => {
-      const userData = userSnapshot.data();
-      const contact: Contact = new Contact(
-        {
-          uid: userData['uid'],
-          firstName: userData['firstName'],
-          lastName: userData['lastName'],
-          initials: userData['initials'],
-          email: userData['email'],
-          displayName: userData['firstName'] + " " + userData['lastName']
-        }
-      )      
-      this.usersContacts.push(contact);           
-    
-      this._updateCharacters(contact.lastName.charAt(0));
-    })
-  }
+  // _getContactData(userId) {
+  //   contactUsersDoc.get().subscribe((userSnapshot) => {
+  //     const userData = userSnapshot.data();
+  //     const contact: Contact = new Contact(
+  //       {
+  //         uid: userData['uid'],
+  //         firstName: userData['firstName'],
+  //         lastName: userData['lastName'],
+  //         initials: userData['initials'],
+  //         email: userData['email'],
+  //         displayName: userData['firstName'] + " " + userData['lastName']
+  //       }
+  //     )
+  //     this.usersContacts.push(contact);
+
+  //     this._updateCharacters(contact.lastName.charAt(0));
+  //   })
+  // }
 
   _updateCharacters(character: string) {
     if (this.characters.indexOf(character) === -1) {
       this.characters.push(character)
       this.sortCharacters();
+      console.log(this.characters);
+
     }
   }
 
   sortCharacters() {
     this.characters.sort((a, b) => {
-      switch(a < b) {
-        case true: return 1; break;
-        default: return -1;
+      switch (a < b) {
+        case true: return -1; break;
+        default: return 1;
       }
     })
-    
+
   }
 
   lastNameMatchesCharacter(contactsLastName: any, character: string) {
