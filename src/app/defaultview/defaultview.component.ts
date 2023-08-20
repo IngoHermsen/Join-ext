@@ -100,7 +100,7 @@ onResize(event) {
   }
 
   ngAfterViewInit() {
-   
+   this.contactService.getContactList()
   }
 
   ngOnInit(): void {

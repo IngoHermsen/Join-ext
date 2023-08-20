@@ -37,6 +37,8 @@ export class ContactService implements OnInit {
   }
 
   getContactList() {
+    console.log('WAS HERE');
+    
     this.usersContacts = [];
     this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => {
 
@@ -60,7 +62,6 @@ export class ContactService implements OnInit {
 
           this._updateCharacters(contact.lastName.charAt(0));
         })
-        // this._getContactData(contactId);
       },
       complete: () => {
         setTimeout(() => {
@@ -71,26 +72,6 @@ export class ContactService implements OnInit {
 
     },)
   }
-
-
-  // _getContactData(userId) {
-  //   contactUsersDoc.get().subscribe((userSnapshot) => {
-  //     const userData = userSnapshot.data();
-  //     const contact: Contact = new Contact(
-  //       {
-  //         uid: userData['uid'],
-  //         firstName: userData['firstName'],
-  //         lastName: userData['lastName'],
-  //         initials: userData['initials'],
-  //         email: userData['email'],
-  //         displayName: userData['firstName'] + " " + userData['lastName']
-  //       }
-  //     )
-  //     this.usersContacts.push(contact);
-
-  //     this._updateCharacters(contact.lastName.charAt(0));
-  //   })
-  // }
 
   _updateCharacters(character: string) {
     if (this.characters.indexOf(character) === -1) {
