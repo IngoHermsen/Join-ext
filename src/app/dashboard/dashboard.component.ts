@@ -3,6 +3,7 @@ import { TaskService } from '../../services/task/task.service';
 import { take } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
+import { ProjectService } from 'src/services/project/project.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit {
   months: any;
 
   constructor(
+    public projectService: ProjectService,
     public taskService: TaskService,
     public viewService: ViewService
   ) {

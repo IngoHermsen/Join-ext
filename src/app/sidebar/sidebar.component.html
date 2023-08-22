@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper card flex justify-content-center">
-    <p-sidebar (onHide)="leaveTaskEditMode()" [(visible)]="isVisible" class="sidebar flex justify-content-center"
-        styleClass="min-w-max">
+        <p-sidebar (onHide)="leaveTaskEditMode()" [(visible)]="isVisible" class="sidebar flex justify-content-center"
+            styleClass="min-w-5rem">
             <app-task-dialog *ngIf="viewService.dialogContent == 'task'"></app-task-dialog>
-        <app-contacts-dialog *ngIf="viewService.dialogContent == 'contacts'"></app-contacts-dialog>
-    </p-sidebar>
+            <app-contacts-dialog *ngIf="viewService.dialogContent == 'contacts'"></app-contacts-dialog>
+        </p-sidebar>
 </div>

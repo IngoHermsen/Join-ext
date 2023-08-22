@@ -36,9 +36,7 @@ export class ContactService implements OnInit {
     this.newContactId.next(userId)
   }
 
-  getContactList() {
-    console.log('WAS HERE');
-    
+  getContactList() {    
     this.usersContacts = [];
     this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => {
 

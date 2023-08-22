@@ -36,7 +36,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.contactService.getContactList()
+
   }
 
 }

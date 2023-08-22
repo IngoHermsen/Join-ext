@@ -15,12 +15,15 @@ export class ProjectService implements OnInit {
   projectCollectionRef = this.afs.collection('projects');
   userCollectionRef = this.afs.collection('users');
 
+  test: string;
+
   userId: string;
   projectsAsJson: Subject<any> = new Subject;
   projectTitle: string = null;
 
   currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
+  taskUpdates: Subject<any> = new Subject;
 
   constructor(
     public afs: AngularFirestore,
@@ -28,11 +31,11 @@ export class ProjectService implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-
+this.test = 'HELLO'
+    
   }
 
   ngOnInit(): void {
-
   }
 
   setActiveProject(projectId: string) {
@@ -50,25 +53,31 @@ export class ProjectService implements OnInit {
   saveNewTask(data: any) {
     const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())
     if (data.taskId) {
+      const taskFormEntries = {
+        title: data.title,
+        description: data.description,
+        assignedUsers: data.assignedUsers,
+        dueDate: data.dueDate,
+        priority: data.priority,
+      }
       projectCollectionRef
-        .collection('tasks').doc(data.taskId).update({
-          title: data.title,
-          description: data.description,
-          assignedUsers: data.assignedUsers,
-          dueDate: data.dueDate,
-          priority: data.priority,
+        .collection('tasks').doc(data.taskId).update(taskFormEntries)
+        .then(() => {
+          this.taskUpdates.next(taskFormEntries)
         })
 
-    } else
+    } else {
       projectCollectionRef
         .collection('tasks').add(data)
         .then((docRef) => {
 
           docRef.update({ taskId: docRef.id })
-          .then(() => {
-            this.taskService.setTaskAsObject(projectCollectionRef, docRef.id);
-          })          
+            .then(() => {
+              this.taskService.setTaskAsObject(projectCollectionRef, docRef.id);
+            })
         })
+    }
+
   }
 
 

@@ -13,6 +13,7 @@ import { TaskService } from 'src/services/task/task.service';
 export class TaskBoardComponent implements OnInit {
   draggedTask: Task = null;
   draggedOverSection: string = null;
+  editedTask: Task = null;
 
   //subscriptions
   projectSubscription: any;
@@ -27,12 +28,31 @@ export class TaskBoardComponent implements OnInit {
         this.draggedOverSection = null;
       })
 
-    }) 
-    
+    })
+
+
   }
 
-  ngOnInit(): void {}
-  
+  ngOnInit(): void {
+
+    this.taskService.activeTask.subscribe((task) => {
+      if (task) {
+        this.editedTask = task;
+      }
+    })
+
+    this.projectService.taskUpdates.subscribe((taskEntries) => {
+      this.editedTask.title = taskEntries.title,
+        this.editedTask.description = taskEntries.description,
+        this.editedTask.assignedUsers = taskEntries.assignedUsers,
+        this.editedTask.dueDate = taskEntries.dueDate,
+        this.editedTask.priority = taskEntries.priority
+
+      this._updateTaskView(this.editedTask)
+    })
+
+  }
+
 
   dragStart(task: Task) {
     this.draggedTask = task;
@@ -54,14 +74,21 @@ export class TaskBoardComponent implements OnInit {
     }
   }
 
-  _updateTaskView(task: Task, newStatus: string) {
-    const taskIndex = this._findIndex(task);
-    const previousTaskStatus = task.status
+  _updateTaskView(task: Task, newStatus?: string) {
+    const previousTaskStatus = task.status;
+    const index = this._findIndex(task)
 
-    this.taskService.tasksByStatus[previousTaskStatus].splice(taskIndex, 1);
+    this.taskService.tasksByStatus[previousTaskStatus].splice(index, 1);
 
-    task.status = newStatus
-    this.taskService.tasksByStatus[newStatus].push(task);
+    if (newStatus) {
+      task.status = newStatus
+      this.taskService.tasksByStatus[newStatus].push(task);
+    } else {
+      const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
+      statusArray.splice(index, 0, task)
+      this.editedTask = null;
+      statusArray.slice([], statusArray)      
+    }
 
   }
 
