@@ -20,8 +20,10 @@ export class NavigationComponent implements OnInit {
     
   }
 
-  closeNav() {   
-    this.closeEvent.emit(true)
+  closeNav() {  
+    if (!this.viewService.fixedNav) {
+      this.closeEvent.emit(true)
+    }
   }
 
 }

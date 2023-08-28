@@ -2,12 +2,12 @@
     <i *ngIf="!viewService.fixedNav" (click)="closeNav()" class="close-icon pi pi-times"></i>
     <img routerLink="summary" class="join-logo-white" src="./assets/join-logo-white.png" alt="white-join-logo">
     <div class="navigation-links">
-        <a href="" routerLink="summary">
+        <a (click)="closeNav()" href="" routerLink="summary">
             <i class="pi pi-map"></i><span>Summary</span> </a>
-        <a href="" routerLink="tasks">
+        <a (click)="closeNav()"  href="" routerLink="tasks">
             <i class="pi pi-th-large"></i><span>Task Board</span>
         </a>
-        <a href="" routerLink="contacts">
+        <a (click)="closeNav()"  href="" routerLink="contacts">
             <i class="pi pi-user-edit"></i><span>Contacts</span>
         </a>
     </div>
