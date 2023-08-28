@@ -58,16 +58,16 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then((result) => {
-        this.SendVerificationMail();
+        // this.SendVerificationMail();
         this.SetNewUserData(
           result.user,
           formData
         );
         this.router.navigate(['auth/login']);
-        this.viewService.showSignUpNote = true;
-        setTimeout(() => {
-          this.viewService.showSignUpNote = false;
-        }, 4000)
+        // this.viewService.showSignUpNote = true;
+        // setTimeout(() => {
+        //   this.viewService.showSignUpNote = false;
+        // }, 4000)
       })
       .catch((error) => {
         window.alert(error.message);
@@ -87,7 +87,8 @@ export class AuthService {
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
 
-    return user !== null && user.emailVerified !== false ? true : false;
+    return user !== null ? true : false;
+    // return user !== null && user.emailVerified !== false ? true : false;
   }
 
 

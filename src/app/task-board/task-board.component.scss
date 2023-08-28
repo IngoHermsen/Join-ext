@@ -26,8 +26,16 @@
         .card-wrapper {
             width: 90%;
             max-width: 250px;
-        }
+            border-radius: 25px;
+            background-color: transparent;
 
+
+        }   
+
+        .dragging {
+            color: red;
+            opacity: 0.4;
+        }
 
     }
 

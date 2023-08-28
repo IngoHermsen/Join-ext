@@ -12,8 +12,13 @@ import { TaskService } from 'src/services/task/task.service';
 })
 export class TaskBoardComponent implements OnInit {
   draggedTask: Task = null;
+  draggedHTMLElement: HTMLElement = null;
   draggedOverSection: string = null;
   editedTask: Task = null;
+  hideAllTasks: boolean = false;
+  hideSection: string = null;
+  sectionView: any = {}
+  
 
   //subscriptions
   projectSubscription: any;
@@ -22,20 +27,33 @@ export class TaskBoardComponent implements OnInit {
     public projectService: ProjectService,
     public taskService: TaskService
   ) {
-    addEventListener('dragstart', (e) => {
-      addEventListener('dragend', (e) => {
-        this.draggedTask = null;
-        this.draggedOverSection = null;
-      })
+
+    addEventListener('drag', e => {
+      this.draggedHTMLElement = e.target as HTMLElement;
+      this.draggedHTMLElement.classList.add('dragging');
+      console.log(this.draggedHTMLElement.classList);
+          this.setTaskView(window.innerWidth);
+    });
+
+    addEventListener('dragend', e => {
+      this.draggedHTMLElement.classList.remove('dragging');
+      this.draggedHTMLElement = null;
+      this.draggedTask = null;
+      this.draggedOverSection = null;
 
     })
-
-
   }
 
   ngOnInit(): void {
 
-    this.taskService.activeTask.subscribe((task) => {
+    this.sectionView = {
+      todo: true,
+      inProgress: true,
+      inReview: true,
+      done: true
+    }
+
+    this.taskService.activeTask.subscribe(task => {
       if (task) {
         this.editedTask = task;
       }
@@ -53,10 +71,8 @@ export class TaskBoardComponent implements OnInit {
 
   }
 
-
   dragStart(task: Task) {
     this.draggedTask = task;
-
   }
 
   drop(status: string) {
@@ -65,6 +81,9 @@ export class TaskBoardComponent implements OnInit {
       this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
       this.draggedTask = null;
       this.draggedOverSection = null;
+      this.hideAllTasks = false;
+      console.log(this.hideAllTasks);
+      
     }
   }
 
@@ -87,7 +106,7 @@ export class TaskBoardComponent implements OnInit {
       const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
       statusArray.splice(index, 0, task)
       this.editedTask = null;
-      statusArray.slice([], statusArray)      
+      statusArray.slice([], statusArray)
     }
 
   }
@@ -101,5 +120,12 @@ export class TaskBoardComponent implements OnInit {
       }
     }
     return index;
+  }
+
+
+  setTaskView(screenWidth: number) {
+    if(screenWidth <= 620) {
+      this.hideAllTasks = true;
+    }
   }
 }

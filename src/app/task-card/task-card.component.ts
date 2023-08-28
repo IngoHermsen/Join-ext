@@ -12,6 +12,7 @@ import { ViewService } from 'src/services/view/view.service';
 })
 export class TaskCardComponent implements OnInit {
   @Input() task: Task;
+  @Input() dragging: boolean = false;
   dueDateAsString: string;
   status: string;
 
