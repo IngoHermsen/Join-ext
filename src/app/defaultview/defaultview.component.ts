@@ -15,12 +15,12 @@ import { ViewService } from 'src/services/view/view.service';
 
 })
 export class DefaultViewComponent implements OnInit, OnDestroy {
-@Input() showNav: boolean = false;
+  @Input() showNav: boolean = false;
 
-@HostListener('window:resize', ['$event'])
-onResize(event) {
-  this.viewService.setNavViewMode()
-}
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.viewService.setNavViewMode()
+  }
   viewInitialized: boolean = false;
   userId: string;
   show: boolean;
@@ -28,6 +28,7 @@ onResize(event) {
   activeProject: string;
   projectTitle: string;
   avatarInitials: string;
+  showAvatarMenu: boolean = false;
   currentRoute: string;
   routeIsContacts: boolean = null;
 
@@ -47,14 +48,14 @@ onResize(event) {
     public authService: AuthService,
     public router: Router
   ) {
-    
+
     this.routeSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
       }
     });
 
-    this.projectService.projectsAsJson.subscribe((data) => {      
+    this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
     });
 
@@ -63,7 +64,7 @@ onResize(event) {
 
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
       this.projectService.setActiveProject(value);
-      
+
     });
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
@@ -75,16 +76,16 @@ onResize(event) {
   _getUserData() {
     if (localStorage.getItem('user') !== 'null' && !this.authService.loggedIn) {
       return this._getUserDataFromLocalStorage()
-    } else {      
+    } else {
       return this._getUserDataFromAuth()
     }
   }
 
-  initializeView(user: User) {        
+  initializeView(user: User) {
     if (!this.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
-      this.projectService.getProjectsAsJson(user.uid);      
+      this.projectService.getProjectsAsJson(user.uid);
       this.projectService.currentId.next(user.latestActiveProject)
 
       this.viewInitialized = true;
@@ -100,13 +101,13 @@ onResize(event) {
   }
 
   ngAfterViewInit() {
-   this.contactService.getContactList()
+    this.contactService.getContactList()
   }
 
   ngOnInit(): void {
     this.initializeView(this._getUserData());
-    let date = new Date();    
-        
+    let date = new Date();
+
   }
 
   ngOnDestroy(): void {
@@ -126,7 +127,7 @@ onResize(event) {
     return pseudoUser
   }
 
-  _getUserDataFromAuth() {    
+  _getUserDataFromAuth() {
     return this.authService.userData;
   }
 
@@ -134,8 +135,12 @@ onResize(event) {
     this.projectService.showDialog.next(true);
   }
 
-  hideNav(value) {    
+  hideNav(value) {
     this.showNav = false;
+  }
+
+  toggleAvatarMenu() {
+    this.showAvatarMenu = !this.showAvatarMenu
   }
 }
 

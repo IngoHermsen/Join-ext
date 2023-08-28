@@ -21,10 +21,11 @@
                 <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>
             </div>
-            <button (click)="authService.SignOut()">SIGN OUT</button>
-
-            <p-avatar label={{avatarInitials}} styleClass="mr-2" shape="circle" size="large"
-                [style]="{ 'background-color': '#64748B', color: '#ffffff'}"></p-avatar>
+            <div class="avatar-area">
+                <div *ngIf="showAvatarMenu" class="sign-out-button" (click)="authService.SignOut()">SIGN OUT</div>
+                <p-avatar (click)="toggleAvatarMenu()" label={{avatarInitials}} styleClass="mr-2" shape="circle" size="large"
+                    [style]="{ 'background-color': '#64748B', color: '#ffffff'}"></p-avatar>
+            </div>
         </div>
         <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="viewService.showSidebar('task')"
             label="Add task" icon="pi pi-plus" styleClass="p-button"></p-button>

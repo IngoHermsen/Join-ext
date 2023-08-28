@@ -52,6 +52,31 @@
                 }
             }
 
+            .avatar-area {
+                user-select: none;
+                color: white;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                position: relative;
+
+                .sign-out-button {
+                    text-align: right;
+                    font-weight: 500;
+                    position: absolute;
+                    width: 100px;
+                    top: 50px;
+                    right: 0px;
+                    color: rgb(100, 116, 139);
+                    height: 100% !important;
+                    padding: 4px 0px 4px 0px;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
 
         }
 

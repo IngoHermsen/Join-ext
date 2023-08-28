@@ -69,7 +69,7 @@
             min-width: 100%;
             text-align: center;
 
-            .content {
+            .card-content {
                 display: flex;
                 width: 100%;
                 justify-content: center;
@@ -122,6 +122,58 @@
         span:nth-child(2) {
             color: #29ABE2;
         }
-        
+
     }
+}
+
+
+@media only screen and (max-width: 830px) {
+    .content {
+        .greeting {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .content {
+
+        .card-area {
+
+            .small {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .content {
+        .card-area {
+            justify-content: unset;
+
+            .small {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .content {
+        .card-area {
+            .large {
+                .card-content {
+                    .left {
+                        gap: 8px;
+                    }
+                }
+
+            }
+        }
+    }
+
+
 }

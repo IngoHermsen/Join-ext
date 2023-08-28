@@ -64,10 +64,10 @@ export class AuthService {
           formData
         );
         this.router.navigate(['auth/login']);
-        // this.viewService.showSignUpNote = true;
-        // setTimeout(() => {
-        //   this.viewService.showSignUpNote = false;
-        // }, 4000)
+        this.viewService.showSignUpNote = true;
+        setTimeout(() => {
+          this.viewService.showSignUpNote = false;
+        }, 4000)
       })
       .catch((error) => {
         window.alert(error.message);
