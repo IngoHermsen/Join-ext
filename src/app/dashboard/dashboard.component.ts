@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
-import { take } from 'rxjs';
+import { take, timestamp } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
 import { ProjectService } from 'src/services/project/project.service';
@@ -10,7 +10,7 @@ import { ProjectService } from 'src/services/project/project.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   daytimeGreeting: string;
   greetingName: string;
   deadlineDate: string;
@@ -21,28 +21,26 @@ export class DashboardComponent implements OnInit {
     public taskService: TaskService,
     public viewService: ViewService
   ) {
-    this.taskService.earliestDueDate.subscribe(timestamp => {     
-      const timestampAsDate = new Date(timestamp.seconds * 1000);      
-      const day: number = timestampAsDate.getDate();            
-      const year: number = timestampAsDate.getFullYear();
-      const month: string = this.months[timestampAsDate.getMonth()];
-      
-      this.deadlineDate = `${month} ${day}, ${year}`;
+    console.log('was here');
 
+    this.taskService.earliestDueDateSubject.subscribe(timestamp => {
+      this.getDeadlineDateString(timestamp);
     })
   }
 
   ngOnInit(): void {
-    this.greetingName = localStorage.getItem('greetName');    
+    this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
     this.daytimeGreeting = this.getDaytimeGreeting();
-    
-    
+    this.deadlineDate = localStorage.getItem('earliestDueDate')
+  }
+
+  ngAfterViewInit(): void {
   }
 
   setDisplayMonths() {
     this.months = {
-      0: 'January', 
+      0: 'January',
       1: 'February',
       2: 'March',
       3: 'April',
@@ -60,8 +58,8 @@ export class DashboardComponent implements OnInit {
 
   getDaytimeGreeting() {
     let date = new Date();
-    let hours = date.getHours();    
-    
+    let hours = date.getHours();
+
     if (hours <= 12) {
       return "Good morning, "
     } else if (hours <= 18) {
@@ -69,6 +67,17 @@ export class DashboardComponent implements OnInit {
     } else {
       return "Good evening, "
     }
+  }
+
+  getDeadlineDateString(timestamp: Timestamp) {
+    const timestampAsDate = new Date(timestamp.seconds * 1000);
+    const day: number = timestampAsDate.getDate();
+    const month: string = this.months[timestampAsDate.getMonth()];
+    const year: number = timestampAsDate.getFullYear();
+
+    this.deadlineDate = `${month} ${day}, ${year}`;
+    localStorage.setItem('earliestDueDate', this.deadlineDate)
+
   }
 
 }

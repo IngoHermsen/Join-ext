@@ -174,6 +174,7 @@ export class AuthService {
       localStorage.removeItem('initials');
       localStorage.removeItem('activeProject');
       localStorage.removeItem('greetName');
+      localStorage.removeItem('earliestDueDate')
 
       this.router.navigate(['auth/login']);
     });

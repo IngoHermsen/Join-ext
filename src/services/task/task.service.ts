@@ -6,6 +6,7 @@ import { Contact } from 'src/models/contact';
 import { Router } from '@angular/router';
 import { ProjectService } from '../project/project.service';
 import { Timestamp } from '@angular/fire/firestore';
+import { ViewService } from '../view/view.service';
 
 
 @Injectable({
@@ -19,12 +20,20 @@ export class TaskService {
   addTaskToView: Subject<string> = new Subject;
   amountOfTasks: number = null;
   amountOfUrgent: number = null;
-  earliestDueDate: Subject<Timestamp> = new Subject();
+  earliestDueDateSubject: Subject<Timestamp> = new Subject();
+  initTest: string = null;
+
 
   constructor(
     public afs: AngularFirestore,
     public router: Router,
+    public viewService: ViewService,
   ) {
+    console.log('INIT TEST', this.initTest);
+        
+    this.initTest = 'initiated';
+
+    
     this.tasksByStatus = {
       todo: [],
       inProgress: [],
@@ -55,7 +64,7 @@ export class TaskService {
       priority: object.priority,
       status: 'todo'
     }
-    
+
     this.newTask.next(taskData)
   }
 
@@ -74,11 +83,11 @@ export class TaskService {
   }
 
 
-  transformDueDate(dueDate: Timestamp | Date) {    
+  transformDueDate(dueDate: Timestamp | Date) {
     if (dueDate instanceof Timestamp) {
-      const secondsAsDate = new Date(dueDate.seconds * 1000);   
-      return secondsAsDate.toLocaleDateString();    
-    } else {      
+      const secondsAsDate = new Date(dueDate.seconds * 1000);
+      return secondsAsDate.toLocaleDateString();
+    } else {
       return dueDate.toLocaleDateString();
     }
   }
@@ -95,7 +104,6 @@ export class TaskService {
       done: []
     };
 
-
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
 
     tasksCollectionRef.get().pipe(mergeMap(ref => {
@@ -104,7 +112,7 @@ export class TaskService {
       const task = doc.data();
       const status = task.status;
 
-      if (earliestDueDate == null || earliestDueDate > task.dueDate) {
+      if (earliestDueDate == null || task.dueDate < earliestDueDate) {
         earliestDueDate = task.dueDate
       }
 
@@ -115,7 +123,7 @@ export class TaskService {
       amountOfTasks++
     }))
       .subscribe((ref) => {
-        this.earliestDueDate.next(earliestDueDate)
+        this.earliestDueDateSubject.next(earliestDueDate);
         this.amountOfTasks = amountOfTasks;
         this.amountOfUrgent = amountOfUrgent;
         this.tasksByStatus = tasksByStatus;
@@ -127,21 +135,21 @@ export class TaskService {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
     console.log('this.taskByStatus', this.tasksByStatus);
     console.log(taskId);
-    
-    tasksCollectionRef.doc(taskId)
-    .get()
-    .pipe(map((doc) => {
-      const task = doc.data();
-      const status = task.status;
 
-      if (this.checkUrgency(task.dueDate)) {
-        this.amountOfUrgent++;
-      }
-      this.tasksByStatus[status].push(task);
-      this.amountOfTasks++
-      console.log(this.tasksByStatus);
-    }))
-    .subscribe()
+    tasksCollectionRef.doc(taskId)
+      .get()
+      .pipe(map((doc) => {
+        const task = doc.data();
+        const status = task.status;
+
+        if (this.checkUrgency(task.dueDate)) {
+          this.amountOfUrgent++;
+        }
+        this.tasksByStatus[status].push(task);
+        this.amountOfTasks++
+        console.log(this.tasksByStatus);
+      }))
+      .subscribe()
   }
 
 
