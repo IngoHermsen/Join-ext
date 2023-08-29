@@ -10,21 +10,22 @@
     </div>
     <div class="content-area">
         <div class="header">
-            <i *ngIf="!this.viewService.fixedNav" (click)="showNav = true" class="burger pi pi-bars"></i>
-            <h2>{{projectService.projectTitle}}</h2>
-            <div class="flex">
-                <div class="card flex justify-content-center">
-                    <p-dropdown [options]="projects" optionValue="projectId" optionLabel="projectTitle"
-                        (onChange)="changeActiveProject()" [(ngModel)]="activeProject" styleClass="w-16rem"
-                        placeholder="Select a project"></p-dropdown>
-                </div>
-                <p-button draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
+            <div class="left-area">
+                <i *ngIf="!this.viewService.fixedNav" class="burger pi pi-bars" (click)="showNav = true"></i>
+                <p-menu (onShow)="toggleDropdown()" (onHide)="toggleDropdown()" #menu
+                    [model]="projectService.projectDropdownItems" [popup]="true"></p-menu>
+                <h2 (click)="menu.toggle($event)"> <i class="pi pi-angle-down"
+                        [class.turn-icon]="showProjectDropdown"></i>
+                    {{ projectService.projectTitle }}
+                </h2>
+
+                <p-button class="ml-8" draggable="false" (click)="showProjectDialog()" label="New Project" icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>
             </div>
+
             <div class="avatar-area">
                 <div *ngIf="showAvatarMenu" class="sign-out-button" (click)="authService.SignOut()">SIGN OUT</div>
-                <p-avatar (click)="toggleAvatarMenu()" label={{avatarInitials}} styleClass="mr-2" shape="circle" size="large"
-                    [style]="{ 'background-color': '#64748B', color: '#ffffff'}"></p-avatar>
+                <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}</div>
             </div>
         </div>
         <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="viewService.showSidebar('task')"

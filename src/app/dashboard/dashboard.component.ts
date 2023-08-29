@@ -21,8 +21,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public taskService: TaskService,
     public viewService: ViewService
   ) {
-    console.log('was here');
-
     this.taskService.earliestDueDateSubject.subscribe(timestamp => {
       this.getDeadlineDateString(timestamp);
     })

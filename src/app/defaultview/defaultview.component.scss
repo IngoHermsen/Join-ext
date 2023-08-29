@@ -41,8 +41,58 @@
             margin: unset;
             height: 80px;
             width: 100%;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+
+            .left-area {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            h2 {
+                user-select: none;
+
+                &:hover {
+                    cursor: pointer;
+
+                    i {
+                        background-color: #475569;
+                    }
+                }
+
+                i {
+                    color: white;
+                    background-color: rgb(100, 116, 139);
+                    border-radius: 15%;
+                    font-size: 20px;
+                    animation: turn-down 75ms forwards;
+
+                    @keyframes turn-down {
+                        from {
+                            transform: rotate(180deg);
+                        }
+                        to {
+                            transform: rotate(0deg);
+                        }
+                    }
+
+                }
+
+                .turn-icon {
+                    animation: turn-up 75ms forwards;
+
+                    @keyframes turn-up {
+                        from {
+                            transform: rotate(0deg);
+                        }
+                        to {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+
+            }
 
             .burger {
                 font-size: 24px;
@@ -60,6 +110,23 @@
                 gap: 4px;
                 position: relative;
 
+                .avatar {
+                    font-size: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    background-color: #64748B;
+                    height: 48px;
+                    width: 48px;
+                    text-align: center;
+
+                    &:hover {
+                        background-color: #475569;
+                        cursor: pointer;
+                    }
+                }
+
                 .sign-out-button {
                     text-align: right;
                     font-weight: 500;
@@ -72,6 +139,7 @@
                     padding: 4px 0px 4px 0px;
 
                     &:hover {
+                        font-weight: 600;
                         cursor: pointer;
                     }
                 }
@@ -97,6 +165,14 @@
 }
 
 @media only screen and (max-width: 620px) {
+    .default-view {
+        .content-area {
+            padding: 0px 8px;
+        }
+    }
+}
+
+@media only screen and (max-width: 450px) {
     .default-view {
         .content-area {
             padding: 0px 8px;

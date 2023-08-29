@@ -20,6 +20,7 @@ export class ProjectService implements OnInit {
   userId: string;
   projectsAsJson: Subject<any> = new Subject;
   projectTitle: string = null;
+  projectDropdownItems: any[] = [];
 
   currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
@@ -31,8 +32,8 @@ export class ProjectService implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-this.test = 'HELLO'
-    
+    this.test = 'HELLO'
+
   }
 
   ngOnInit(): void {
@@ -114,7 +115,7 @@ this.test = 'HELLO'
     // get projectIds for current User...
     const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(userId);
 
-    usersDocRef.get().pipe(mergeMap((ref) => {
+    usersDocRef.get().pipe(mergeMap(ref => {
       const usersProjectIds = ref.data().projects;
 
       return from(usersProjectIds).pipe(map((id) => {
@@ -123,12 +124,20 @@ this.test = 'HELLO'
     })).pipe(map((id: any) => {
       let projectDocRef: AngularFirestoreDocument = this.projectCollectionRef.doc(id);
       return projectDocRef
-    })).subscribe((ref) => {
-      ref.get().subscribe((ref) => {
-        projectsData.push(ref.data());
+    })).subscribe(ref => {
+      ref.get().subscribe(ref => {
+        const projData = ref.data();
+        projectsData.push(projData);
+        this.projectDropdownItems.push({
+          label: projData['projectTitle'],
+          id: projData['projectId'],
+          command: () => {
+            this.changeActiveProject(projData['projectId'])
+          }
+        });
       })
     });
-
+    
     this.projectsAsJson.next(projectsData);
   }
 
@@ -141,6 +150,17 @@ this.test = 'HELLO'
       .update({ latestActiveProject: id })
 
   }
+
+
+  changeActiveProject(projectId?: string) {
+    let id = projectId;
+    this.currentId.next(id);
+    this.setLatestProjectInUserDoc(id)
+
+    localStorage.setItem('activeProject', id);
+  }
+
+
 }
 
 

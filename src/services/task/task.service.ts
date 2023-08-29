@@ -4,7 +4,6 @@ import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Contact } from 'src/models/contact';
 import { Router } from '@angular/router';
-import { ProjectService } from '../project/project.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from '../view/view.service';
 

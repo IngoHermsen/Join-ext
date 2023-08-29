@@ -1,5 +1,7 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { concatMap, from, map, mergeMap } from 'rxjs';
+import { Project } from 'src/models/project';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ContactService } from 'src/services/contact/contact.service';
@@ -25,10 +27,11 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   userId: string;
   show: boolean;
   projects: any;
-  activeProject: string;
+  projectItems: any;
   projectTitle: string;
   avatarInitials: string;
   showAvatarMenu: boolean = false;
+  showProjectDropdown: boolean = false;
   currentRoute: string;
   routeIsContacts: boolean = null;
 
@@ -56,7 +59,8 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     });
 
     this.projectService.projectsAsJson.subscribe((data) => {
-      this.projects = data;
+      this.projects = data;            
+
     });
 
     this.initializeView(this._getUserData())
@@ -91,15 +95,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
       this.viewInitialized = true;
     }
   }
-
-  changeActiveProject(projectId?: string) {
-    let id = projectId || this.activeProject;
-    this.projectService.currentId.next(id);
-    this.projectService.setLatestProjectInUserDoc(id)
-
-    localStorage.setItem('activeProject', id);
-  }
-
   ngAfterViewInit() {
     this.contactService.getContactList()
   }
@@ -112,6 +107,18 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this.userSubscription.unsubscribe();
+  }
+
+  setProjectDropdownItems() {
+    let items = [];
+    this.projects.forEach(project => {
+      items.push({
+        label: project.projectTitle,
+        id: project.projectId,
+      })
+    })
+    console.log(items);
+
   }
 
   _getUserDataFromLocalStorage() {
@@ -141,6 +148,10 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
 
   toggleAvatarMenu() {
     this.showAvatarMenu = !this.showAvatarMenu
+  }
+
+  toggleDropdown() {
+    this.showProjectDropdown = !this.showProjectDropdown;
   }
 }
 
