@@ -27,9 +27,7 @@ export class TaskService {
     public afs: AngularFirestore,
     public router: Router,
     public viewService: ViewService,
-  ) {
-    console.log('INIT TEST', this.initTest);
-        
+  ) {        
     this.initTest = 'initiated';
 
     
@@ -132,8 +130,6 @@ export class TaskService {
 
   setTaskAsObject(projectDocRef: AngularFirestoreDocument, taskId: string) {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
-    console.log('this.taskByStatus', this.tasksByStatus);
-    console.log(taskId);
 
     tasksCollectionRef.doc(taskId)
       .get()
@@ -146,7 +142,6 @@ export class TaskService {
         }
         this.tasksByStatus[status].push(task);
         this.amountOfTasks++
-        console.log(this.tasksByStatus);
       }))
       .subscribe()
   }

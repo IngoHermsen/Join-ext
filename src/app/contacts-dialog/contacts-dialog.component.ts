@@ -37,7 +37,6 @@ export class ContactsDialogComponent {
 
         if (dbUser.uid != contactService.activeUserId) {
           this.users.push(dbUser);
-          console.log(this.users);
 
         }
       })

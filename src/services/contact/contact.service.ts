@@ -75,7 +75,6 @@ export class ContactService implements OnInit {
     if (this.characters.indexOf(character) === -1) {
       this.characters.push(character)
       this.sortCharacters();
-      console.log(this.characters);
 
     }
   }

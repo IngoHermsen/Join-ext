@@ -117,7 +117,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
         id: project.projectId,
       })
     })
-    console.log(items);
 
   }
 

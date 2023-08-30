@@ -31,7 +31,6 @@ export class TaskBoardComponent implements OnInit {
     addEventListener('drag', e => {
       this.draggedHTMLElement = e.target as HTMLElement;
       this.draggedHTMLElement.classList.add('dragging');
-      console.log(this.draggedHTMLElement.classList);
           this.setTaskView(window.innerWidth);
     });
 
@@ -81,9 +80,7 @@ export class TaskBoardComponent implements OnInit {
       this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
       this.draggedTask = null;
       this.draggedOverSection = null;
-      this.hideAllTasks = false;
-      console.log(this.hideAllTasks);
-      
+      this.hideAllTasks = false;      
     }
   }
 

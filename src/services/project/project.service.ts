@@ -128,16 +128,20 @@ export class ProjectService implements OnInit {
       ref.get().subscribe(ref => {
         const projData = ref.data();
         projectsData.push(projData);
-        this.projectDropdownItems.push({
-          label: projData['projectTitle'],
-          id: projData['projectId'],
-          command: () => {
-            this.changeActiveProject(projData['projectId'])
+        this.projectDropdownItems.push(
+          {
+            label: projData['projectTitle'],
+            id: projData['projectId'],
+            command: () => {
+              this.changeActiveProject(projData['projectId'])
+            }
           }
-        });
+          )
+          console.log(this.projectDropdownItems);
+          ;
       })
     });
-    
+
     this.projectsAsJson.next(projectsData);
   }
 

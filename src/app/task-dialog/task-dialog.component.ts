@@ -134,7 +134,6 @@ export class TaskDialogComponent implements OnInit {
   setAssignedContacts(assignedUsers) {
     assignedUsers.map((user) => {      
       const contactList = this.contactService.usersContacts
-      console.log('contactList', contactList);
       
       for (let i = 0; i < contactList.length; i++) {
 

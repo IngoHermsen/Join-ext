@@ -28,7 +28,6 @@ export class SidebarComponent implements OnInit {
   }
 
   leaveTaskEditMode() {
-    console.log('THIS');
         setTimeout(() => {
       this.taskService.activeTask.next(null);
       this.taskService.editMode = false;
