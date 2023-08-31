@@ -52,6 +52,7 @@
 
             h2 {
                 user-select: none;
+                min-width: 200px;
 
                 &:hover {
                     cursor: pointer;
@@ -168,6 +169,14 @@
     .default-view {
         .content-area {
             padding: 0px 8px;
+        }
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .default-view {
+        .content-area {
+            height: calc(100% - 90px)
         }
     }
 }

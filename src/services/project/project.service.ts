@@ -136,9 +136,8 @@ export class ProjectService implements OnInit {
               this.changeActiveProject(projData['projectId'])
             }
           }
-          )
-          console.log(this.projectDropdownItems);
-          ;
+        )
+        ;
       })
     });
 
