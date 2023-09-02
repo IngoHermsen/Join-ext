@@ -9,4 +9,5 @@ export class User {
     contacts: any[];
     projects: any[];
     latestActiveProject: string;
+    public: boolean;
 }

@@ -114,6 +114,7 @@ export class AuthService {
         contacts: [],
         projects: [],
         latestActiveProject: 'none',
+        public: false
       };
 
       this.userData = userData;
@@ -146,6 +147,7 @@ export class AuthService {
         contacts: userDocData.contacts,
         projects: userDocData.projects,
         latestActiveProject: userDocData.latestActiveProject,
+        public: userDocData.public
       };
 
       this.userData = userData;

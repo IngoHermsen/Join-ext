@@ -1,8 +1,10 @@
+
 .result-area {
     margin-top: 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow-y: scroll;
 
     .user-result {
         display: flex;

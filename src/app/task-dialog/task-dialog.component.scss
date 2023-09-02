@@ -16,15 +16,10 @@
         flex-direction: column;
         min-width: 100%;
 
-        * {
-            // width: 100%;
-        }
-
         ::ng-deep {
             .p-datepicker td>span {
                 width: 20px !important;
                 height: 20px !important;
             }
         }
-
     }

@@ -1,21 +1,23 @@
-<span class="p-input-icon-left">
-    <i class="pi pi-search"></i>
-    <input type="text" pInputText (input)="setInputValue($event)" />
-</span>
-<div class="result-area">
-
-    <ng-container *ngFor="let user of users; index as index">
-        <div *ngIf="inputValue.length == 0 || inputMatches(user)" class="user-result">
-            <div class="left">
-                <p-avatar label="{{user.initials}}" pBadge styleClass="mr-5" value="4" size="large"
-                    [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
-                <div class="user-info flex gap-4 flex-column justify-content-center">
-                    <span class="user-name">{{ user.fullName }}</span>
-                    <span class="user-email">{{ user.email }}</span>
+<div class="contact-dialog-content">
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText (input)="setInputValue($event)" />
+    </span>
+    <div class="result-area">
+        <ng-container *ngFor="let user of users; index as index">
+            <div *ngIf="inputValue.length == 0 || inputMatches(user)" class="user-result">
+                <div class="left">
+                    <p-avatar label="{{user.initials}}" pBadge styleClass="mr-5" value="4" size="large"
+                        [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
+                    <div class="user-info flex gap-4 flex-column justify-content-center">
+                        <span class="user-name">{{ user.displayName }}</span>
+                        <span class="user-email">{{ user.email }}</span>
+                    </div>
                 </div>
+                <p-button [disabled]="user.isContact || user.entryAdded"
+                    (click)="this.addAsContact(user.uid, index)" draggable="false" icon="pi pi-plus"
+                    styleClass="p-button-secondary"></p-button>
             </div>
-            <p-button [disabled]="user.isContact || user.entryAdded" (click)="this.addToContactList(user.uid, index)" draggable="false" icon="pi pi-plus"
-                styleClass="p-button-secondary"></p-button>
-        </div>
-    </ng-container>
+        </ng-container>
+    </div>
 </div>

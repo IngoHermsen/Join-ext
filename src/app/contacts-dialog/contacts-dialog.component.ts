@@ -12,8 +12,7 @@ import { ContactService } from 'src/services/contact/contact.service';
 })
 export class ContactsDialogComponent {
   inputValue: string = null;
-  users: Array<any> = [
-  ]
+  users = []
 
   //Firebase Collection for Users
   usersCollectionRef = this.afs.collection('users');
@@ -27,12 +26,15 @@ export class ContactsDialogComponent {
       users.docs.map((entry) => {
         const userData = entry.data();
         const dbUser = {
+          displayName: userData['firstName'] + " " + userData['lastName'],
           uid: userData['uid'],
-          fullName: userData['firstName'] + ' ' + userData['lastName'],
+          firstName: userData['firstName'],
+          lastName: userData['lastName'],
           email: userData['email'],
           initials: userData['initials'],
           isContact: this.userIsContact(userData['uid']),
           entryAdded: false
+
         }
 
         if (dbUser.uid != contactService.activeUserId) {
@@ -40,6 +42,9 @@ export class ContactsDialogComponent {
 
         }
       })
+      console.log(this.users);
+      
+      this.sortUsers() 
     })
   }
 
@@ -56,15 +61,14 @@ export class ContactsDialogComponent {
 
 
   setInputValue(e) {
-
     this.inputValue = e.target.value;
 
   }
 
   inputMatches(user: any) {
     const transformedInputValue = this.inputValue.trim().toLowerCase();
-
-    const nameToLowerCase: string = user['fullName'].toLowerCase();
+    
+    const nameToLowerCase: string = user['displayName'].toLowerCase();
     const mailToLowerCase: string = user['email'].toLowerCase();
 
     const nameMatches: boolean = nameToLowerCase.includes(transformedInputValue);
@@ -77,10 +81,26 @@ export class ContactsDialogComponent {
     }
   }
 
-  addToContactList(userId: string, index: number) {
+  addAsContact(userId: string, index: number) {
     this.users[index].entryAdded = true;
     this.contactService.addUserAsContact(userId)
 
+  }
+
+  sortUsers() {
+    this.users.sort((a, b) => {
+      if(a.lastName < b.lastName) {
+        return -1
+      } else if ( a.lastName > b.lastName) {
+        return 1;
+      } else if ( a.firstName < a.firstName) {
+        return -1
+      } else {
+        return 1;
+      }
+    })
+    console.log(this.users);
+    
   }
 
 
