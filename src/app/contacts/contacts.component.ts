@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { arrayUnion } from '@angular/fire/firestore';
-import { from, mergeMap } from 'rxjs';
-import { Contact } from 'src/models/contact';
 import { ContactService } from 'src/services/contact/contact.service';
 import { ViewService } from 'src/services/view/view.service';
 import { __values } from 'tslib';
@@ -39,9 +37,5 @@ export class ContactsComponent implements OnInit, AfterViewInit {
 
   }
 
-  removeContact(contact) {
-    console.log(contact);
-    
-  }
-
+  
 }

@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { Subject, from, mergeMap } from 'rxjs';
+import { arrayRemove } from '@angular/fire/firestore';
+import { Subject, from, map, mergeMap } from 'rxjs';
 import { Contact } from 'src/models/contact';
-
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class ContactService implements OnInit {
     this.newContactId.next(userId)
   }
 
-  getContactList() {    
+  getContactList() {
     this.usersContacts = [];
     this.activeUsersDoc.get().pipe(mergeMap(userSnapshot => {
 
@@ -56,14 +56,14 @@ export class ContactService implements OnInit {
               displayName: userData['firstName'] + " " + userData['lastName']
             }
           )
-          this.usersContacts.push(contact);            
+          this.usersContacts.push(contact);
 
           this._updateCharacters(contact.lastName.charAt(0));
         })
       },
       complete: () => {
         setTimeout(() => {
-            this.contactListComplete = true;
+          this.contactListComplete = true;
         }, 500)
       }
 
@@ -86,12 +86,19 @@ export class ContactService implements OnInit {
         default: return 1;
       }
     })
-
   }
 
   lastNameMatchesCharacter(contactsLastName: any, character: string) {
     return contactsLastName.charAt(0) === character;
   }
+
+  removeContact(contact: Contact, index: number) {
+    this.usersContacts.splice(index, 1);
+    this.activeUsersDoc.update({ contacts: arrayRemove(contact.uid)})
+    console.log(this.usersContacts);
+    
+  }
+
 }
 
 
