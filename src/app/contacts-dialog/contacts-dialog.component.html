@@ -4,6 +4,12 @@
         <input type="text" pInputText (input)="setInputValue($event)" />
     </span>
     <div class="result-area">
+        <ng-container *ngFor="let character of characters; index as index">
+            <div *ngIf="inputValue.length == 0" class="character">{{ character }}</div>
+        </ng-container>
+        <ng-container *ngFor="let character of filteredCharacters; index as index">
+            <div *ngIf="inputValue.length > 0" class="character">{{ character }}</div>
+        </ng-container>
         <ng-container *ngFor="let user of users; index as index">
             <div *ngIf="inputValue.length == 0 || inputMatches(user)" class="user-result">
                 <div class="left">

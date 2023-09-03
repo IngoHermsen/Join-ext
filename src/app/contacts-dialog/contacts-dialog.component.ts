@@ -12,7 +12,9 @@ import { ContactService } from 'src/services/contact/contact.service';
 })
 export class ContactsDialogComponent {
   inputValue: string = null;
-  users = []
+  users = [];
+  characters = [];
+  filteredCharacters = [];
 
   //Firebase Collection for Users
   usersCollectionRef = this.afs.collection('users');
@@ -62,7 +64,6 @@ export class ContactsDialogComponent {
 
   setInputValue(e) {
     this.inputValue = e.target.value;
-
   }
 
   inputMatches(user: any) {
@@ -90,17 +91,15 @@ export class ContactsDialogComponent {
   sortUsers() {
     this.users.sort((a, b) => {
       if(a.lastName < b.lastName) {
-        return -1
+        return -1;
       } else if ( a.lastName > b.lastName) {
         return 1;
       } else if ( a.firstName < a.firstName) {
-        return -1
+        return -1;
       } else {
         return 1;
       }
-    })
-    console.log(this.users);
-    
+    })    
   }
 
 

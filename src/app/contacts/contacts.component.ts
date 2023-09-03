@@ -39,4 +39,9 @@ export class ContactsComponent implements OnInit, AfterViewInit {
 
   }
 
+  removeContact(contact) {
+    console.log(contact);
+    
+  }
+
 }

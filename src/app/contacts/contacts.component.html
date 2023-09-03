@@ -23,6 +23,10 @@
                         <span class="user-email">{{ contact.email }}</span>
                     </div>
                 </div>
+                <div class="right">
+                    <p-button (click)="this.removeContact(contact)" draggable="false" icon="pi pi-minus"
+                    styleClass="p-button-secondary"></p-button>
+                </div>
             </div>
         </ng-container>
 

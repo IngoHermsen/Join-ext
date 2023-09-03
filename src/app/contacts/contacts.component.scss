@@ -24,18 +24,29 @@
 
 .contact-entry {
     margin-bottom: 48px;
+    display: flex;
+    align-items: flex-end;
+    gap: 48px;
+    max-width: 300px;
 
     .left {
         display: flex;
         align-items: center;
 
         .user-info {
+            min-width: 200px;
             gap: 12px;
 
             .user-name {
                 font-size: 1.3rem;
                 font-weight: 600;
             }
+        }
+    }
+
+    .right {
+        i {
+            font-size: 32px;
         }
     }
 
