@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   greetingName: string;
   deadlineDate: string;
   months: any;
+  showDashboard: boolean = false;
 
   constructor(
     public projectService: ProjectService,
@@ -24,6 +25,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.taskService.earliestDueDateSubject.subscribe(timestamp => {
       this.getDeadlineDateString(timestamp);
     })
+
+    if(this.projectService.currentId.getValue() !== 'undefined') {
+      console.log(this.projectService.currentId.getValue());
+      
+      this.showDashboard = true;
+      
+    }    
   }
 
   ngOnInit(): void {
@@ -34,6 +42,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
   }
 
   setDisplayMonths() {

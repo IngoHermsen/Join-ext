@@ -7,6 +7,7 @@ import { ViewService } from 'src/services/view/view.service';
 import { ContactService } from 'src/services/contact/contact.service';
 import { Task } from 'src/models/task';
 import { Contact } from 'src/models/contact';
+import { ProjectService } from 'src/services/project/project.service';
 
 @Component({
   selector: 'app-task-dialog',
@@ -35,6 +36,7 @@ export class TaskDialogComponent implements OnInit {
     public taskService: TaskService,
     public viewService: ViewService,
     public contactService: ContactService,
+    public projectService: ProjectService,
   ) {
     
     this.taskId = null;
@@ -42,7 +44,6 @@ export class TaskDialogComponent implements OnInit {
 
   ngOnInit(): void {    
     this.dueDate = new Date()
-
     this.taskService.activeTask.subscribe((task) => {  
           
       if (task) {
@@ -116,11 +117,11 @@ export class TaskDialogComponent implements OnInit {
 
   }
 
-  _setTaskFormValues(taskObj: Task) {    
+  _setTaskFormValues(taskObj: Task) {        
     this.assignedContacts = [];
     const dueDateAsDate = new Date(taskObj.dueDate['seconds'] * 1000);
     this.dueDate = new Date(dueDateAsDate);
-    this.setAssignedContacts(taskObj.assignedUsers)
+    this._setAssignedContacts(taskObj.assignedUsers)
 
     this.taskForm.patchValue({
       title: taskObj.title,
@@ -131,17 +132,20 @@ export class TaskDialogComponent implements OnInit {
 
   }
 
-  setAssignedContacts(assignedUsers) {
+  _setAssignedContacts(assignedUsers) {    
     assignedUsers.map((user) => {      
       const contactList = this.contactService.usersContacts
+      let userIds: Array<string> = []
       
       for (let i = 0; i < contactList.length; i++) {
 
         if (user.uid == contactList[i].uid) {
           this.assignedContacts.push(contactList[i]);
+          userIds.push(user.uid);
           break;
         }
       }
+      this.projectService.addProjectToUserDocs(userIds)
     }
     )
   }

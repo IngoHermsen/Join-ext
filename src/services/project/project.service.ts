@@ -1,12 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, from } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators'
+import { concatMap, map, mergeMap } from 'rxjs/operators'
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
 import { TaskService } from '../task/task.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Task } from 'src/models/task';
+
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +28,7 @@ export class ProjectService implements OnInit {
   constructor(
     public afs: AngularFirestore,
     public taskService: TaskService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+
   ) {
     this.test = 'HELLO'
 
@@ -40,7 +38,6 @@ export class ProjectService implements OnInit {
   }
 
   setActiveProject(projectId: string) {
-    this.currentId
     const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
       this.projectTitle = ref.data().projectTitle;
@@ -52,19 +49,21 @@ export class ProjectService implements OnInit {
   }
 
   saveNewTask(data: any) {
+    const taskFormEntries = {
+      title: data.title,
+      description: data.description,
+      assignedUsers: data.assignedUsers,
+      dueDate: data.dueDate,
+      priority: data.priority,
+    }
+
     const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())
     if (data.taskId) {
-      const taskFormEntries = {
-        title: data.title,
-        description: data.description,
-        assignedUsers: data.assignedUsers,
-        dueDate: data.dueDate,
-        priority: data.priority,
-      }
       projectCollectionRef
         .collection('tasks').doc(data.taskId).update(taskFormEntries)
         .then(() => {
-          this.taskUpdates.next(taskFormEntries)
+          this.taskUpdates.next(taskFormEntries);
+          this.addProjectToUserDocs(taskFormEntries.assignedUsers)
         })
 
     } else {
@@ -75,6 +74,7 @@ export class ProjectService implements OnInit {
           docRef.update({ taskId: docRef.id })
             .then(() => {
               this.taskService.setTaskAsObject(projectCollectionRef, docRef.id);
+              this.addProjectToUserDocs(taskFormEntries.assignedUsers)
             })
         })
     }
@@ -137,20 +137,40 @@ export class ProjectService implements OnInit {
             }
           }
         )
-        ;
+          ;
       })
     });
 
     this.projectsAsJson.next(projectsData);
   }
 
-  setLatestProjectInUserDoc(id) {
+  setLatestProjectInUserDoc(projectId: string) {
     const currentUserAsJson = JSON.parse(localStorage.getItem('user'));
     const currentUserId: string = currentUserAsJson.uid
 
 
     this.userCollectionRef.doc(currentUserId)
-      .update({ latestActiveProject: id })
+      .update({ latestActiveProject: projectId })
+
+  }
+
+  addProjectToUserDocs(users: Array<any>) {
+    const userIds = users.map(user => user.uid)
+    console.log('passed users', userIds);
+
+    const userIdsObs$ = from(userIds);
+    userIdsObs$.pipe(map(userId => {
+      const usersDoc = this.userCollectionRef.doc(userId)
+      usersDoc.valueChanges()
+      .subscribe(docData => {
+        const projectId = this.currentId.getValue()
+        const usersProjects: Array<string> = docData['projects'];
+        if(usersProjects.indexOf(projectId) == -1) {
+          usersDoc.update({ projects: arrayUnion(projectId) })
+        }
+        
+      })
+     })).subscribe()
 
   }
 
