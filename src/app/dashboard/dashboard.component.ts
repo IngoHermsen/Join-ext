@@ -24,13 +24,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {
     this.taskService.earliestDueDateSubject.subscribe(timestamp => {
       this.getDeadlineDateString(timestamp);
-    })
-
-    console.log(this.projectService.currentId.getValue());
-    
+    })    
 
     if(this.projectService.currentId.getValue() !== 'none') {      
-      console.log(this.projectService.currentId.getValue());
       
       this.showDashboard = true;
       

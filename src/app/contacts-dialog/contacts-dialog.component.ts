@@ -43,9 +43,7 @@ export class ContactsDialogComponent {
           this.users.push(dbUser);
 
         }
-      })
-      console.log(this.users);
-      
+      })      
       this.sortUsers() 
     })
   }

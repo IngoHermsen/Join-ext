@@ -158,7 +158,6 @@ export class ProjectService implements OnInit {
 
   addProjectToUserDocs(users: Array<any>) {
     const userIds = users.map(user => user.uid)
-    console.log('passed users', userIds);
 
     const userIdsObs$ = from(userIds);
     userIdsObs$.pipe(map(userId => {

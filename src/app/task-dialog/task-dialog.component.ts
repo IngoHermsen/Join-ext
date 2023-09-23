@@ -143,10 +143,7 @@ export class TaskDialogComponent implements OnInit {
           userIds.push(user.uid);
           break;
         }
-      }
-
-      console.log(JSON.parse(localStorage.getItem(user)).uid);
-      
+      }      
 
       if (JSON.parse(localStorage.getItem(user)).uid != 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
         this.projectService.addProjectToUserDocs(userIds)

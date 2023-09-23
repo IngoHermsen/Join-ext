@@ -42,7 +42,9 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {        
+      .then((result) => {  
+        console.log('RESULT', result);
+              
           this.SetUserData(result.user);
       })
       .catch(() => {
@@ -51,6 +53,10 @@ export class AuthService {
           this.noMatchingData.next(false)
         }, 6000)
       });
+  }
+
+  SignInAsGuest() {        
+    this.SignIn('contact@ingo-hermsen.de', '123456');
   }
 
   // Sign up with email/password
@@ -151,13 +157,17 @@ export class AuthService {
       };
 
       this.userData = userData;
+      console.log('user data', this.userData);
+      
       this.userDataSet.next(true)
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
       localStorage.setItem('greetName', userData.firstName)
 
       this.afAuth.authState.subscribe((user) => {
-        if (user && this.isLoggedIn == true) {
+        if (user && this.isLoggedIn == true) { 
+          console.log('WAS HERE');
+                             
           this.router.navigate(['summary']);
         }
       });

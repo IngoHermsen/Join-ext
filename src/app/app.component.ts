@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     public viewService: ViewService,
     public taskService: TaskService,
+
     ) {}
 
   ngOnInit() {    

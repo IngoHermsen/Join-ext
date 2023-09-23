@@ -89,7 +89,6 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   initializeView(user: User) {
-    console.log(user);
 
     if (!this.viewInitialized) {
       this.userId = user.uid;

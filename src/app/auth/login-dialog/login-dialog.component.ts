@@ -36,7 +36,6 @@ export class LoginDialogComponent {
     this.authService.SignIn(this.formData.usermail, this.formData.password)
       .then(() =>
         this.formActive = true
-
       )
     this.loginForm?.reset();
   }

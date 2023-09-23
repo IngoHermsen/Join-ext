@@ -35,7 +35,7 @@
             <p-button [disabled]="loginForm.invalid" type="submit" label="Login"
                 styleClass="p-button-raised p-button-info"></p-button>
             <span>OR</span>
-            <p-button routerLink="/summary" label="Guest Login"
+            <p-button (click)="authService.SignInAsGuest()" label="Guest Login"
                 styleClass="p-button-raised p-button-secondary"></p-button>
         </div>
         <div class="flex gap-3">

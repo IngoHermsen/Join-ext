@@ -95,7 +95,6 @@ export class ContactService implements OnInit {
   removeContact(contact: Contact, index: number) {
     this.usersContacts.splice(index, 1);
     this.activeUsersDoc.update({ contacts: arrayRemove(contact.uid)})
-    console.log(this.usersContacts);
     
   }
 
