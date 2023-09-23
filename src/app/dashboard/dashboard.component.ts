@@ -26,7 +26,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.getDeadlineDateString(timestamp);
     })
 
-    if(this.projectService.currentId.getValue() !== 'undefined') {
+    console.log(this.projectService.currentId.getValue());
+    
+
+    if(this.projectService.currentId.getValue() !== 'none') {      
       console.log(this.projectService.currentId.getValue());
       
       this.showDashboard = true;

@@ -30,6 +30,7 @@
 }
 
 .animated-logo {
+    pointer-events: none;
     position: absolute;
     z-index: 1;
     height: 200px;

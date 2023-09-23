@@ -16,7 +16,7 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./defaultview.component.scss'],
 
 })
-export class DefaultViewComponent implements OnInit, OnDestroy {
+export class DefaultViewComponent implements OnDestroy {
   @Input() showNav: boolean = false;
 
   @HostListener('window:resize', ['$event'])
@@ -59,15 +59,18 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
     });
 
     this.projectService.projectsAsJson.subscribe((data) => {
-      this.projects = data;            
+      this.projects = data;
+      console.log('PROJECTS', this.projects);
 
     });
 
     this.initializeView(this._getUserData())
 
 
-    this.projectSubscription = this.projectService.currentId.subscribe((value) => {
-      this.projectService.setActiveProject(value);
+    this.projectSubscription = this.projectService.currentId.subscribe((value) => {      
+      if (value != "none") {
+        this.projectService.setActiveProject(value);
+      }
 
     });
 
@@ -86,6 +89,8 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   }
 
   initializeView(user: User) {
+    console.log(user);
+
     if (!this.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
@@ -97,12 +102,6 @@ export class DefaultViewComponent implements OnInit, OnDestroy {
   }
   ngAfterViewInit() {
     this.contactService.getContactList()
-  }
-
-  ngOnInit(): void {
-    this.initializeView(this._getUserData());
-    let date = new Date();
-
   }
 
   ngOnDestroy(): void {

@@ -40,7 +40,9 @@ export class ProjectService implements OnInit {
   setActiveProject(projectId: string) {
     const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
-      this.projectTitle = ref.data().projectTitle;
+       
+        this.projectTitle = ref.data() || "<no project>"
+        
       return ref.data()
     }))
       .subscribe((data) => {
@@ -118,7 +120,7 @@ export class ProjectService implements OnInit {
     usersDocRef.get().pipe(mergeMap(ref => {
       const usersProjectIds = ref.data().projects;
 
-      return from(usersProjectIds).pipe(map((id) => {
+      return from(usersProjectIds).pipe(map((id) => {        
         return id
       }));
     })).pipe(map((id: any) => {
@@ -162,15 +164,14 @@ export class ProjectService implements OnInit {
     userIdsObs$.pipe(map(userId => {
       const usersDoc = this.userCollectionRef.doc(userId)
       usersDoc.valueChanges()
-      .subscribe(docData => {
-        const projectId = this.currentId.getValue()
-        const usersProjects: Array<string> = docData['projects'];
-        if(usersProjects.indexOf(projectId) == -1) {
-          usersDoc.update({ projects: arrayUnion(projectId) })
-        }
-        
-      })
-     })).subscribe()
+        .subscribe(docData => {
+          const projectId = this.currentId.getValue()
+          const usersProjects: Array<string> = docData['projects'];
+          if (usersProjects.indexOf(projectId) == -1) {
+            usersDoc.update({ projects: arrayUnion(projectId) })
+          }
+        })
+    })).subscribe()
 
   }
 

@@ -38,14 +38,14 @@ export class TaskDialogComponent implements OnInit {
     public contactService: ContactService,
     public projectService: ProjectService,
   ) {
-    
+
     this.taskId = null;
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.dueDate = new Date()
-    this.taskService.activeTask.subscribe((task) => {  
-          
+    this.taskService.activeTask.subscribe((task) => {
+
       if (task) {
         this._setTaskFormValues(task)
         this.taskId = task.taskId;
@@ -110,14 +110,13 @@ export class TaskDialogComponent implements OnInit {
 
   // formGroup END
 
-  submitForm() {    
+  submitForm() {
     this.taskService.saveTask(this.taskForm.value, this.taskId);
     this.viewService.showDialog.next(false);
     this.taskForm.reset()
-
   }
 
-  _setTaskFormValues(taskObj: Task) {        
+  _setTaskFormValues(taskObj: Task) {
     this.assignedContacts = [];
     const dueDateAsDate = new Date(taskObj.dueDate['seconds'] * 1000);
     this.dueDate = new Date(dueDateAsDate);
@@ -127,16 +126,16 @@ export class TaskDialogComponent implements OnInit {
       title: taskObj.title,
       description: taskObj.description,
       priority: taskObj.priority,
-      
+
     })
 
   }
 
-  _setAssignedContacts(assignedUsers) {    
-    assignedUsers.map((user) => {      
+  _setAssignedContacts(assignedUsers) {
+    assignedUsers.map((user) => {
       const contactList = this.contactService.usersContacts
       let userIds: Array<string> = []
-      
+
       for (let i = 0; i < contactList.length; i++) {
 
         if (user.uid == contactList[i].uid) {
@@ -145,7 +144,13 @@ export class TaskDialogComponent implements OnInit {
           break;
         }
       }
-      this.projectService.addProjectToUserDocs(userIds)
+
+      console.log(JSON.parse(localStorage.getItem(user)).uid);
+      
+
+      if (JSON.parse(localStorage.getItem(user)).uid != 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
+        this.projectService.addProjectToUserDocs(userIds)
+      }
     }
     )
   }
