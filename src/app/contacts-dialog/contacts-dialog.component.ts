@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subscriber, map } from 'rxjs';
-import { Contact } from 'src/models/contact';
-import { User } from 'src/models/user';
 import { ContactService } from 'src/services/contact/contact.service';
 
 @Component({
@@ -34,16 +31,16 @@ export class ContactsDialogComponent {
           lastName: userData['lastName'],
           email: userData['email'],
           initials: userData['initials'],
+          public: userData['public'],
           isContact: this.userIsContact(userData['uid']),
           entryAdded: false
-
         }
 
-        if (dbUser.uid != contactService.activeUserId) {
+        if (dbUser.uid != this.contactService.activeUserId && dbUser.public) {
           this.users.push(dbUser);
         }
-      })      
-      this.sortUsers() 
+      })
+      this.sortUsers()
     })
   }
 
@@ -65,7 +62,7 @@ export class ContactsDialogComponent {
 
   inputMatches(user: any) {
     const transformedInputValue = this.inputValue.trim().toLowerCase();
-    
+
     const nameToLowerCase: string = user['displayName'].toLowerCase();
     const mailToLowerCase: string = user['email'].toLowerCase();
 
@@ -87,16 +84,16 @@ export class ContactsDialogComponent {
 
   sortUsers() {
     this.users.sort((a, b) => {
-      if(a.lastName < b.lastName) {
+      if (a.lastName < b.lastName) {
         return -1;
-      } else if ( a.lastName > b.lastName) {
+      } else if (a.lastName > b.lastName) {
         return 1;
-      } else if ( a.firstName < a.firstName) {
+      } else if (a.firstName < a.firstName) {
         return -1;
       } else {
         return 1;
       }
-    })    
+    })
   }
 
 
