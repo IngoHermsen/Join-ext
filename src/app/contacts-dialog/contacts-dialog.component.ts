@@ -41,7 +41,6 @@ export class ContactsDialogComponent {
 
         if (dbUser.uid != contactService.activeUserId) {
           this.users.push(dbUser);
-
         }
       })      
       this.sortUsers() 

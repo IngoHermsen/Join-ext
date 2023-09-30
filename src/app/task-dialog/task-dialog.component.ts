@@ -116,7 +116,7 @@ export class TaskDialogComponent implements OnInit {
     this.taskForm.reset()
   }
 
-  _setTaskFormValues(taskObj: Task) {  
+  _setTaskFormValues(taskObj: Task) {      
 
     this.assignedContacts = [];
     const dueDateAsDate = new Date(taskObj.dueDate['seconds'] * 1000);
@@ -140,7 +140,9 @@ export class TaskDialogComponent implements OnInit {
     console.log('assigned Users', assignedUsers);
     
     assignedUsers.map((user: any) => {      
-      const contactList = this.contactService.usersContacts;
+      const contactList: Array<Contact> = this.contactService.usersContacts;
+      console.log('contact List', contactList);
+      
       let userIds: Array<string> = []
 
       for (let i = 0; i < contactList.length; i++) {         

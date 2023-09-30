@@ -40,6 +40,7 @@ export class TaskService {
 
   }
 
+
   updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
     const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
     const projectDocRef: AngularFirestoreDocument<any> = projectCollectionRef.doc(projectId);

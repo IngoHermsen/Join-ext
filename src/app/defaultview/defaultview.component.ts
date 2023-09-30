@@ -1,6 +1,7 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { concatMap, from, map, mergeMap } from 'rxjs';
+import { concatMap, from, map, mergeMap, tap } from 'rxjs';
+import { Contact } from 'src/models/contact';
 import { Project } from 'src/models/project';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
@@ -64,6 +65,8 @@ export class DefaultViewComponent implements OnDestroy {
 
     });
 
+    this._setActiveUserAsAssignable()
+
     this.initializeView(this._getUserData())
 
 
@@ -115,7 +118,26 @@ export class DefaultViewComponent implements OnDestroy {
         id: project.projectId,
       })
     })
+  }
 
+  _setActiveUserAsAssignable() {
+    console.log('WAS HERE 1');
+    
+    this.contactService.activeUsersDoc.get().pipe(tap(user => {
+      const userData = user.data()
+      const asContact: Contact = new Contact(
+        {
+          uid: userData['uid'],
+          firstName: userData['firstName'],
+          lastName: userData['lastName'],
+          initials: userData['initials'],
+          email: userData['email'],
+          displayName: userData['firstName'] + " " + userData['lastName']
+        }
+      )
+      
+      this.contactService.activeUserAsAssignable = asContact;      
+    })).subscribe()
   }
 
   _getUserDataFromLocalStorage() {

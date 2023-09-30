@@ -23,33 +23,24 @@
 }
 
 .contact-entry {
-    margin-bottom: 48px;
     display: flex;
-    align-items: flex-end;
-    gap: 48px;
-    max-width: 300px;
+    justify-content: space-between;
+    align-items: center;
+    width: 320px;
+    margin-bottom: 24px;
 
-    .left {
-        display: flex;
-        align-items: center;
-
+    .contact-content {
+        text-wrap: nowrap;
+        
+        
         .user-info {
-            min-width: 200px;
-            gap: 12px;
+            width: 250px;
+            padding-right: 20px;
 
             .user-name {
-                font-size: 1.3rem;
-                font-weight: 600;
+                font-weight: 700;
             }
         }
     }
-
-    .right {
-        i {
-            font-size: 32px;
-        }
-    }
-
-
 
 }

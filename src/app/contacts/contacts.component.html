@@ -15,9 +15,9 @@
 
         <ng-container *ngFor="let contact of contactService.usersContacts; index as index">
             <div *ngIf="this.contactService.lastNameMatchesCharacter(contact.lastName, character)" class="contact-entry">
-                <div class="left">
-                    <p-avatar label="{{ contact.initials }}" pBadge styleClass="mr-5" value="4" size="large"
-                        [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
+                <p-avatar label="{{ contact.initials }}" pBadge styleClass="mr-3" value="4" size="large"
+                [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
+                <div class="contact-content">
                     <div class="user-info flex flex-column justify-content-center">
                         <span class="user-name">{{ contact.firstName }} {{ contact.lastName }}</span>
                         <span class="user-email">{{ contact.email }}</span>

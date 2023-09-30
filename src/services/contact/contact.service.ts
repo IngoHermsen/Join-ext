@@ -8,6 +8,7 @@ import { Contact } from 'src/models/contact';
   providedIn: 'root'
 })
 export class ContactService implements OnInit {
+  activeUserAsAssignable: Contact;
   usersCollection = this.afs.collection('users');
   contactData: Contact;
   showDialog: Subject<boolean> = new Subject;
@@ -62,9 +63,8 @@ export class ContactService implements OnInit {
         })
       },
       complete: () => {
-        setTimeout(() => {
-          this.contactListComplete = true;
-        }, 500)
+        this.usersContacts.push(this.activeUserAsAssignable);
+        this.contactListComplete = true;
       }
 
 
@@ -94,8 +94,8 @@ export class ContactService implements OnInit {
 
   removeContact(contact: Contact, index: number) {
     this.usersContacts.splice(index, 1);
-    this.activeUsersDoc.update({ contacts: arrayRemove(contact.uid)})
-    
+    this.activeUsersDoc.update({ contacts: arrayRemove(contact.uid) })
+
   }
 
 }
