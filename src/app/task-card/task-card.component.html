@@ -2,14 +2,13 @@
     <header class="header">
         <h3>{{ task.title }}</h3>
         <div class="header-right">
-            <i class="pi pi-info-circle"></i>
             <i (click)="openTaskEdit(task)" class="pi pi-file-edit"></i>
         </div>
     </header>
     <div class="flex flex-column">
         <div class="task-description">{{ task.description }}</div>
-        <div class="flex justify-content-between">
-            <span class="content-label">Due Date:</span>
+        <div class="due-date-content flex justify-content-between">
+            <span class="date-label">Due Date:</span>
             <span>{{ dueDateAsString }}</span>
         </div>
         <span>

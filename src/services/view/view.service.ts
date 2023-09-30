@@ -25,7 +25,7 @@ export class ViewService implements OnInit {
     this.fixedNav = windowWidth < minViewWidth || windowWidth > maxViewWidth;
   }
 
-  showSidebar(contentType: string) {
+  showSidebar(contentType: string) {    
     this.dialogContent = contentType;
     this.showDialog.next(true);
   }

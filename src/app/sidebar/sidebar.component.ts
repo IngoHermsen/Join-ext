@@ -22,7 +22,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.viewService.showDialog.subscribe((value) => {
+    this.viewService.showDialog.subscribe((value) => {      
       this.isVisible = value;
     });
   }

@@ -49,7 +49,7 @@ export class TaskCardComponent implements OnInit {
 
   }
 
-  openTaskEdit(task: Task) {
+  openTaskEdit(task: Task) {    
     this.router.navigate(['/tasks', task['taskId']], { replaceUrl: true });
     this.viewService.showSidebar('task');
     this.taskService.editMode = true;

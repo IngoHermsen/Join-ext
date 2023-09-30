@@ -40,8 +40,8 @@ export class ProjectService implements OnInit {
   setActiveProject(projectId: string) {
     const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
-       
-        this.projectTitle = ref.data() || "<no project>"
+
+        this.projectTitle = ref.data().projectTitle || "<no project>";        
         
       return ref.data()
     }))

@@ -1,16 +1,18 @@
-
 .task-card {
 
-
-    .content-label {
-        font-weight: 600;
+    .due-date-content {
+        .date-label {
+            font-weight: 600;
+        }
     }
+
 
     i {
         cursor: pointer;
     }
 
     .header {
+        position: relative;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -23,6 +25,9 @@
         }
 
         .header-right {
+            position: absolute;
+            top: 0px;
+            right: 0px;
             color: grey;
             display: flex;
             gap: 8px;

@@ -44,9 +44,9 @@ export class TaskDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.dueDate = new Date()
-    this.taskService.activeTask.subscribe((task) => {
+    this.taskService.activeTask.subscribe((task) => {      
 
-      if (task) {
+      if (task) {       
         this._setTaskFormValues(task)
         this.taskId = task.taskId;
       } else {
@@ -116,12 +116,16 @@ export class TaskDialogComponent implements OnInit {
     this.taskForm.reset()
   }
 
-  _setTaskFormValues(taskObj: Task) {
+  _setTaskFormValues(taskObj: Task) {  
+
     this.assignedContacts = [];
     const dueDateAsDate = new Date(taskObj.dueDate['seconds'] * 1000);
     this.dueDate = new Date(dueDateAsDate);
-    this._setAssignedContacts(taskObj.assignedUsers)
+    this._setAssignedContacts(taskObj.assignedUsers);
 
+    console.log('TASK FORM', this.taskForm);
+    
+    
     this.taskForm.patchValue({
       title: taskObj.title,
       description: taskObj.description,
@@ -131,21 +135,29 @@ export class TaskDialogComponent implements OnInit {
 
   }
 
-  _setAssignedContacts(assignedUsers) {
-    assignedUsers.map((user) => {
-      const contactList = this.contactService.usersContacts
+  _setAssignedContacts(assignedUsers: any) {
+
+    console.log('assigned Users', assignedUsers);
+    
+    assignedUsers.map((user: any) => {      
+      const contactList = this.contactService.usersContacts;
       let userIds: Array<string> = []
 
-      for (let i = 0; i < contactList.length; i++) {
-
+      for (let i = 0; i < contactList.length; i++) {         
+        
         if (user.uid == contactList[i].uid) {
           this.assignedContacts.push(contactList[i]);
+          
           userIds.push(user.uid);
           break;
         }
-      }      
+      }    
+      
+      const currentUserFromLocalStorage = JSON.parse(localStorage.getItem('user'))
+      console.log('current User', currentUserFromLocalStorage);
+      
 
-      if (JSON.parse(localStorage.getItem(user)).uid != 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
+      if (currentUserFromLocalStorage.uid != 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
         this.projectService.addProjectToUserDocs(userIds)
       }
     }
