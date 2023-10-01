@@ -129,6 +129,7 @@ export class ProjectService implements OnInit {
     })).subscribe(ref => {
       ref.get().subscribe(ref => {
         const projData = ref.data();
+        
         projectsData.push(projData);
         this.projectDropdownItems.push(
           {

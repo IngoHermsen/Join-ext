@@ -123,9 +123,6 @@ export class TaskDialogComponent implements OnInit {
     this.dueDate = new Date(dueDateAsDate);
     this._setAssignedContacts(taskObj.assignedUsers);
 
-    console.log('TASK FORM', this.taskForm);
-    
-    
     this.taskForm.patchValue({
       title: taskObj.title,
       description: taskObj.description,
@@ -135,14 +132,9 @@ export class TaskDialogComponent implements OnInit {
 
   }
 
-  _setAssignedContacts(assignedUsers: any) {
-
-    console.log('assigned Users', assignedUsers);
-    
+  _setAssignedContacts(assignedUsers: any) {    
     assignedUsers.map((user: any) => {      
-      const contactList: Array<Contact> = this.contactService.usersContacts;
-      console.log('contact List', contactList);
-      
+      const contactList: Array<Contact> = this.contactService.usersContacts;      
       let userIds: Array<string> = []
 
       for (let i = 0; i < contactList.length; i++) {         
@@ -156,8 +148,6 @@ export class TaskDialogComponent implements OnInit {
       }    
       
       const currentUserFromLocalStorage = JSON.parse(localStorage.getItem('user'))
-      console.log('current User', currentUserFromLocalStorage);
-      
 
       if (currentUserFromLocalStorage.uid != 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
         this.projectService.addProjectToUserDocs(userIds)

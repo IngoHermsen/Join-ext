@@ -31,7 +31,7 @@ export class TaskBoardComponent implements OnInit {
     addEventListener('drag', e => {
       this.draggedHTMLElement = e.target as HTMLElement;
       this.draggedHTMLElement.classList.add('dragging');
-          this.setTaskView(window.innerWidth);
+          this._setTaskView(window.innerWidth);
     });
 
     addEventListener('dragend', e => {
@@ -120,7 +120,7 @@ export class TaskBoardComponent implements OnInit {
   }
 
 
-  setTaskView(screenWidth: number) {
+  _setTaskView(screenWidth: number) {
     if(screenWidth <= 620) {
       this.hideAllTasks = true;
     }

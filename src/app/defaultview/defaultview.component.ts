@@ -61,7 +61,6 @@ export class DefaultViewComponent implements OnDestroy {
 
     this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
-      console.log('PROJECTS', this.projects);
 
     });
 
@@ -121,8 +120,6 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   _setActiveUserAsAssignable() {
-    console.log('WAS HERE 1');
-    
     this.contactService.activeUsersDoc.get().pipe(tap(user => {
       const userData = user.data()
       const asContact: Contact = new Contact(

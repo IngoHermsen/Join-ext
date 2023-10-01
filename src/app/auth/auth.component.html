@@ -1,8 +1,12 @@
 <img src="./assets/join-logo.png" class="logo" [class.animated-logo]="animateJoinLogo" alt="join-logo">
 <div>
-    <div *ngIf="viewService.showSignUpNote" class="sign-up-note">
+    <div *ngIf="viewService.showSignUpNote" class="notification">
         Your registration was successful.<br>
         Please login to your new account.
+    </div>
+    <div *ngIf="viewService.showResetPasswordNote" class="notification">
+        Check your Inbox for further instructions<br>
+        to reset your password.
     </div>
     <router-outlet></router-outlet>
 </div>

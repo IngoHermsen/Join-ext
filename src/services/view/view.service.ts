@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 export class ViewService implements OnInit {
   fixedNav: boolean;
   showSignUpNote: boolean = false;
+  showResetPasswordNote: boolean = false;
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
 
@@ -29,5 +30,7 @@ export class ViewService implements OnInit {
     this.dialogContent = contentType;
     this.showDialog.next(true);
   }
+
+
 
 }

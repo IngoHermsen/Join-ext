@@ -16,6 +16,7 @@ export class AuthService {
   userDataSet: Subject<boolean> = new Subject;
   userSpecValues: any;
   noMatchingData: Subject<boolean> = new Subject;
+  resetMailsuccessful: Subject<boolean> = new Subject;
 
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
@@ -42,9 +43,7 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {  
-        console.log('RESULT', result);
-              
+      .then((result) => {                
           this.SetUserData(result.user);
       })
       .catch(() => {
@@ -81,7 +80,7 @@ export class AuthService {
 
   }
 
-  // Send email verfificaiton when new user sign up
+  // Send email verification when new user sign up
   SendVerificationMail() {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
@@ -95,6 +94,22 @@ export class AuthService {
 
     return user !== null ? true : false;
     // return user !== null && user.emailVerified !== false ? true : false;
+  }
+
+  SendPasswordResetEmail(emailAdress: string) {
+    return this.afAuth.sendPasswordResetEmail(emailAdress)
+    .then(() => {
+      console.log('WAS HERE?');
+      
+      this.router.navigate(['auth/login']);
+      this.viewService.showResetPasswordNote = true;
+      setTimeout(() => {
+        this.viewService.showResetPasswordNote = false;
+      }, 4000)
+    })
+    .catch(() => {      
+      this.resetMailsuccessful.next(false)
+    })
   }
 
 
@@ -156,9 +171,7 @@ export class AuthService {
         public: userDocData.public
       };
 
-      this.userData = userData;
-      console.log('user data', this.userData);
-      
+      this.userData = userData;      
       this.userDataSet.next(true)
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
@@ -166,8 +179,6 @@ export class AuthService {
 
       this.afAuth.authState.subscribe((user) => {
         if (user && this.isLoggedIn == true) { 
-          console.log('WAS HERE');
-                             
           this.router.navigate(['summary']);
         }
       });
