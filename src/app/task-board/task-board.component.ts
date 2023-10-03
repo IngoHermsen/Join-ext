@@ -29,7 +29,7 @@ export class TaskBoardComponent implements OnInit {
   ) {
 
     addEventListener('drag', e => {
-      this.draggedHTMLElement = e.target as HTMLElement;
+      this.draggedHTMLElement = e.target as HTMLElement;      
       this.draggedHTMLElement.classList.add('dragging');
           this._setTaskView(window.innerWidth);
     });
@@ -39,7 +39,7 @@ export class TaskBoardComponent implements OnInit {
       this.draggedHTMLElement = null;
       this.draggedTask = null;
       this.draggedOverSection = null;
-
+      this.hideAllTasks = false;
     })
   }
 
@@ -74,14 +74,15 @@ export class TaskBoardComponent implements OnInit {
     this.draggedTask = task;
   }
 
-  drop(status: string) {
+  drop(status: string) {    
     if (this.draggedTask.status != status) {
       this._updateTaskView(this.draggedTask, status);
       this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
-      this.draggedTask = null;
-      this.draggedOverSection = null;
-      this.hideAllTasks = false;      
     }
+    this.draggedTask = null;
+    this.draggedOverSection = null;     
+    this.hideAllTasks = false;     
+
   }
 
   showDropIndication(section) {

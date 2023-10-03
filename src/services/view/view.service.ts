@@ -1,4 +1,4 @@
-import { AfterViewInit, Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -11,9 +11,12 @@ export class ViewService implements OnInit {
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
 
-  constructor() { }
-  
-  ngOnInit(): void {
+  newProjectBtnLabel: string;
+
+  constructor() { 
+  }
+
+  ngOnInit(): void {        
 
   }
 
@@ -26,11 +29,10 @@ export class ViewService implements OnInit {
     this.fixedNav = windowWidth < minViewWidth || windowWidth > maxViewWidth;
   }
 
-  showSidebar(contentType: string) {    
+  showSidebar(contentType: string) {
     this.dialogContent = contentType;
     this.showDialog.next(true);
   }
-
 
 
 }

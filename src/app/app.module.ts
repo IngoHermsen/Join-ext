@@ -28,6 +28,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { AvatarModule } from 'primeng/avatar';
 import { DragDropModule } from 'primeng/dragdrop';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { TooltipModule } from 'primeng/tooltip';
+
 
 //General
 
@@ -110,6 +112,7 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     DropdownModule,
     AvatarModule,
     ProgressBarModule,
+    TooltipModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

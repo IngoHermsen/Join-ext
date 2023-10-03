@@ -4,7 +4,7 @@
         There is no active project. Select a project or create a new one.
     </span>
 </div>
-<div *ngIf="this.showDashboard" class="content">
+<div routerLink="/tasks" *ngIf="this.showDashboard" class="content">
     <div class="card-area">
         <div class="card small">
             <div class="value">{{ taskService.amountOfTasks }}</div>
