@@ -28,8 +28,8 @@
                     </div>
                 </div>
                 <div class="area upcoming-deadline">
-                    <span class="due-date">{{ deadlineDate }}</span>
-                    <span class="dl-text">Upcoming Deadline</span>
+                    <span *ngIf="deadlineDate != null" class="due-date">{{ deadlineDate }}</span>
+                    <span *ngIf="deadlineDate != null" class="dl-text">Upcoming Deadline</span>
                 </div>
             </div>
 

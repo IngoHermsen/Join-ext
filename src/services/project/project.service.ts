@@ -45,7 +45,7 @@ export class ProjectService implements OnInit {
         
       return ref.data()
     }))
-      .subscribe((data) => {
+      .subscribe((data) => {        
         this.taskService.setTasksAsObject(projectDocRef)
       })
   }
@@ -136,6 +136,7 @@ export class ProjectService implements OnInit {
             label: projData['projectTitle'],
             id: projData['projectId'],
             command: () => {
+              
               this.changeActiveProject(projData['projectId'])
             }
           }
@@ -145,12 +146,12 @@ export class ProjectService implements OnInit {
     });
 
     this.projectsAsJson.next(projectsData);
+        
   }
 
   setLatestProjectInUserDoc(projectId: string) {
     const currentUserAsJson = JSON.parse(localStorage.getItem('user'));
     const currentUserId: string = currentUserAsJson.uid
-
 
     this.userCollectionRef.doc(currentUserId)
       .update({ latestActiveProject: projectId })

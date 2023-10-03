@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
-import { take, timestamp } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
 import { ProjectService } from 'src/services/project/project.service';
@@ -10,7 +9,7 @@ import { ProjectService } from 'src/services/project/project.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
   daytimeGreeting: string;
   greetingName: string;
   deadlineDate: string;
@@ -23,14 +22,21 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     public viewService: ViewService
   ) {
     this.taskService.earliestDueDateSubject.subscribe(timestamp => {
-      this.getDeadlineDateString(timestamp);
+      if(timestamp) {
+              this.getDeadlineDateString(timestamp);
+      } else {
+        this.deadlineDate = null;
+      }
     })    
 
-    if(this.projectService.currentId.getValue() !== 'none') {      
-      
+    if(this.projectService.currentId.getValue() !== 'none') {     
       this.showDashboard = true;
-      
-    }    
+    } else {
+      this.showDashboard = false;
+    }   
+
+    
+
   }
 
   ngOnInit(): void {
@@ -40,9 +46,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.deadlineDate = localStorage.getItem('earliestDueDate')
   }
 
-  ngAfterViewInit(): void {
-
-  }
 
   setDisplayMonths() {
     this.months = {

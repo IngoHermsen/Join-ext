@@ -60,7 +60,7 @@ export class DefaultViewComponent implements OnDestroy {
     });
 
     this.projectService.projectsAsJson.subscribe((data) => {
-      this.projects = data;
+      this.projects = data;      
 
     });
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, from, map, mergeMap, switchMap } from 'rxjs';
 import { Task } from 'src/models/task';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
@@ -11,14 +11,14 @@ import { ViewService } from '../view/view.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class TaskService implements OnInit {
   tasksByStatus: any;
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
   addTaskToView: Subject<string> = new Subject;
-  amountOfTasks: number = null;
-  amountOfUrgent: number = null;
+  amountOfTasks: number = 0;
+  amountOfUrgent: number = 0;
   earliestDueDateSubject: Subject<Timestamp> = new Subject();
   initTest: string = null;
 
@@ -29,14 +29,15 @@ export class TaskService {
     public viewService: ViewService,
   ) {        
     this.initTest = 'initiated';
-
-    
     this.tasksByStatus = {
       todo: [],
       inProgress: [],
       inReview: [],
       done: []
     };
+  }
+
+  ngOnInit() {
 
   }
 
@@ -91,11 +92,10 @@ export class TaskService {
   }
 
   setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
-    let amountOfTasks: number = 0;
-    let earliestDueDate: Timestamp = null;
-    let amountOfUrgent: number = 0;
-
-    let tasksByStatus = {
+    let earliestDueDate: Timestamp = null;    
+    this.earliestDueDateSubject.next(null);
+    this.amountOfTasks = 0;
+    this.tasksByStatus = {
       todo: [],
       inProgress: [],
       inReview: [],
@@ -105,8 +105,10 @@ export class TaskService {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
 
     tasksCollectionRef.get().pipe(mergeMap(ref => {
+
+      
       return from(ref.docs);
-    })).pipe(map(doc => {
+    })).pipe(map(doc => {      
       const task = doc.data();
       const status = task.status;
 
@@ -115,17 +117,14 @@ export class TaskService {
       }
 
       if (this.checkUrgency(task.dueDate)) {
-        amountOfUrgent++;
+        this.amountOfUrgent++;
       }
-      tasksByStatus[status].push(task);
-      amountOfTasks++
+      this.tasksByStatus[status].push(task);
+      this.amountOfTasks++
     }))
-      .subscribe((ref) => {
+      .subscribe((ref) => { 
         this.earliestDueDateSubject.next(earliestDueDate);
-        this.amountOfTasks = amountOfTasks;
-        this.amountOfUrgent = amountOfUrgent;
-        this.tasksByStatus = tasksByStatus;
-
+        
       })
   }
 
