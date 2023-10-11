@@ -1,3 +1,4 @@
+import { LiteralMapExpr } from '@angular/compiler';
 import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { arrayRemove } from '@angular/fire/firestore';
@@ -66,8 +67,6 @@ export class ContactService implements OnInit {
         this.usersContacts.push(this.activeUserAsAssignable);
         this.contactListComplete = true;
       }
-
-
     },)
   }
 
@@ -75,7 +74,6 @@ export class ContactService implements OnInit {
     if (this.characters.indexOf(character) === -1) {
       this.characters.push(character)
       this.sortCharacters();
-
     }
   }
 
@@ -93,11 +91,29 @@ export class ContactService implements OnInit {
   }
 
   removeContact(contact: Contact, index: number) {
+    const contactCharacter = contact.lastName.charAt(0);
     this.usersContacts.splice(index, 1);
-    this.activeUsersDoc.update({ contacts: arrayRemove(contact.uid) })
+    if (this.characterIsEmpty(contactCharacter)) {
+      const charIndex = this.characters.indexOf(contactCharacter);
+      this.characters.splice(charIndex, 1)
+    }
 
+    this.activeUsersDoc.update({ contacts: arrayRemove(contact.uid) })
+ 
   }
 
+  characterIsEmpty(character: string) {
+    let characterIsEmpty: boolean = true;
+    for (let i = 0; i < this.usersContacts.length; i++) {
+      if (this.usersContacts[i].lastName.charAt(0) == character) {
+        characterIsEmpty = false;
+        break;
+      }
+    }
+    return characterIsEmpty
+  }
 }
+
+
 
 
