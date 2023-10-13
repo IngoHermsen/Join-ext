@@ -6,12 +6,15 @@ import { Contact } from 'src/models/contact';
 import { Router } from '@angular/router';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from '../view/view.service';
+import { set } from '@angular/fire/database';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService implements OnInit {
+  isGuestSession: boolean = false;
+  fbProjectsCollectionName: string = null;
   tasksByStatus: any;
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
@@ -31,20 +34,21 @@ export class TaskService implements OnInit {
       inProgress: [],
       inReview: [],
       done: []
-    };
+    };    
   }
 
   ngOnInit() {
-
   }
 
-  updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
-    const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
+
+  updateTaskDocumentStatus(status: string, taskId: string, projectId: string) { 
+       
+    const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection(this.fbProjectsCollectionName);
     const projectDocRef: AngularFirestoreDocument<any> = projectCollectionRef.doc(projectId);
     const taskCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks');
-    const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);
-    taskDocumentRef.update({ status: status });
-
+    const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);    
+    taskDocumentRef.update({ status: status });    
+        
   }
 
   saveTask(object: any, taskId: string | null) {

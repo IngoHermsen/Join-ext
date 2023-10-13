@@ -30,31 +30,30 @@ export class ProjectService implements OnInit {
     public taskService: TaskService,
 
   ) {
-    this._setFirebaseProjectsCollection()
+    this._setFirebaseProjectsCollection();
   }
 
   ngOnInit(): void {
   }
 
   _setFirebaseProjectsCollection() {
+    
     let projectsCollectionName: string;
     this.activeUserId = JSON.parse(localStorage.getItem('user')).uid;
-    if (this.activeUserId == 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
+    if (JSON.parse(localStorage.getItem('guestSession'))) {
       projectsCollectionName = 'guest_projects';
-      this.isGuestSession = true;
     } else {
       projectsCollectionName = 'projects';
     }
-
-    this.fbProjectRefCollection = this.afs.collection(projectsCollectionName)
-    console.log(this.fbProjectRefCollection);
+    
+    this.fbProjectRefCollection = this.afs.collection(projectsCollectionName);
 
   }
 
-  setActiveProject(projectId: string) {
+  setActiveProject(projectId: string) {    
     const projectDocRef: AngularFirestoreDocument<any> = this.fbProjectRefCollection.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
-
+      
       this.projectTitle = ref.data().projectTitle || "<no project>";
 
       return ref.data()
@@ -91,6 +90,7 @@ export class ProjectService implements OnInit {
             .then(() => {
               this.taskService.setTaskAsObject(fbProjectRefCollection, docRef.id);
               if (!this.isGuestSession) {
+  
                 this.addProjectToUserDocs(taskFormEntries.assignedUsers);
               }
 
@@ -175,6 +175,8 @@ export class ProjectService implements OnInit {
   }
 
   addProjectToUserDocs(users: Array<any>) {
+    console.log('USERS', users);
+    
     const userIds = users.map(user => user.uid)
 
     const userIdsObs$ = from(userIds);
@@ -184,7 +186,6 @@ export class ProjectService implements OnInit {
         .subscribe(docData => {
           const projectId = this.currentId.getValue()
           const usersProjects: Array<string> = docData['projects'];
-          console.log('usersProjects', usersProjects);
 
           if (usersProjects.indexOf(projectId) == -1) {
             usersDoc.update({ projects: arrayUnion(projectId) })

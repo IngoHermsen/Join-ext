@@ -12,6 +12,7 @@ import { ViewService } from '../view/view.service';
 })
 export class AuthService {
   loggedIn: boolean = false;
+  guestLogin: boolean = null;
   userData: User;
   userDataSet: Subject<boolean> = new Subject;
   userSpecValues: any;
@@ -40,10 +41,11 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  SignIn(email: string, password: string) {
+  SignIn(email: string, password: string, guestLogin?: boolean) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {                
+      .then((result) => { 
+          this.guestLogin = guestLogin || false;    
           this.SetUserData(result.user);
       })
       .catch(() => {
@@ -55,7 +57,7 @@ export class AuthService {
   }
 
   SignInAsGuest() {        
-    this.SignIn('contact@ingo-hermsen.de', '123456');
+    this.SignIn('contact@ingo-hermsen.de', '123456', true);
   }
 
   // Sign up with email/password
@@ -98,9 +100,7 @@ export class AuthService {
 
   SendPasswordResetEmail(emailAdress: string) {
     return this.afAuth.sendPasswordResetEmail(emailAdress)
-    .then(() => {
-      console.log('WAS HERE?');
-      
+    .then(() => {      
       this.router.navigate(['auth/login']);
       this.viewService.showResetPasswordNote = true;
       setTimeout(() => {
@@ -175,7 +175,8 @@ export class AuthService {
       this.userDataSet.next(true)
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
-      localStorage.setItem('greetName', userData.firstName)
+      localStorage.setItem('greetName', userData.firstName);
+      localStorage.setItem('guestSession', this.guestLogin ? 'true' : 'false')
 
       this.afAuth.authState.subscribe((user) => {
         if (user && this.isLoggedIn == true) { 
@@ -197,7 +198,8 @@ export class AuthService {
       localStorage.removeItem('initials');
       localStorage.removeItem('activeProject');
       localStorage.removeItem('greetName');
-      localStorage.removeItem('earliestDueDate')
+      localStorage.removeItem('earliestDueDate');
+      localStorage.removeItem('guestSession')
 
       this.router.navigate(['auth/login']);
     });

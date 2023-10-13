@@ -23,10 +23,21 @@ export class TaskBoardComponent implements OnInit {
   //subscriptions
   projectSubscription: any;
 
+  fbProjectRefCollectionName: string; 
+
+
   constructor(
     public projectService: ProjectService,
     public taskService: TaskService
   ) {
+    
+    if(this.taskService.isGuestSession) {
+      this.fbProjectRefCollectionName = 'guest_projects';
+    } else {
+      this.fbProjectRefCollectionName = 'projects';
+    }
+
+    this.taskService.fbProjectsCollectionName = this.fbProjectRefCollectionName
 
     addEventListener('drag', e => {
       this.draggedHTMLElement = e.target as HTMLElement;      
@@ -41,9 +52,11 @@ export class TaskBoardComponent implements OnInit {
       this.draggedOverSection = null;
       this.hideAllTasks = false;
     })
+
+    
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
 
     this.sectionView = {
       todo: true,
@@ -75,10 +88,11 @@ export class TaskBoardComponent implements OnInit {
   }
 
   drop(status: string) {    
-    if (this.draggedTask.status != status) {
+    if (this.draggedTask.status != status) {      
       this._updateTaskView(this.draggedTask, status);
       this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
     }
+    
     this.draggedTask = null;
     this.draggedOverSection = null;     
     this.hideAllTasks = false;     
@@ -106,7 +120,7 @@ export class TaskBoardComponent implements OnInit {
       this.editedTask = null;
       statusArray.slice([], statusArray)
     }
-
+    
   }
 
   _findIndex(task: Task) {

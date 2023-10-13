@@ -62,7 +62,6 @@ export class ContactService implements OnInit {
         const contactUsersDoc: AngularFirestoreDocument = this.fbContactRefCollection.doc(contactId);
         contactUsersDoc.get().subscribe((userSnapshot) => {
           const userData = userSnapshot.data();
-          console.log('user Data', userData);
           
           const contact: Contact = new Contact(
             {

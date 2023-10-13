@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     public projectService: ProjectService,
     public taskService: TaskService,
-    public viewService: ViewService
+    public viewService: ViewService,
   ) {
     this.taskService.earliestDueDateSubject.subscribe(timestamp => {
       if(timestamp) {

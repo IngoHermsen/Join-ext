@@ -35,6 +35,7 @@ export class DefaultViewComponent implements OnDestroy {
   showProjectDropdown: boolean = false;
   currentRoute: string;
   routeIsContacts: boolean = null;
+  guestSession: boolean = false;
 
   // subscriptions
   projectSubscription: any;
@@ -73,7 +74,7 @@ export class DefaultViewComponent implements OnDestroy {
 
 
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {      
-      if (value != "none") {
+      if (value != "none") {        
         this.projectService.setActiveProject(value);
       }
 
@@ -87,28 +88,37 @@ export class DefaultViewComponent implements OnDestroy {
 
   _getUserData() {
     if (localStorage.getItem('user') !== 'null' && !this.authService.loggedIn) {
+      const isGuestSession: boolean = JSON.parse(localStorage.getItem('guestSession'))
+      this._setGuestSessionStatus(isGuestSession)
       return this._getUserDataFromLocalStorage()
     } else {
+      this._setGuestSessionStatus(this.authService.guestLogin)
       return this._getUserDataFromAuth()
     }
   }
 
-  initializeView(user: User) {    
+  initializeView(user: User) {  
     if (!this.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
       this.projectService.currentId.next(user.latestActiveProject)
-
-      this.viewInitialized = true;
+      this.viewInitialized = true;      
     }
   }
+
+
   ngAfterViewInit() {
     this.contactService.getContactList()
   }
 
   ngOnDestroy(): void {
-    // this.userSubscription.unsubscribe();
+  }
+
+  _setGuestSessionStatus(status: boolean) {
+    this.taskService.isGuestSession = status;
+    this.projectService.isGuestSession = status;    
+
   }
 
   setProjectDropdownItems() {
@@ -144,6 +154,7 @@ export class DefaultViewComponent implements OnDestroy {
     const userAsJson: any = JSON.parse(localStorage.getItem('user'));
     const userInitials: string = localStorage.getItem('initials');
     const latestProject: string = localStorage.getItem('activeProject');
+    const guestSession: boolean = JSON.parse(localStorage.getItem('guestSession'));
 
     pseudoUser.uid = userAsJson.uid;
     pseudoUser.initials = userInitials;
@@ -153,6 +164,7 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   _getUserDataFromAuth() {
+    this.guestSession = this.authService.guestLogin;
     return this.authService.userData;
   }
 
