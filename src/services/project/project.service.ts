@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject, from } from 'rxjs';
-import { concatMap, map, mergeMap } from 'rxjs/operators'
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { map, mergeMap } from 'rxjs/operators'
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
 import { TaskService } from '../task/task.service';
@@ -11,12 +11,12 @@ import { TaskService } from '../task/task.service';
   providedIn: 'root'
 })
 export class ProjectService implements OnInit {
-  projectCollectionRef = this.afs.collection('projects');
-  userCollectionRef = this.afs.collection('users');
+  fbProjectRefCollection: AngularFirestoreCollection = null;
+  fbContactRefCollection: AngularFirestoreCollection = null;
+  usersCollectionRef = this.afs.collection('users');
+  isGuestSession: boolean = false;
 
-  test: string;
-
-  userId: string;
+  activeUserId: string;
   projectsAsJson: Subject<any> = new Subject;
   projectTitle: string = null;
   projectDropdownItems: any[] = [];
@@ -30,22 +30,36 @@ export class ProjectService implements OnInit {
     public taskService: TaskService,
 
   ) {
-    this.test = 'HELLO'
-
+    this._setFirebaseProjectsCollection()
   }
 
   ngOnInit(): void {
   }
 
+  _setFirebaseProjectsCollection() {
+    let projectsCollectionName: string;
+    this.activeUserId = JSON.parse(localStorage.getItem('user')).uid;
+    if (this.activeUserId == 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
+      projectsCollectionName = 'guest_projects';
+      this.isGuestSession = true;
+    } else {
+      projectsCollectionName = 'projects';
+    }
+
+    this.fbProjectRefCollection = this.afs.collection(projectsCollectionName)
+    console.log(this.fbProjectRefCollection);
+
+  }
+
   setActiveProject(projectId: string) {
-    const projectDocRef: AngularFirestoreDocument<any> = this.projectCollectionRef.doc(projectId);
+    const projectDocRef: AngularFirestoreDocument<any> = this.fbProjectRefCollection.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
 
-        this.projectTitle = ref.data().projectTitle || "<no project>";        
-        
+      this.projectTitle = ref.data().projectTitle || "<no project>";
+
       return ref.data()
     }))
-      .subscribe((data) => {        
+      .subscribe((data) => {
         this.taskService.setTasksAsObject(projectDocRef)
       })
   }
@@ -59,9 +73,9 @@ export class ProjectService implements OnInit {
       priority: data.priority,
     }
 
-    const projectCollectionRef = this.projectCollectionRef.doc(this.currentId.getValue())
+    const fbProjectRefCollection = this.fbProjectRefCollection.doc(this.currentId.getValue())
     if (data.taskId) {
-      projectCollectionRef
+      fbProjectRefCollection
         .collection('tasks').doc(data.taskId).update(taskFormEntries)
         .then(() => {
           this.taskUpdates.next(taskFormEntries);
@@ -69,14 +83,17 @@ export class ProjectService implements OnInit {
         })
 
     } else {
-      projectCollectionRef
+      fbProjectRefCollection
         .collection('tasks').add(data)
         .then((docRef) => {
 
           docRef.update({ taskId: docRef.id })
             .then(() => {
-              this.taskService.setTaskAsObject(projectCollectionRef, docRef.id);
-              this.addProjectToUserDocs(taskFormEntries.assignedUsers)
+              this.taskService.setTaskAsObject(fbProjectRefCollection, docRef.id);
+              if (!this.isGuestSession) {
+                this.addProjectToUserDocs(taskFormEntries.assignedUsers);
+              }
+
             })
         })
     }
@@ -91,13 +108,13 @@ export class ProjectService implements OnInit {
       projectId: '',
       projectTitle: object.title,
       projectDescription: object.description,
-      projectOwnerId: this.userId,
+      projectOwnerId: this.activeUserId,
       tasks: []
     }
 
     // the following creates a firebase document with the projectData 
     // and then immediately updates the doc's 'projectId' with its own doc ID as value
-    this.projectCollectionRef.add(projectData)
+    this.fbProjectRefCollection.add(projectData)
       .then((docRef) => {
         docRef.update({ projectId: docRef.id })
         this.currentId.next(docRef.id)
@@ -106,37 +123,36 @@ export class ProjectService implements OnInit {
   }
 
   updateProjectsFromUser(userId: string, projectId: string) {
-    this.userCollectionRef.doc(userId).update({ projects: arrayUnion(projectId) })
+    this.usersCollectionRef.doc(userId).update({ projects: arrayUnion(projectId) })
     this.getProjectsAsJson(userId);
   }
 
   getProjectsAsJson(userId: string) {
     let projectsData: any[] = [];
-    this.userId = userId;
 
     // get projectIds for current User...
-    const usersDocRef: AngularFirestoreDocument<any> = this.userCollectionRef.doc(userId);
+    const usersDocRef: AngularFirestoreDocument<any> = this.usersCollectionRef.doc(userId);
 
     usersDocRef.get().pipe(mergeMap(ref => {
       const usersProjectIds = ref.data().projects;
 
-      return from(usersProjectIds).pipe(map((id) => {        
+      return from(usersProjectIds).pipe(map((id) => {
         return id
       }));
     })).pipe(map((id: any) => {
-      let projectDocRef: AngularFirestoreDocument = this.projectCollectionRef.doc(id);
+      let projectDocRef: AngularFirestoreDocument = this.fbProjectRefCollection.doc(id);
       return projectDocRef
     })).subscribe(ref => {
       ref.get().subscribe(ref => {
         const projData = ref.data();
-        
+
         projectsData.push(projData);
         this.projectDropdownItems.push(
           {
             label: projData['projectTitle'],
             id: projData['projectId'],
             command: () => {
-              
+
               this.changeActiveProject(projData['projectId'])
             }
           }
@@ -146,14 +162,14 @@ export class ProjectService implements OnInit {
     });
 
     this.projectsAsJson.next(projectsData);
-        
+
   }
 
   setLatestProjectInUserDoc(projectId: string) {
     const currentUserAsJson = JSON.parse(localStorage.getItem('user'));
     const currentUserId: string = currentUserAsJson.uid
 
-    this.userCollectionRef.doc(currentUserId)
+    this.usersCollectionRef.doc(currentUserId)
       .update({ latestActiveProject: projectId })
 
   }
@@ -163,11 +179,13 @@ export class ProjectService implements OnInit {
 
     const userIdsObs$ = from(userIds);
     userIdsObs$.pipe(map(userId => {
-      const usersDoc = this.userCollectionRef.doc(userId)
+      const usersDoc = this.usersCollectionRef.doc(userId)
       usersDoc.valueChanges()
         .subscribe(docData => {
           const projectId = this.currentId.getValue()
           const usersProjects: Array<string> = docData['projects'];
+          console.log('usersProjects', usersProjects);
+
           if (usersProjects.indexOf(projectId) == -1) {
             usersDoc.update({ projects: arrayUnion(projectId) })
           }

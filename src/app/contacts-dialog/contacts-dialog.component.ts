@@ -13,8 +13,8 @@ export class ContactsDialogComponent {
   characters = [];
   filteredCharacters = [];
 
-  //Firebase Collection for Users
-  usersCollectionRef = this.afs.collection('users');
+  //Firebase Contact Selection
+  usersCollectionRef = this.contactService.fbContactRefCollection;
 
   constructor(
     public afs: AngularFirestore,

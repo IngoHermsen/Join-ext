@@ -1,6 +1,6 @@
 import { LiteralMapExpr } from '@angular/compiler';
 import { Injectable, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { arrayRemove } from '@angular/fire/firestore';
 import { Subject, from, map, mergeMap } from 'rxjs';
 import { Contact } from 'src/models/contact';
@@ -19,23 +19,37 @@ export class ContactService implements OnInit {
   usersContacts: Array<Contact>;
   contactListComplete: boolean;
   characters = [];
+  
+  fbContactRefCollection: AngularFirestoreCollection = null;
 
   constructor(
     public afs: AngularFirestore,
   ) {
+
     const userAsJson = JSON.parse(localStorage.getItem('user'));
     this.activeUserId = userAsJson.uid;
     this.activeUsersDoc = this.usersCollection.doc(this.activeUserId);
+    this._setFirebaseUsersCollection()
 
   }
 
   ngOnInit(): void {
-
   }
 
 
   addUserAsContact(userId: string) {
     this.newContactId.next(userId)
+  }
+
+  _setFirebaseUsersCollection() {
+    let usersCollectionName: string;
+    if(this.activeUserId == 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
+      usersCollectionName = 'guest_users';
+    } else {
+      usersCollectionName = 'users';
+    };
+
+    this.fbContactRefCollection = this.afs.collection(usersCollectionName);    
   }
 
   getContactList() {
@@ -45,9 +59,11 @@ export class ContactService implements OnInit {
       return from<string[]>(userSnapshot.data()['contacts']);
     })).subscribe({
       next: (contactId) => {
-        const contactUsersDoc: AngularFirestoreDocument = this.usersCollection.doc(contactId);
+        const contactUsersDoc: AngularFirestoreDocument = this.fbContactRefCollection.doc(contactId);
         contactUsersDoc.get().subscribe((userSnapshot) => {
           const userData = userSnapshot.data();
+          console.log('user Data', userData);
+          
           const contact: Contact = new Contact(
             {
               uid: userData['uid'],

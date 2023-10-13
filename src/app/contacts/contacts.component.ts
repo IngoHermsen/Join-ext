@@ -11,7 +11,6 @@ import { __values } from 'tslib';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit, AfterViewInit {
-  usersCollection = this.afs.collection('users');
   contactUsersDoc = null;
   characters = [];
 
@@ -36,6 +35,5 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
 
   }
-
   
 }

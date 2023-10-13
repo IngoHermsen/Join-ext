@@ -20,15 +20,12 @@ export class TaskService implements OnInit {
   amountOfTasks: number = 0;
   amountOfUrgent: number = 0;
   earliestDueDateSubject: Subject<Timestamp> = new Subject();
-  initTest: string = null;
-
 
   constructor(
     public afs: AngularFirestore,
     public router: Router,
     public viewService: ViewService,
   ) {        
-    this.initTest = 'initiated';
     this.tasksByStatus = {
       todo: [],
       inProgress: [],
@@ -41,13 +38,13 @@ export class TaskService implements OnInit {
 
   }
 
-
   updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
     const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
     const projectDocRef: AngularFirestoreDocument<any> = projectCollectionRef.doc(projectId);
     const taskCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks');
     const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);
     taskDocumentRef.update({ status: status });
+
   }
 
   saveTask(object: any, taskId: string | null) {

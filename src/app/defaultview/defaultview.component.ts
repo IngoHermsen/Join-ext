@@ -1,8 +1,8 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { NavigationEnd, Router } from '@angular/router';
-import { concatMap, from, map, mergeMap, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { Contact } from 'src/models/contact';
-import { Project } from 'src/models/project';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ContactService } from 'src/services/contact/contact.service';
@@ -41,7 +41,9 @@ export class DefaultViewComponent implements OnDestroy {
   taskSubscription: any;
   userDataSubscription: any;
   routeSubscription: any;
-  // usersFirebaseDoc
+
+  // Firebase Environemt
+  fbCollectionForContacts: AngularFirestoreCollection = null;
 
 
   constructor(
@@ -50,8 +52,9 @@ export class DefaultViewComponent implements OnDestroy {
     public taskService: TaskService,
     public viewService: ViewService,
     public authService: AuthService,
-    public router: Router
-  ) {
+    public router: Router,
+
+    ) {
 
     this.routeSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -90,8 +93,7 @@ export class DefaultViewComponent implements OnDestroy {
     }
   }
 
-  initializeView(user: User) {
-
+  initializeView(user: User) {    
     if (!this.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
