@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Project } from 'src/models/project';
 import { arrayUnion } from "firebase/firestore";
 import { TaskService } from '../task/task.service';
+import { Task } from 'src/models/task';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class ProjectService implements OnInit {
 
   currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
-  taskUpdates: Subject<any> = new Subject;
+  taskUpdates: Subject<Task> = new Subject;
 
   constructor(
     public afs: AngularFirestore,
@@ -37,7 +38,7 @@ export class ProjectService implements OnInit {
   }
 
   _setFirebaseProjectsCollection() {
-    
+
     let projectsCollectionName: string;
     this.activeUserId = JSON.parse(localStorage.getItem('user')).uid;
     if (JSON.parse(localStorage.getItem('guestSession'))) {
@@ -45,15 +46,15 @@ export class ProjectService implements OnInit {
     } else {
       projectsCollectionName = 'projects';
     }
-    
+
     this.fbProjectRefCollection = this.afs.collection(projectsCollectionName);
 
   }
 
-  setActiveProject(projectId: string) {    
+  setActiveProject(projectId: string) {
     const projectDocRef: AngularFirestoreDocument<any> = this.fbProjectRefCollection.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
-      
+
       this.projectTitle = ref.data().projectTitle || "<no project>";
 
       return ref.data()
@@ -77,8 +78,10 @@ export class ProjectService implements OnInit {
       fbProjectRefCollection
         .collection('tasks').doc(data.taskId).update(taskFormEntries)
         .then(() => {
-          this.taskUpdates.next(taskFormEntries);
-          this.addProjectToUserDocs(taskFormEntries.assignedUsers)
+          this.taskUpdates.next(data);
+          if (!this.isGuestSession) {
+            this.addProjectToUserDocs(taskFormEntries.assignedUsers);
+          }
         })
 
     } else {
@@ -90,7 +93,6 @@ export class ProjectService implements OnInit {
             .then(() => {
               this.taskService.setTaskAsObject(fbProjectRefCollection, docRef.id);
               if (!this.isGuestSession) {
-  
                 this.addProjectToUserDocs(taskFormEntries.assignedUsers);
               }
 
@@ -175,8 +177,7 @@ export class ProjectService implements OnInit {
   }
 
   addProjectToUserDocs(users: Array<any>) {
-    console.log('USERS', users);
-    
+
     const userIds = users.map(user => user.uid)
 
     const userIdsObs$ = from(userIds);
@@ -184,7 +185,7 @@ export class ProjectService implements OnInit {
       const usersDoc = this.usersCollectionRef.doc(userId)
       usersDoc.valueChanges()
         .subscribe(docData => {
-          const projectId = this.currentId.getValue()
+          const projectId = this.currentId.getValue();
           const usersProjects: Array<string> = docData['projects'];
 
           if (usersProjects.indexOf(projectId) == -1) {

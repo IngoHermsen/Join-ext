@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { Timestamp } from '@angular/fire/firestore';
 import { Subject, map, mergeMap, switchMap } from 'rxjs';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
@@ -18,20 +18,20 @@ export class TaskBoardComponent implements OnInit {
   hideAllTasks: boolean = false;
   hideSection: string = null;
   sectionView: any = {}
-  
+
 
   //subscriptions
   projectSubscription: any;
 
-  fbProjectRefCollectionName: string; 
+  fbProjectRefCollectionName: string;
 
 
   constructor(
     public projectService: ProjectService,
     public taskService: TaskService
   ) {
-    
-    if(this.taskService.isGuestSession) {
+
+    if (this.taskService.isGuestSession) {
       this.fbProjectRefCollectionName = 'guest_projects';
     } else {
       this.fbProjectRefCollectionName = 'projects';
@@ -40,9 +40,9 @@ export class TaskBoardComponent implements OnInit {
     this.taskService.fbProjectsCollectionName = this.fbProjectRefCollectionName
 
     addEventListener('drag', e => {
-      this.draggedHTMLElement = e.target as HTMLElement;      
+      this.draggedHTMLElement = e.target as HTMLElement;
       this.draggedHTMLElement.classList.add('dragging');
-          this._setTaskView(window.innerWidth);
+      this._setTaskView(window.innerWidth);
     });
 
     addEventListener('dragend', e => {
@@ -53,10 +53,10 @@ export class TaskBoardComponent implements OnInit {
       this.hideAllTasks = false;
     })
 
-    
+
   }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
 
     this.sectionView = {
       todo: true,
@@ -71,7 +71,7 @@ export class TaskBoardComponent implements OnInit {
       }
     })
 
-    this.projectService.taskUpdates.subscribe((taskEntries) => {
+    this.projectService.taskUpdates.subscribe((taskEntries) => {      
       this.editedTask.title = taskEntries.title,
         this.editedTask.description = taskEntries.description,
         this.editedTask.assignedUsers = taskEntries.assignedUsers,
@@ -87,15 +87,15 @@ export class TaskBoardComponent implements OnInit {
     this.draggedTask = task;
   }
 
-  drop(status: string) {    
-    if (this.draggedTask.status != status) {      
+  drop(status: string) {
+    if (this.draggedTask.status != status) {
       this._updateTaskView(this.draggedTask, status);
       this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
     }
-    
+
     this.draggedTask = null;
-    this.draggedOverSection = null;     
-    this.hideAllTasks = false;     
+    this.draggedOverSection = null;
+    this.hideAllTasks = false;
 
   }
 
@@ -106,21 +106,24 @@ export class TaskBoardComponent implements OnInit {
   }
 
   _updateTaskView(task: Task, newStatus?: string) {
+    console.log('TASK', task);
+    
     const previousTaskStatus = task.status;
-    const index = this._findIndex(task)
+    const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
+    const index = this._findIndex(task);
 
     this.taskService.tasksByStatus[previousTaskStatus].splice(index, 1);
 
     if (newStatus) {
+
       task.status = newStatus
       this.taskService.tasksByStatus[newStatus].push(task);
     } else {
-      const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
-      statusArray.splice(index, 0, task)
-      this.editedTask = null;
-      statusArray.slice([], statusArray)
+      statusArray.splice(index, 0, task);
+      this._convertDueDate(statusArray, this._findIndex(task))
     }
-    
+
+    this.editedTask = null;
   }
 
   _findIndex(task: Task) {
@@ -134,9 +137,15 @@ export class TaskBoardComponent implements OnInit {
     return index;
   }
 
+  _convertDueDate(statusArray: Array<any>, index: number) {
+    let taskDueDate = statusArray[index].dueDate;    
+    statusArray[index].dueDate = Timestamp.fromDate(taskDueDate)
+    console.log(statusArray);
+  }
+
 
   _setTaskView(screenWidth: number) {
-    if(screenWidth <= 620) {
+    if (screenWidth <= 620) {
       this.hideAllTasks = true;
     }
   }

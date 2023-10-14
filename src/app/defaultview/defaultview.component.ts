@@ -82,7 +82,6 @@ export class DefaultViewComponent implements OnDestroy {
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
       this.projectService.saveNewTask(data);
-
     })
   }
 

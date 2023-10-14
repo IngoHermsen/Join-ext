@@ -6,7 +6,6 @@ import { Contact } from 'src/models/contact';
 import { Router } from '@angular/router';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from '../view/view.service';
-import { set } from '@angular/fire/database';
 
 
 @Injectable({
@@ -52,7 +51,7 @@ export class TaskService implements OnInit {
   }
 
   saveTask(object: any, taskId: string | null) {
-    let taskData = new Task(object);
+    let taskData = new Task(object);    
 
     taskData = {
       taskId: taskId,
@@ -83,11 +82,14 @@ export class TaskService implements OnInit {
   }
 
 
-  transformDueDate(dueDate: Timestamp | Date) {
+  convertDueDate(dueDate: Timestamp | Date) {
+    
     if (dueDate instanceof Timestamp) {
       const secondsAsDate = new Date(dueDate.seconds * 1000);
       return secondsAsDate.toLocaleDateString();
-    } else {
+    } else {    
+      console.log('LOG', dueDate instanceof Date);
+            
       return dueDate.toLocaleDateString();
     }
   }
@@ -110,7 +112,7 @@ export class TaskService implements OnInit {
       
       return from(ref.docs);
     })).pipe(map(doc => {      
-      const task = doc.data();
+      const task = doc.data();      
       const status = task.status;
 
       if (earliestDueDate == null || task.dueDate < earliestDueDate) {
@@ -131,7 +133,7 @@ export class TaskService implements OnInit {
 
   setTaskAsObject(projectDocRef: AngularFirestoreDocument, taskId: string) {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
-
+    
     tasksCollectionRef.doc(taskId)
       .get()
       .pipe(map((doc) => {
