@@ -22,12 +22,12 @@ export class TaskCardComponent implements OnInit {
     private router: Router,
     private viewService: ViewService
   ) {
-
+    
   }
 
-  ngOnInit(): void {
-    this.dueDateAsString = this.taskService.transformDueDate(this.task.dueDate);
-    this.status = this._setStatus();
+  ngOnInit(): void {    
+    this.dueDateAsString = this.taskService.convertDueDate(this.task.dueDate);
+    this.status = this._setStatus();    
   }
 
   btnItems: any[] = [

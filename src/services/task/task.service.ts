@@ -12,6 +12,8 @@ import { ViewService } from '../view/view.service';
   providedIn: 'root'
 })
 export class TaskService implements OnInit {
+  isGuestSession: boolean = false;
+  fbProjectsCollectionName: string = null;
   tasksByStatus: any;
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
@@ -31,24 +33,25 @@ export class TaskService implements OnInit {
       inProgress: [],
       inReview: [],
       done: []
-    };
+    };    
   }
 
   ngOnInit() {
-
   }
 
-  updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
-    const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection('projects');
+
+  updateTaskDocumentStatus(status: string, taskId: string, projectId: string) { 
+       
+    const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection(this.fbProjectsCollectionName);
     const projectDocRef: AngularFirestoreDocument<any> = projectCollectionRef.doc(projectId);
     const taskCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks');
-    const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);
-    taskDocumentRef.update({ status: status });
-
+    const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);    
+    taskDocumentRef.update({ status: status });    
+        
   }
 
   saveTask(object: any, taskId: string | null) {
-    let taskData = new Task(object);
+    let taskData = new Task(object);    
 
     taskData = {
       taskId: taskId,
@@ -79,11 +82,14 @@ export class TaskService implements OnInit {
   }
 
 
-  transformDueDate(dueDate: Timestamp | Date) {
+  convertDueDate(dueDate: Timestamp | Date) {
+    
     if (dueDate instanceof Timestamp) {
       const secondsAsDate = new Date(dueDate.seconds * 1000);
       return secondsAsDate.toLocaleDateString();
-    } else {
+    } else {    
+      console.log('LOG', dueDate instanceof Date);
+            
       return dueDate.toLocaleDateString();
     }
   }
@@ -106,7 +112,7 @@ export class TaskService implements OnInit {
       
       return from(ref.docs);
     })).pipe(map(doc => {      
-      const task = doc.data();
+      const task = doc.data();      
       const status = task.status;
 
       if (earliestDueDate == null || task.dueDate < earliestDueDate) {
@@ -127,7 +133,7 @@ export class TaskService implements OnInit {
 
   setTaskAsObject(projectDocRef: AngularFirestoreDocument, taskId: string) {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
-
+    
     tasksCollectionRef.doc(taskId)
       .get()
       .pipe(map((doc) => {

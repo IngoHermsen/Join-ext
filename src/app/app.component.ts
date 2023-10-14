@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CanActivateChildFn, Router } from '@angular/router';
-import { ContactService } from 'src/services/contact/contact.service';
-import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
 
 
@@ -16,7 +13,6 @@ export class AppComponent implements OnInit {
   
   constructor(
     public viewService: ViewService,
-    public taskService: TaskService,
 
     ) {}
 

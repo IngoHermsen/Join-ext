@@ -147,11 +147,6 @@ export class TaskDialogComponent implements OnInit {
         }
       }    
       
-      const currentUserFromLocalStorage = JSON.parse(localStorage.getItem('user'))
-
-      if (currentUserFromLocalStorage.uid != 'LEhjHR9pKMOYrlmeMx9LqHpl05z2') {
-        this.projectService.addProjectToUserDocs(userIds)
-      }
     }
     )
   }
