@@ -3,6 +3,7 @@
     <span>
         There is no active project. Select a project or create a new one.
     </span>
+    <i (click)="showProjectDialog()" class="pi pi-plus-circle"></i>
 </div>
 <div routerLink="/tasks" *ngIf="this.showDashboard" class="content">
     <div class="card-area">

@@ -3,6 +3,7 @@ import { TaskService } from '../../services/task/task.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
 import { ProjectService } from 'src/services/project/project.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -87,6 +88,10 @@ export class DashboardComponent implements OnInit {
     this.deadlineDate = `${month} ${day}, ${year}`;
     localStorage.setItem('earliestDueDate', this.deadlineDate)
 
+  }
+
+  showProjectDialog() {
+    this.projectService.showDialog.next(true);
   }
 
 }
