@@ -22,7 +22,7 @@
             </div>
 
             <div class="avatar-area">
-                <p-button class="ml-8" pTooltip="New Project" tooltipPosition="left" draggable="false" (click)="showProjectDialog()" label="{{viewService.newProjectBtnLabel}}"
+                <p-button    pTooltip="New Project" tooltipPosition="left" draggable="false" (click)="showProjectDialog()" label="{{viewService.newProjectBtnLabel}}"
                 icon="pi pi-plus" styleClass="p-button-secondary"></p-button>
                 <div *ngIf="showAvatarMenu" class="sign-out-button" (click)="authService.SignOut()">SIGN OUT</div>
                 <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}</div>

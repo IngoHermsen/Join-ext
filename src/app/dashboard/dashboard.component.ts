@@ -22,20 +22,20 @@ export class DashboardComponent implements OnInit {
     public viewService: ViewService,
   ) {
     this.taskService.earliestDueDateSubject.subscribe(timestamp => {
-      if(timestamp) {
-              this.getDeadlineDateString(timestamp);
+      if (timestamp) {
+        this.getDeadlineDateString(timestamp);
       } else {
         this.deadlineDate = null;
       }
-    })    
+    })
 
-    if(this.projectService.currentId.getValue() !== 'none') {     
+    if (this.projectService.currentId.getValue() !== 'none') {
       this.showDashboard = true;
     } else {
       this.showDashboard = false;
-    }   
+    }
 
-    
+
 
   }
 

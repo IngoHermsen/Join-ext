@@ -73,7 +73,7 @@ export class DefaultViewComponent implements OnDestroy {
     this.initializeView(this._getUserData())
 
 
-    this.projectSubscription = this.projectService.currentId.subscribe((value) => {      
+    this.projectSubscription = this.projectService.currentId.subscribe((value) => {           
       if (value != "none") {        
         this.projectService.setActiveProject(value);
       }

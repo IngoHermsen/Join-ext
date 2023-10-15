@@ -88,8 +88,7 @@ export class TaskService implements OnInit {
       const secondsAsDate = new Date(dueDate.seconds * 1000);
       return secondsAsDate.toLocaleDateString();
     } else {    
-      console.log('LOG', dueDate instanceof Date);
-            
+           
       return dueDate.toLocaleDateString();
     }
   }

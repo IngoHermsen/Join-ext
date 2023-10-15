@@ -35,6 +35,13 @@
         padding: 0px 32px;
         overflow-y: hidden;
 
+
+        .add-button {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+        }
+
         .header {
             display: flex;
             background-color: white;
@@ -55,7 +62,7 @@
                 width: 250px;
                 text-wrap: nowrap;
 
-                
+
                 &:hover {
                     cursor: pointer;
 
@@ -75,6 +82,7 @@
                         from {
                             transform: rotate(180deg);
                         }
+
                         to {
                             transform: rotate(0deg);
                         }
@@ -89,6 +97,7 @@
                         from {
                             transform: rotate(0deg);
                         }
+
                         to {
                             transform: rotate(180deg);
                         }
@@ -178,7 +187,21 @@
 @media only screen and (max-width: 520px) {
     .default-view {
         .content-area {
-            height: calc(100% - 90px)
+            height: calc(100% - 90px);
+
+
+            .add-button {
+                position: absolute;
+                bottom: 100px;
+                left: 12px;
+            }
+
+            .header {
+                h2 {
+                    width: 230px;
+                }
+            }
+
         }
     }
 }

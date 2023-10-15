@@ -102,7 +102,7 @@ export class ProjectService implements OnInit {
     }
   }
 
-  createNewProject(object: any) {
+  createNewProject(object: any) {    
     let projectData = new Project;
 
     projectData = {
@@ -193,7 +193,7 @@ export class ProjectService implements OnInit {
 
   }
 
-  changeActiveProject(projectId?: string) {
+  changeActiveProject(projectId?: string) {    
     let id = projectId;
     this.currentId.next(id);
     this.setLatestProjectInUserDoc(id)

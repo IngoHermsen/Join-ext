@@ -83,8 +83,7 @@ export class TaskBoardComponent implements OnInit {
 
     this.projectService.deletedTaskId.subscribe((task) => {
       const taskStatusArray: Array<any> = this.taskService.tasksByStatus[task.status]
-      console.log(taskStatusArray);
-      
+    
       const taskIndex: number = taskStatusArray.findIndex(statusTask => {        
         return statusTask.taskId == task.taskId;              
       });
@@ -117,8 +116,6 @@ export class TaskBoardComponent implements OnInit {
   }
 
   _updateTaskView(task: Task, newStatus?: string) {
-    console.log('TASK', task);
-
     const previousTaskStatus = task.status;
     const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
     const index = this._findIndex(task);
@@ -151,8 +148,7 @@ export class TaskBoardComponent implements OnInit {
   _convertDueDate(statusArray: Array<any>, index: number) {
     let taskDueDate = statusArray[index].dueDate;
     statusArray[index].dueDate = Timestamp.fromDate(taskDueDate)
-    console.log(statusArray);
-  }
+ }
 
 
   _setTaskView(screenWidth: number) {
