@@ -25,6 +25,7 @@ export class ProjectService implements OnInit {
   currentId: BehaviorSubject<string> = new BehaviorSubject('');
   showDialog = new Subject<boolean>;
   taskUpdates: Subject<Task> = new Subject;
+  deletedTaskId: Subject<Task> = new Subject;
 
   constructor(
     public afs: AngularFirestore,
@@ -73,9 +74,9 @@ export class ProjectService implements OnInit {
       priority: data.priority,
     }
 
-    const fbProjectRefCollection = this.fbProjectRefCollection.doc(this.currentId.getValue())
+    const fbProjectDocument = this.fbProjectRefCollection.doc(this.currentId.getValue())
     if (data.taskId) {
-      fbProjectRefCollection
+      fbProjectDocument
         .collection('tasks').doc(data.taskId).update(taskFormEntries)
         .then(() => {
           this.taskUpdates.next(data);
@@ -85,13 +86,13 @@ export class ProjectService implements OnInit {
         })
 
     } else {
-      fbProjectRefCollection
+      fbProjectDocument
         .collection('tasks').add(data)
         .then((docRef) => {
 
           docRef.update({ taskId: docRef.id })
             .then(() => {
-              this.taskService.setTaskAsObject(fbProjectRefCollection, docRef.id);
+              this.taskService.setTaskAsObject(fbProjectDocument, docRef.id);
               if (!this.isGuestSession) {
                 this.addProjectToUserDocs(taskFormEntries.assignedUsers);
               }
@@ -99,9 +100,7 @@ export class ProjectService implements OnInit {
             })
         })
     }
-
   }
-
 
   createNewProject(object: any) {
     let projectData = new Project;
@@ -158,13 +157,11 @@ export class ProjectService implements OnInit {
               this.changeActiveProject(projData['projectId'])
             }
           }
-        )
-          ;
+        );
       })
     });
 
     this.projectsAsJson.next(projectsData);
-
   }
 
   setLatestProjectInUserDoc(projectId: string) {
@@ -196,7 +193,6 @@ export class ProjectService implements OnInit {
 
   }
 
-
   changeActiveProject(projectId?: string) {
     let id = projectId;
     this.currentId.next(id);
@@ -205,7 +201,16 @@ export class ProjectService implements OnInit {
     localStorage.setItem('activeProject', id);
   }
 
+  deleteTask(task: Task) {
+    const fbProjectDocument = this.fbProjectRefCollection.doc(this.currentId.getValue())
+    const fbTaskCollection = fbProjectDocument.collection('tasks');
+    const fbTaskDocument = fbTaskCollection.doc(task.taskId);
 
+    fbTaskDocument.delete()
+    .then(() => {
+      this.deletedTaskId.next(task);
+    })
+  }
 }
 
 

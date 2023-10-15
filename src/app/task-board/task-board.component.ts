@@ -63,15 +63,15 @@ export class TaskBoardComponent implements OnInit {
       inProgress: true,
       inReview: true,
       done: true
-    }
+    };
 
     this.taskService.activeTask.subscribe(task => {
       if (task) {
         this.editedTask = task;
       }
-    })
+    });
 
-    this.projectService.taskUpdates.subscribe((taskEntries) => {      
+    this.projectService.taskUpdates.subscribe((taskEntries) => {
       this.editedTask.title = taskEntries.title,
         this.editedTask.description = taskEntries.description,
         this.editedTask.assignedUsers = taskEntries.assignedUsers,
@@ -79,6 +79,17 @@ export class TaskBoardComponent implements OnInit {
         this.editedTask.priority = taskEntries.priority
 
       this._updateTaskView(this.editedTask)
+    });
+
+    this.projectService.deletedTaskId.subscribe((task) => {
+      const taskStatusArray: Array<any> = this.taskService.tasksByStatus[task.status]
+      console.log(taskStatusArray);
+      
+      const taskIndex: number = taskStatusArray.findIndex(statusTask => {        
+        return statusTask.taskId == task.taskId;              
+      });
+
+      taskStatusArray.splice(taskIndex, 1)
     })
 
   }
@@ -107,7 +118,7 @@ export class TaskBoardComponent implements OnInit {
 
   _updateTaskView(task: Task, newStatus?: string) {
     console.log('TASK', task);
-    
+
     const previousTaskStatus = task.status;
     const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
     const index = this._findIndex(task);
@@ -138,7 +149,7 @@ export class TaskBoardComponent implements OnInit {
   }
 
   _convertDueDate(statusArray: Array<any>, index: number) {
-    let taskDueDate = statusArray[index].dueDate;    
+    let taskDueDate = statusArray[index].dueDate;
     statusArray[index].dueDate = Timestamp.fromDate(taskDueDate)
     console.log(statusArray);
   }

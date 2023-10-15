@@ -15,6 +15,7 @@ export class TaskCardComponent implements OnInit {
   @Input() dragging: boolean = false;
   dueDateAsString: string;
   status: string;
+  deleteDialog: boolean = false;
 
   constructor(
     public projectService: ProjectService,
@@ -54,6 +55,10 @@ export class TaskCardComponent implements OnInit {
     this.viewService.showSidebar('task');
     this.taskService.editMode = true;
     this.taskService.activeTask.next(task);
+  }
+
+  toggleDeleteDialog(task: Task) {
+    this.deleteDialog = !this.deleteDialog;
   }
 
 }
