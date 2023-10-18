@@ -127,6 +127,11 @@ export class ContactService implements OnInit {
     }
     return characterIsEmpty
   }
+
+  setProfileState(state: boolean) {
+    this.activeUsersDoc.update({ public: state })
+    
+  }
 }
 
 

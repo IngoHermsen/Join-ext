@@ -18,14 +18,23 @@
                         [class.turn-icon]="showProjectDropdown"></i>
                     {{ projectService.projectTitle }}
                 </h2>
-               
+
             </div>
 
             <div class="avatar-area">
-                <p-button    pTooltip="New Project" tooltipPosition="left" draggable="false" (click)="showProjectDialog()" label="{{viewService.newProjectBtnLabel}}"
-                icon="pi pi-plus" styleClass="p-button-secondary"></p-button>
-                <div *ngIf="showAvatarMenu" class="sign-out-button" (click)="authService.SignOut()">SIGN OUT</div>
-                <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}</div>
+                <p-button pTooltip="New Project" tooltipPosition="left" draggable="false" (click)="showProjectDialog()"
+                    label="{{viewService.newProjectBtnLabel}}" icon="pi pi-plus"
+                    styleClass="p-button-secondary"></p-button>
+
+                <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}
+
+                </div>
+                <div *ngIf="showAvatarMenu" class="avatar-menu">
+                    <span (click)="authService.SignOut()" id="sign-out">SIGN OUT</span>
+                    <div class="public-switch" id="public-switch">
+                        <span>Public</span><p-inputSwitch (onChange)="changeProfileState()" [(ngModel)]="publicProfile"></p-inputSwitch>
+                    </div>
+                </div>
             </div>
         </div>
         <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="viewService.showSidebar('task')"

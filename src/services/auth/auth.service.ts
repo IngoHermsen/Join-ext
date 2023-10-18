@@ -168,7 +168,7 @@ export class AuthService {
         contacts: userDocData.contacts,
         projects: userDocData.projects,
         latestActiveProject: userDocData.latestActiveProject,
-        public: userDocData.public
+        public: userDocData.public,
       };
 
       this.userData = userData;      
@@ -176,7 +176,8 @@ export class AuthService {
       localStorage.setItem('initials', userData.initials);
       localStorage.setItem('activeProject', userData.latestActiveProject);
       localStorage.setItem('greetName', userData.firstName);
-      localStorage.setItem('guestSession', this.guestLogin ? 'true' : 'false')
+      localStorage.setItem('guestSession', this.guestLogin ? 'true' : 'false');
+      localStorage.setItem('publicProfile', userData.public ? 'true' : 'false');
 
       this.afAuth.authState.subscribe((user) => {
         if (user && this.isLoggedIn == true) { 
@@ -194,13 +195,7 @@ export class AuthService {
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
-      localStorage.removeItem('initials');
-      localStorage.removeItem('activeProject');
-      localStorage.removeItem('greetName');
-      localStorage.removeItem('earliestDueDate');
-      localStorage.removeItem('guestSession')
-
+      localStorage.clear();
       this.router.navigate(['auth/login']);
     });
   }

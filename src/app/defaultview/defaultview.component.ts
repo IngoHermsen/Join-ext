@@ -36,6 +36,8 @@ export class DefaultViewComponent implements OnDestroy {
   currentRoute: string;
   routeIsContacts: boolean = null;
   guestSession: boolean = false;
+  publicProfile: boolean;
+  avatarMenuTimeout;
 
   // subscriptions
   projectSubscription: any;
@@ -55,7 +57,7 @@ export class DefaultViewComponent implements OnDestroy {
     public authService: AuthService,
     public router: Router,
 
-    ) {
+  ) {
 
     this.routeSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -64,7 +66,7 @@ export class DefaultViewComponent implements OnDestroy {
     });
 
     this.projectService.projectsAsJson.subscribe((data) => {
-      this.projects = data;      
+      this.projects = data;
 
     });
 
@@ -73,8 +75,8 @@ export class DefaultViewComponent implements OnDestroy {
     this.initializeView(this._getUserData())
 
 
-    this.projectSubscription = this.projectService.currentId.subscribe((value) => {           
-      if (value != "none") {        
+    this.projectSubscription = this.projectService.currentId.subscribe((value) => {
+      if (value != "none") {
         this.projectService.setActiveProject(value);
       }
 
@@ -96,13 +98,14 @@ export class DefaultViewComponent implements OnDestroy {
     }
   }
 
-  initializeView(user: User) {  
+  initializeView(user: User) {
     if (!this.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
-      this.projectService.currentId.next(user.latestActiveProject)
-      this.viewInitialized = true;      
+      this.projectService.currentId.next(user.latestActiveProject);
+      this.publicProfile = user.public;
+      this.viewInitialized = true;
     }
   }
 
@@ -116,7 +119,7 @@ export class DefaultViewComponent implements OnDestroy {
 
   _setGuestSessionStatus(status: boolean) {
     this.taskService.isGuestSession = status;
-    this.projectService.isGuestSession = status;    
+    this.projectService.isGuestSession = status;
 
   }
 
@@ -143,8 +146,8 @@ export class DefaultViewComponent implements OnDestroy {
           displayName: userData['firstName'] + " " + userData['lastName']
         }
       )
-      
-      this.contactService.activeUserAsAssignable = asContact;      
+
+      this.contactService.activeUserAsAssignable = asContact;
     })).subscribe()
   }
 
@@ -153,7 +156,6 @@ export class DefaultViewComponent implements OnDestroy {
     const userAsJson: any = JSON.parse(localStorage.getItem('user'));
     const userInitials: string = localStorage.getItem('initials');
     const latestProject: string = localStorage.getItem('activeProject');
-    const guestSession: boolean = JSON.parse(localStorage.getItem('guestSession'));
 
     pseudoUser.uid = userAsJson.uid;
     pseudoUser.initials = userInitials;
@@ -176,12 +178,21 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   toggleAvatarMenu() {
-    this.showAvatarMenu = !this.showAvatarMenu
-  }
+    this.showAvatarMenu = !this.showAvatarMenu;
+    }
 
   toggleDropdown() {
     this.showProjectDropdown = !this.showProjectDropdown;
   }
+
+  changeProfileState() {
+    clearTimeout(this.avatarMenuTimeout);
+    this.contactService.setProfileState(this.publicProfile);
+    this.avatarMenuTimeout = setTimeout(() => {
+      this.showAvatarMenu = false;
+    }, 1800)
+  }
+
 }
 
 

@@ -20,15 +20,17 @@ export class AppComponent implements OnInit {
 
     ) {
       this.router.events.subscribe((event) => {        
-        if(event instanceof NavigationEnd) {
-          localStorage.setItem('activeRoute', event.url)
+        if(event instanceof NavigationEnd) {          
+          sessionStorage.setItem('activeRoute', event.url)
         }
       })
     }
 
   ngOnInit() {    
     this.viewService.setNavViewMode(); 
-    this.activeRoute = localStorage.getItem('activeRoute');
+    this.activeRoute = sessionStorage.getItem('activeRoute');
+    console.log('ACTIVE ROUTE', this.activeRoute);
+    
     this.router.navigate([this.activeRoute])
   }
 }

@@ -8,7 +8,6 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-import { ProgressBarModule } from 'primeng/progressbar';
 
 //UI Library
 import { MenuModule } from 'primeng/menu';
@@ -29,6 +28,9 @@ import { AvatarModule } from 'primeng/avatar';
 import { DragDropModule } from 'primeng/dragdrop';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { ProgressBarModule } from 'primeng/progressbar';
+
 
 
 //General
@@ -113,6 +115,7 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     AvatarModule,
     ProgressBarModule,
     TooltipModule,
+    InputSwitchModule,
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

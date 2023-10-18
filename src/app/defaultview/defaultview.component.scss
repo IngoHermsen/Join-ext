@@ -139,7 +139,11 @@
                     }
                 }
 
-                .sign-out-button {
+                .avatar-menu {
+                    font-size: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
                     text-align: right;
                     font-weight: 500;
                     position: absolute;
@@ -149,11 +153,23 @@
                     color: rgb(100, 116, 139);
                     height: 100% !important;
                     padding: 4px 0px 4px 0px;
+                    border-top: 1px solid rgba(0, 0, 0, 0.2);
+                    margin-top: 8px;
 
-                    &:hover {
-                        font-weight: 600;
-                        cursor: pointer;
+                    >span {
+
+                        &:hover {
+                            font-weight: 600;
+                            cursor: pointer;
+                        }
                     }
+
+                    .public-switch {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+
                 }
             }
 
