@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ViewService } from 'src/services/view/view.service';
 
 
@@ -10,15 +11,25 @@ import { ViewService } from 'src/services/view/view.service';
 
 export class AppComponent implements OnInit {
   title = 'ng-join';
+  activeRoute: string;
+
   
   constructor(
+    private router: Router,
     public viewService: ViewService,
 
-    ) {}
+    ) {
+      this.router.events.subscribe((event) => {        
+        if(event instanceof NavigationEnd) {
+          localStorage.setItem('activeRoute', event.url)
+        }
+      })
+    }
 
   ngOnInit() {    
-
-    this.viewService.setNavViewMode();    
+    this.viewService.setNavViewMode(); 
+    this.activeRoute = localStorage.getItem('activeRoute');
+    this.router.navigate([this.activeRoute])
   }
 }
 

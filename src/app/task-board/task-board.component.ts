@@ -87,6 +87,9 @@ export class TaskBoardComponent implements OnInit {
       const taskIndex: number = taskStatusArray.findIndex(statusTask => {        
         return statusTask.taskId == task.taskId;              
       });
+      console.log(taskStatusArray);
+      console.log(taskIndex)
+      
 
       taskStatusArray.splice(taskIndex, 1)
     })
@@ -110,9 +113,9 @@ export class TaskBoardComponent implements OnInit {
   }
 
   showDropIndication(section) {
-    if (this.draggedTask) {
+    if (this.draggedTask && this.draggedTask.status !== section) {
       this.draggedOverSection = section;
-    }
+    } 
   }
 
   _updateTaskView(task: Task, newStatus?: string) {

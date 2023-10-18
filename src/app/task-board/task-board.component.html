@@ -15,7 +15,7 @@
         </ng-container>
         <div class="placeholder cardwrapper"></div>
     </section>
-    <section (dragover)="showDropIndication('inPreview')" [class.drop]="draggedOverSection == 'inPreview'"
+    <section (dragover)="showDropIndication('inReview')" [class.drop]="draggedOverSection == 'inReview'"
         pDroppable (onDrop)="drop('inReview')" class="in-review task-section">
         <h3 (click)="this.sectionView.inReview = !this.sectionView.inReview">In Review</h3>
         <ng-container *ngFor="let task of taskService.tasksByStatus.inReview; index as i" >
