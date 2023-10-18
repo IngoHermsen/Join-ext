@@ -3,7 +3,7 @@
         (onDrop)="drop('todo')" class="to-do task-section">
         <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>To Do</h3>
         <ng-container *ngFor="let task of taskService.tasksByStatus.todo; index as i" >
-            <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper" [hidden]="hideAllTasks || !sectionView.todo"></app-task-card>
+            <app-task-card pDraggable (onTouchStart)="dragStart(task)" (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper" [hidden]="hideAllTasks || !sectionView.todo"></app-task-card>
         </ng-container>
         <div class="placeholder cardwrapper"></div>
     </section>

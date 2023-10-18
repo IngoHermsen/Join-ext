@@ -130,7 +130,6 @@ export class ContactService implements OnInit {
 
   setProfileState(state: boolean) {
     this.activeUsersDoc.update({ public: state })
-    
   }
 }
 

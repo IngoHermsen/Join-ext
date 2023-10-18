@@ -30,9 +30,13 @@
 
                 </div>
                 <div *ngIf="showAvatarMenu" class="avatar-menu">
-                    <span (click)="authService.SignOut()" id="sign-out">SIGN OUT</span>
-                    <div class="public-switch" id="public-switch">
-                        <span>Public</span><p-inputSwitch (onChange)="changeProfileState()" [(ngModel)]="publicProfile"></p-inputSwitch>
+                    <div class="sign-out"(click)="authService.SignOut()">
+                        <span>SIGN OUT</span>
+                        <i class="pi pi-sign-out ml-1"></i>
+                    </div>
+                    <div *ngIf="!guestSession" class="public-switch" id="public-switch">
+                        <span>Public</span><p-inputSwitch (onChange)="changeProfileState()"
+                            [(ngModel)]="publicProfile"></p-inputSwitch>
                     </div>
                 </div>
             </div>

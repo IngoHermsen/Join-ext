@@ -31,7 +31,7 @@ export class DefaultViewComponent implements OnDestroy {
   projectItems: any;
   projectTitle: string;
   avatarInitials: string;
-  showAvatarMenu: boolean = false;
+  showAvatarMenu: boolean = true;
   showProjectDropdown: boolean = false;
   currentRoute: string;
   routeIsContacts: boolean = null;
@@ -193,6 +193,10 @@ export class DefaultViewComponent implements OnDestroy {
     }, 1800)
   }
 
+  mouseover() {
+    console.log('was here');
+    
+  }
 }
 
 
