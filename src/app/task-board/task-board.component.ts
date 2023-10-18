@@ -112,7 +112,7 @@ export class TaskBoardComponent implements OnInit {
 
   }
 
-  showDropIndication(section) {
+  showDropIndication(section) {    
     if (this.draggedTask && this.draggedTask.status !== section) {
       this.draggedOverSection = section;
     } 

@@ -14,6 +14,12 @@
         h3 {
             margin-bottom: unset;
             text-align: center;
+
+            .circle {
+                font-size: 8px;
+                vertical-align: middle;
+                margin-right: 4px;
+            }
         }
 
         .placeholder {
@@ -45,6 +51,19 @@
             display: block;
         }
     }
+
+    .to-do .circle {
+        color: #f33737;
+    }
+    .in-progress .circle {
+        color: #3788f3;
+    }
+    .in-review .circle {
+        color: #700985;
+    }
+    .done .circle {
+        color: #2dc40f;
+    }
 }
 
 
@@ -57,6 +76,9 @@
             width: 100%;
 
             h3 {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 min-width: 150px;
                 border: 2px solid rgba(0, 0, 0, 0.4);
                 border-radius: 25px;
