@@ -67,7 +67,9 @@ export class TaskCardComponent implements OnInit, AfterViewInit {
     })
   }
 
-  openTaskEdit(task: Task) {    
+  openTaskEdit(task: Task) {
+    console.log(task);
+        
     this.router.navigate(['/tasks', task['taskId']], { replaceUrl: true });
     this.viewService.showSidebar('task');
     this.taskService.editMode = true;
