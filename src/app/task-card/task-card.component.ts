@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
@@ -10,12 +10,18 @@ import { ViewService } from 'src/services/view/view.service';
   templateUrl: './task-card.component.html',
   styleUrls: ['./task-card.component.scss']
 })
-export class TaskCardComponent implements OnInit {
+export class TaskCardComponent implements OnInit, AfterViewInit {
   @Input() task: Task;
   @Input() dragging: boolean = false;
   dueDateAsString: string;
   status: string;
-  deleteDialog: boolean = false;
+  showDeleteDialog: boolean = false;
+
+  // viewElements:
+
+  @ViewChild('taskCard') taskCardEl: ElementRef;
+  @ViewChild('deleteDialog') deleteDialogEl: ElementRef;
+  @ViewChild('trash') trashEl: ElementRef;
 
   constructor(
     public projectService: ProjectService,
@@ -50,6 +56,17 @@ export class TaskCardComponent implements OnInit {
 
   }
 
+  ngAfterViewInit(): void {
+    this.trashEl.nativeElement.addEventListener('click', e => {
+      e.stopPropagation();
+      this.toggleDeleteDialog();
+    })
+
+    this.deleteDialogEl.nativeElement.addEventListener('click', e => {
+      e.stopPropagation();
+    })
+  }
+
   openTaskEdit(task: Task) {    
     this.router.navigate(['/tasks', task['taskId']], { replaceUrl: true });
     this.viewService.showSidebar('task');
@@ -57,8 +74,8 @@ export class TaskCardComponent implements OnInit {
     this.taskService.activeTask.next(task);
   }
 
-  toggleDeleteDialog(task: Task) {
-    this.deleteDialog = !this.deleteDialog;
+  toggleDeleteDialog() {
+    this.showDeleteDialog = !this.showDeleteDialog;
   }
 
 }

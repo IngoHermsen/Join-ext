@@ -4,6 +4,13 @@
     }
 }
 
+h3 {
+    color: white;
+    border-radius: 15px;
+    padding: 2px 8px;
+    margin-bottom: 12px;
+}
+
 .dragging {
     opacity: 0.4;
 }
@@ -16,17 +23,26 @@
     width: 100%;
     height: 250px;
 
+    .hidden {
+        display: none;
+    }
+
 
     .delete-dialog {
         border-radius: 40px;
         background-color: rgba(255, 255, 255, 0.9);
         position: absolute;
+        z-index: 1;
         inset: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 12px;
+
+        h3 {
+            margin: unset;
+        }
 
         .answer-selection {
             display: flex;
@@ -63,13 +79,6 @@
         display: flex;
         justify-content: space-between;
 
-        h3 {
-            color: white;
-            border-radius: 15px;
-            padding: 2px 8px;
-            margin-bottom: 12px;
-        }
-
         .header-right {
             position: absolute;
             top: 0px;
@@ -77,6 +86,10 @@
             color: grey;
             display: flex;
             gap: 8px;
+
+            i:hover {
+                color: black;
+            }
         }
     }
 

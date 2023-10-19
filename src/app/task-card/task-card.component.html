@@ -1,16 +1,18 @@
-<div pDraggable [class.pointer]="!deleteDialog" [ngClass]="status" class="task-card">
-    <div *ngIf="deleteDialog" class="delete-dialog">
+<div (click)="openTaskEdit(task)" pDraggable [class.pointer]="!showDeleteDialog" [ngClass]="status" class="task-card" #taskCard>
+    <div [class.hidden]="!showDeleteDialog" class="delete-dialog" #deleteDialog>
+        <span>DELETE</span>
+        <h3>{{ task.title }}</h3>
         <span>Are You sure?</span>
         <div class="answer-selection">
             <span (click)="this.projectService.deleteTask(task)">Yes</span>
-            <span (click)="toggleDeleteDialog(task)">No</span>
+            <span (click)="toggleDeleteDialog()">No</span>
         </div>
     </div>
     <header class="header">
         <h3>{{ task.title }}</h3>
         <div class="header-right">
             <i (click)="openTaskEdit(task)" class="pi pi-file-edit"></i>
-            <i (click)="toggleDeleteDialog(task)" class="pi pi-trash"></i>
+            <i class="pi pi-trash" #trash></i>
         </div>
     </header>
     <div class="flex flex-column">
