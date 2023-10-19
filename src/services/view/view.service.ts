@@ -10,10 +10,11 @@ export class ViewService implements OnInit {
   showResetPasswordNote: boolean = false;
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
+  viewInitialized: boolean = false;
 
   newProjectBtnLabel: string;
 
-  // loading data state
+  // loaded data state:
   dashboardLoaded: boolean = false;
 
   constructor() { 

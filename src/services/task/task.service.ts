@@ -15,6 +15,7 @@ export class TaskService implements OnInit {
   isGuestSession: boolean = false;
   fbProjectsCollectionName: string = null;
   tasksByStatus: any;
+  tasksLoaded: boolean = false;
   editMode: boolean = false;
   activeTask: BehaviorSubject<Task | null> = new BehaviorSubject(null)
   newTask: Subject<Task> = new Subject;
@@ -27,31 +28,31 @@ export class TaskService implements OnInit {
     public afs: AngularFirestore,
     public router: Router,
     public viewService: ViewService,
-  ) {        
+  ) {
     this.tasksByStatus = {
       todo: [],
       inProgress: [],
       inReview: [],
       done: []
-    };    
+    };
   }
 
   ngOnInit() {
   }
 
 
-  updateTaskDocumentStatus(status: string, taskId: string, projectId: string) { 
-       
+  updateTaskDocumentStatus(status: string, taskId: string, projectId: string) {
+
     const projectCollectionRef: AngularFirestoreCollection<any> = this.afs.collection(this.fbProjectsCollectionName);
     const projectDocRef: AngularFirestoreDocument<any> = projectCollectionRef.doc(projectId);
     const taskCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks');
-    const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);    
-    taskDocumentRef.update({ status: status });    
-        
+    const taskDocumentRef: AngularFirestoreDocument<any> = taskCollectionRef.doc(taskId);
+    taskDocumentRef.update({ status: status });
+
   }
 
   saveTask(object: any, taskId: string | null) {
-    let taskData = new Task(object);    
+    let taskData = new Task(object);
 
     taskData = {
       taskId: taskId,
@@ -83,18 +84,18 @@ export class TaskService implements OnInit {
 
 
   convertDueDate(dueDate: Timestamp | Date) {
-    
+
     if (dueDate instanceof Timestamp) {
       const secondsAsDate = new Date(dueDate.seconds * 1000);
       return secondsAsDate.toLocaleDateString();
-    } else {    
-           
+    } else {
+
       return dueDate.toLocaleDateString();
     }
   }
 
   setTasksAsObject(projectDocRef: AngularFirestoreDocument) {
-    let earliestDueDate: Timestamp = null;    
+    let earliestDueDate: Timestamp = null;
     this.earliestDueDateSubject.next(null);
     this.amountOfTasks = 0;
     this.tasksByStatus = {
@@ -108,10 +109,10 @@ export class TaskService implements OnInit {
 
     tasksCollectionRef.get().pipe(mergeMap(ref => {
 
-      
+
       return from(ref.docs);
-    })).pipe(map(doc => {      
-      const task = doc.data();      
+    })).pipe(map(doc => {
+      const task = doc.data();
       const status = task.status;
 
       if (earliestDueDate == null || task.dueDate < earliestDueDate) {
@@ -124,15 +125,20 @@ export class TaskService implements OnInit {
       this.tasksByStatus[status].push(task);
       this.amountOfTasks++
     }))
-      .subscribe((ref) => { 
-        this.earliestDueDateSubject.next(earliestDueDate);
-        this.viewService.dashboardLoaded = true;
+      .subscribe({
+        next: ref => {
+          this.earliestDueDateSubject.next(earliestDueDate);
+          this.viewService.dashboardLoaded = true;
+        },
+        complete: () => {
+          this.tasksLoaded = true;
+        }
       })
   }
 
   setTaskAsObject(projectDocRef: AngularFirestoreDocument, taskId: string) {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
-    
+
     tasksCollectionRef.doc(taskId)
       .get()
       .pipe(map((doc) => {

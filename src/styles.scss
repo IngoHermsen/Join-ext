@@ -65,3 +65,17 @@ a {
         opacity: unset;
     }
 }
+
+.fade-in {
+    opacity: 0;
+    animation: opacity 2500ms forwards;
+
+    @keyframes opacity {
+        from {
+            opacity: 0
+        }
+        to {
+            opacity: 1;
+        }
+    }
+}

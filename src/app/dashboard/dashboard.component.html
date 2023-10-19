@@ -1,4 +1,4 @@
-<h1>Summary</h1>
+<h1 class="fade-in">Summary</h1>
 <div *ngIf="!this.projectService.projectTitle && this.viewService.dashboardLoaded" class="content-empty">
     <span>
         There is no active project. Select a project or create a new one.
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="greeting">
+        <div class="greeting fade-in">
             <span>{{ daytimeGreeting }}</span>
             <span class="greet-name">{{ greetingName }}</span>
         </div>

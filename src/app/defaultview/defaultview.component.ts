@@ -24,13 +24,11 @@ export class DefaultViewComponent implements OnDestroy {
   onResize(event) {
     this.viewService.setNavViewMode()
   }
-  viewInitialized: boolean = false;
   userId: string;
   show: boolean;
   projects: any;
   projectItems: any;
   projectId: string = null;
-  hasLoaded: boolean = false;
 
   avatarInitials: string;
   showAvatarMenu: boolean = true;
@@ -46,6 +44,9 @@ export class DefaultViewComponent implements OnDestroy {
   taskSubscription: any;
   userDataSubscription: any;
   routeSubscription: any;
+
+  projectLoadedSubscription: any;
+  tasksLoadedSubscription: any;
 
   // Firebase Environemt
   fbCollectionForContacts: AngularFirestoreCollection = null;
@@ -80,15 +81,16 @@ export class DefaultViewComponent implements OnDestroy {
       if (value != "") {
         this.projectService.setActiveProject(value);
       } else {       
-        this.projectService.projectTitle = null;
+        this.projectService.projectTitle = 'NO ACTIVE PROJECT';
         this.viewService.dashboardLoaded = true;
+        this.projectService.projectLoaded = true;
       }
-
     });
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
       this.projectService.saveNewTask(data);
-    })
+    });
+
   }
 
   _getUserData() {
@@ -97,19 +99,19 @@ export class DefaultViewComponent implements OnDestroy {
       this._setGuestSessionStatus(isGuestSession)
       return this._getUserDataFromLocalStorage()
     } else {
-      this._setGuestSessionStatus(this.authService.guestLogin)
+      this._setGuestSessionStatus(this.authService.guestLogin);
       return this._getUserDataFromAuth()
     }
   }
 
-  initializeView(user: User) {
-    if (!this.viewInitialized) {
+  initializeView(user: User) {   
+    if (!this.viewService.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
       this.projectService.getProjectsAsJson(user.uid);
       this.projectService.currentId.next(user.latestActiveProject);
       this.publicProfile = user.public;
-      this.viewInitialized = true;
+      this.viewService.viewInitialized = true;
     }
   }
 
@@ -122,9 +124,9 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   _setGuestSessionStatus(status: boolean) {
+    this.guestSession = status;
     this.taskService.isGuestSession = status;
     this.projectService.isGuestSession = status;
-
   }
 
   setProjectDropdownItems() {

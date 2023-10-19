@@ -14,13 +14,9 @@
                 <i *ngIf="!this.viewService.fixedNav" class="burger pi pi-bars" (click)="showNav = true"></i>
                 <p-menu (onShow)="toggleDropdown()" (onHide)="toggleDropdown()" #menu
                     [model]="projectService.projectDropdownItems" [popup]="true"></p-menu>
-                <h2 *ngIf="this.projectService.projectTitle" (click)="menu.toggle($event)">
+                <h2 *ngIf="this.projectService.projectLoaded" (click)="menu.toggle($event)" class="fade-in">
                     <i  class="pi pi-angle-down" [class.turn-icon]="showProjectDropdown"></i>
                     {{ projectService.projectTitle }}
-                </h2>
-                <h2 *ngIf="!this.projectService.projectTitle" (click)="menu.toggle($event)">
-                    <i  class="pi pi-angle-down" [class.turn-icon]="showProjectDropdown"></i>
-                    NO ACTIVE PROJECT
                 </h2>
 
             </div>
@@ -33,7 +29,7 @@
                 <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}
 
                 </div>
-                <div *ngIf="showAvatarMenu" class="avatar-menu">
+                <div *ngIf="showAvatarMenu" class="avatar-menu fade-in">
                     <div class="sign-out" (click)="authService.SignOut()">
                         <span>SIGN OUT</span>
                         <i class="pi pi-sign-out ml-1"></i>

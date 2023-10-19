@@ -16,6 +16,7 @@ export class ProjectService implements OnInit {
   fbContactRefCollection: AngularFirestoreCollection = null;
   usersCollectionRef = this.afs.collection('users');
   isGuestSession: boolean = false;
+  projectLoaded: boolean = false;
 
   activeUserId: string;
   projectsAsJson: Subject<any> = new Subject;
@@ -53,11 +54,11 @@ export class ProjectService implements OnInit {
 
   }
 
-  setActiveProject(projectId: string) {
+  setActiveProject(projectId: string) {    
     const projectDocRef: AngularFirestoreDocument<any> = this.fbProjectRefCollection.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {      
       this.projectTitle = ref.data().projectTitle;
-      
+      this.projectLoaded = true;
       return ref.data()
     }))
       .subscribe((data) => {

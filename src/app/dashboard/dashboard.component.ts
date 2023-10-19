@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
@@ -10,16 +10,14 @@ import { Subject } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   daytimeGreeting: string;
   greetingName: string;
   deadlineDate: string;
   months: any;
   showDashboard: boolean = false;
+  initAnimation = true;
   
-// loadingState
-  hasLoaded: boolean = false;
-
   constructor(
     public projectService: ProjectService,
     public taskService: TaskService,
@@ -34,13 +32,18 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
     this.daytimeGreeting = this.getDaytimeGreeting();
     this.deadlineDate = localStorage.getItem('earliestDueDate');
+    console.log('initialized', this.viewService.viewInitialized);
+    
   }
 
+  ngAfterViewInit(): void {
+    
+  }
 
   setDisplayMonths() {
     this.months = {

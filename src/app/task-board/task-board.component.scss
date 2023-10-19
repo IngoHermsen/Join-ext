@@ -1,64 +1,79 @@
-.board-wrapper {
-    display: flex;
+.board-content { 
     height: 100%;
     width: 100%;
 
-    section {
+    .loading {
+        height: 100%;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        width: 25%;
-        min-width: 300px;
-        gap: 24px;
+    }
 
-        h3 {
-            margin-bottom: unset;
-            text-align: center;
+    .task-content {
+        display: flex;
 
-            .circle {
-                font-size: 8px;
-                vertical-align: middle;
-                margin-right: 4px;
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 25%;
+            min-width: 300px;
+            gap: 24px;
+
+            h3 {
+                margin-bottom: unset;
+                text-align: center;
+
+                .circle {
+                    font-size: 8px;
+                    vertical-align: middle;
+                    margin-right: 4px;
+                }
+            }
+
+            .placeholder {
+                width: 250px;
+                height: 250px;
+                border-radius: 25px;
+                display: none;
+            }
+
+            .card-wrapper {
+                width: 90%;
+                max-width: 250px;
+                border-radius: 25px;
+                background-color: transparent;
+
+
+            }
+
+        }
+
+        .drop {
+            .placeholder {
+                border: 2px dashed rgba(0, 0, 0, 0.6);
+                display: block;
             }
         }
 
-        .placeholder {
-            width: 250px;
-            height: 250px;
-            border-radius: 25px;
-            display: none;
+        .to-do .circle {
+            color: #f33737;
         }
 
-        .card-wrapper {
-            width: 90%;
-            max-width: 250px;
-            border-radius: 25px;
-            background-color: transparent;
+        .in-progress .circle {
+            color: #3788f3;
+        }
 
+        .in-review .circle {
+            color: #700985;
+        }
 
-        }  
-
-    }
-
-    .drop {
-        .placeholder {
-            border: 2px dashed rgba(0, 0, 0, 0.6);
-            display: block;
+        .done .circle {
+            color: #2dc40f;
         }
     }
 
-    .to-do .circle {
-        color: #f33737;
-    }
-    .in-progress .circle {
-        color: #3788f3;
-    }
-    .in-review .circle {
-        color: #700985;
-    }
-    .done .circle {
-        color: #2dc40f;
-    }
+
 }
 
 

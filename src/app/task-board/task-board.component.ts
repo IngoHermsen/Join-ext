@@ -4,6 +4,7 @@ import { Subject, map, mergeMap, switchMap } from 'rxjs';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-task-board',
@@ -19,15 +20,17 @@ export class TaskBoardComponent implements OnInit {
   hideSection: string = null;
   sectionView: any = {}
 
+  fbProjectRefCollectionName: string;
+
   //subscriptions
   projectSubscription: any;
-
-  fbProjectRefCollectionName: string;
+  taskSubscription: any;
 
 
   constructor(
     public projectService: ProjectService,
-    public taskService: TaskService
+    public taskService: TaskService,
+    public viewService: ViewService,
   ) {
 
     if (this.taskService.isGuestSession) {
@@ -51,7 +54,6 @@ export class TaskBoardComponent implements OnInit {
       this.hideAllTasks = false;
     })
 
-
   }
 
   ngOnInit(): void {
@@ -68,6 +70,8 @@ export class TaskBoardComponent implements OnInit {
         this.editedTask = task;
       }
     });
+
+
 
     this.projectService.taskUpdates.subscribe((taskEntries) => {
       this.editedTask.title = taskEntries.title,

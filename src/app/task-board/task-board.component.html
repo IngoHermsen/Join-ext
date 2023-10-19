@@ -1,48 +1,57 @@
-<div class="board-wrapper">
-    <section (dragover)="showDropIndication('todo')" [class.drop]="draggedOverSection == 'todo'" pDroppable
-        (onDrop)="drop('todo')" class="to-do task-section">
-        <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>To Do
-            <div *ngIf="!sectionView.todo" class="amount">({{ taskService.tasksByStatus.todo.length }})</div>
-        </h3>
-        <ng-container *ngFor="let task of taskService.tasksByStatus.todo; index as i">
-            <app-task-card pDraggable (onTouchStart)="dragStart(task)" (onDragStart)="dragStart(task)" [task]="task"
-                class="card-wrapper" [hidden]="hideAllTasks || !sectionView.todo"></app-task-card>
-        </ng-container>
-        <div class="placeholder cardwrapper"></div>
-    </section>
-    <section (dragover)="showDropIndication('inProgress')" [class.drop]="draggedOverSection == 'inProgress'" pDroppable
-        (onDrop)="drop('inProgress')" class="in-progress task-section">
-        <h3 (click)="this.sectionView.inProgress = !this.sectionView.inProgress"><i
-                class="circle pi pi-circle-fill"></i>In Progress
-            <div *ngIf="!sectionView.inProgress"  class="amount">({{ taskService.tasksByStatus.inProgress.length }})</div>
-        </h3>
-        <ng-container *ngFor="let task of taskService.tasksByStatus.inProgress; index as i">
-            <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper"
-                [hidden]="hideAllTasks || !sectionView.inProgress"></app-task-card>
-        </ng-container>
-        <div class="placeholder cardwrapper"></div>
-    </section>
-    <section (dragover)="showDropIndication('inReview')" [class.drop]="draggedOverSection == 'inReview'" pDroppable
-        (onDrop)="drop('inReview')" class="in-review task-section">
-        <h3 (click)="this.sectionView.inReview = !this.sectionView.inReview"><i class="circle pi pi-circle-fill"></i>In
-            Review
-            <div *ngIf="!sectionView.inReview" class="amount">({{ taskService.tasksByStatus.inReview.length }})</div>
-        </h3>
-        <ng-container *ngFor="let task of taskService.tasksByStatus.inReview; index as i">
-            <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper"
-                [hidden]="hideAllTasks || !sectionView.inReview"></app-task-card>
-        </ng-container>
-        <div class="placeholder cardwrapper"></div>
-    </section>
-    <section (dragover)="showDropIndication('done')" [class.drop]="draggedOverSection == 'done'" pDroppable
-        (onDrop)="drop('done')" class="done task-section">
-        <h3 (click)="this.sectionView.done = !this.sectionView.done"><i class="circle pi pi-circle-fill"></i>Done
-            <div *ngIf="!sectionView.done" class="amount">({{ taskService.tasksByStatus.done.length }})</div>
-        </h3>
-        <ng-container *ngFor="let task of taskService.tasksByStatus.done; index as i">
-            <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper"
-                [hidden]="hideAllTasks || !sectionView.done"></app-task-card>
-        </ng-container>
-        <div class="placeholder cardwrapper"></div>
-    </section>
+<div class="board-content">
+    <div *ngIf="!this.taskService.tasksLoaded" class="loading">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+    <div *ngIf="this.taskService.tasksLoaded" class="task-content">
+        <section (dragover)="showDropIndication('todo')" [class.drop]="draggedOverSection == 'todo'" pDroppable
+            (onDrop)="drop('todo')" class="to-do task-section">
+            <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>To Do
+                <div *ngIf="!sectionView.todo" class="amount">({{ taskService.tasksByStatus.todo.length }})</div>
+            </h3>
+            <ng-container *ngFor="let task of taskService.tasksByStatus.todo; index as i">
+                <app-task-card pDraggable (onTouchStart)="dragStart(task)" (onDragStart)="dragStart(task)" [task]="task"
+                    class="card-wrapper" [hidden]="hideAllTasks || !sectionView.todo"></app-task-card>
+            </ng-container>
+            <div class="placeholder cardwrapper"></div>
+        </section>
+        <section (dragover)="showDropIndication('inProgress')" [class.drop]="draggedOverSection == 'inProgress'"
+            pDroppable (onDrop)="drop('inProgress')" class="in-progress task-section">
+            <h3 (click)="this.sectionView.inProgress = !this.sectionView.inProgress"><i
+                    class="circle pi pi-circle-fill"></i>In Progress
+                <div *ngIf="!sectionView.inProgress" class="amount">({{ taskService.tasksByStatus.inProgress.length }})
+                </div>
+            </h3>
+            <ng-container *ngFor="let task of taskService.tasksByStatus.inProgress; index as i">
+                <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper"
+                    [hidden]="hideAllTasks || !sectionView.inProgress"></app-task-card>
+            </ng-container>
+            <div class="placeholder cardwrapper"></div>
+        </section>
+        <section (dragover)="showDropIndication('inReview')" [class.drop]="draggedOverSection == 'inReview'" pDroppable
+            (onDrop)="drop('inReview')" class="in-review task-section">
+            <h3 (click)="this.sectionView.inReview = !this.sectionView.inReview"><i
+                    class="circle pi pi-circle-fill"></i>In
+                Review
+                <div *ngIf="!sectionView.inReview" class="amount">({{ taskService.tasksByStatus.inReview.length }})
+                </div>
+            </h3>
+            <ng-container *ngFor="let task of taskService.tasksByStatus.inReview; index as i">
+                <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper"
+                    [hidden]="hideAllTasks || !sectionView.inReview"></app-task-card>
+            </ng-container>
+            <div class="placeholder cardwrapper"></div>
+        </section>
+        <section (dragover)="showDropIndication('done')" [class.drop]="draggedOverSection == 'done'" pDroppable
+            (onDrop)="drop('done')" class="done task-section">
+            <h3 (click)="this.sectionView.done = !this.sectionView.done"><i class="circle pi pi-circle-fill"></i>Done
+                <div *ngIf="!sectionView.done" class="amount">({{ taskService.tasksByStatus.done.length }})</div>
+            </h3>
+            <ng-container *ngFor="let task of taskService.tasksByStatus.done; index as i">
+                <app-task-card pDraggable (onDragStart)="dragStart(task)" [task]="task" class="card-wrapper"
+                    [hidden]="hideAllTasks || !sectionView.done"></app-task-card>
+            </ng-container>
+            <div class="placeholder cardwrapper"></div>
+        </section>
+    </div>
+
 </div>
