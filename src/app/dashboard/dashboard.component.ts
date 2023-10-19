@@ -30,13 +30,6 @@ export class DashboardComponent implements OnInit {
       }
     })
 
-    if (this.projectService.currentId.getValue() !== 'none') {
-      this.showDashboard = true;
-    } else {
-      this.showDashboard = false;
-    }
-
-
 
   }
 

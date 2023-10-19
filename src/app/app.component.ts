@@ -28,8 +28,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {    
     this.viewService.setNavViewMode(); 
-    this.activeRoute = sessionStorage.getItem('activeRoute');
-    console.log('ACTIVE ROUTE', this.activeRoute);
+    this.activeRoute = sessionStorage.getItem('activeRoute') || 'auth/login'
     
     this.router.navigate([this.activeRoute])
   }

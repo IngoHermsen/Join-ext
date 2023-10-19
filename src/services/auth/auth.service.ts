@@ -134,7 +134,7 @@ export class AuthService {
         emailVerified: user.emailVerified,
         contacts: [],
         projects: [],
-        latestActiveProject: 'none',
+        latestActiveProject: null,
         public: false
       };
 

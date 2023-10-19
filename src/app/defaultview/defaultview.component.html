@@ -14,9 +14,13 @@
                 <i *ngIf="!this.viewService.fixedNav" class="burger pi pi-bars" (click)="showNav = true"></i>
                 <p-menu (onShow)="toggleDropdown()" (onHide)="toggleDropdown()" #menu
                     [model]="projectService.projectDropdownItems" [popup]="true"></p-menu>
-                <h2 (click)="menu.toggle($event)"> <i class="pi pi-angle-down"
-                        [class.turn-icon]="showProjectDropdown"></i>
+                <h2 *ngIf="this.projectService.projectTitle" (click)="menu.toggle($event)">
+                    <i  class="pi pi-angle-down" [class.turn-icon]="showProjectDropdown"></i>
                     {{ projectService.projectTitle }}
+                </h2>
+                <h2 *ngIf="!this.projectService.projectTitle" (click)="menu.toggle($event)">
+                    <i  class="pi pi-angle-down" [class.turn-icon]="showProjectDropdown"></i>
+                    NO ACTIVE PROJECT
                 </h2>
 
             </div>
@@ -30,7 +34,7 @@
 
                 </div>
                 <div *ngIf="showAvatarMenu" class="avatar-menu">
-                    <div class="sign-out"(click)="authService.SignOut()">
+                    <div class="sign-out" (click)="authService.SignOut()">
                         <span>SIGN OUT</span>
                         <i class="pi pi-sign-out ml-1"></i>
                     </div>
@@ -41,9 +45,9 @@
                 </div>
             </div>
         </div>
-        <p-button *ngIf="currentRoute !== '/contacts'" class="add-button" (click)="viewService.showSidebar('task')"
+        <p-button *ngIf="currentRoute !== '/contacts' && this.projectService.projectTitle" class="add-button" (click)="viewService.showSidebar('task')"
             label="Add task" icon="pi pi-plus" styleClass="p-button"></p-button>
-        <p-button *ngIf="currentRoute == '/contacts'" class="add-button" (click)="viewService.showSidebar('contacts')"
+        <p-button *ngIf="currentRoute == '/contacts' && this.projectService.projectTitle" class="add-button" (click)="viewService.showSidebar('contacts')"
             label="Add contacts" icon="pi pi-plus" styleClass="p-button"></p-button>
         <app-project-dialog></app-project-dialog>
         <app-sidebar></app-sidebar>

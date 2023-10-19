@@ -29,7 +29,8 @@ export class DefaultViewComponent implements OnDestroy {
   show: boolean;
   projects: any;
   projectItems: any;
-  projectTitle: string;
+  projectId: string = null;
+
   avatarInitials: string;
   showAvatarMenu: boolean = true;
   showProjectDropdown: boolean = false;
@@ -76,10 +77,11 @@ export class DefaultViewComponent implements OnDestroy {
 
 
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
-      if (value != "none") {
+      if (value != "") {
         this.projectService.setActiveProject(value);
-      }
-
+      } else {
+      } this.projectService.projectTitle = null;
+        
     });
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
@@ -179,7 +181,7 @@ export class DefaultViewComponent implements OnDestroy {
 
   toggleAvatarMenu() {
     this.showAvatarMenu = !this.showAvatarMenu;
-    }
+  }
 
   toggleDropdown() {
     this.showProjectDropdown = !this.showProjectDropdown;
@@ -195,7 +197,7 @@ export class DefaultViewComponent implements OnDestroy {
 
   mouseover() {
     console.log('was here');
-    
+
   }
 }
 

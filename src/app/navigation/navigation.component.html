@@ -2,14 +2,14 @@
     <i *ngIf="!viewService.fixedNav" (click)="closeNav()" class="close-icon pi pi-times"></i>
     <img routerLink="summary" class="join-logo-white" src="./assets/join-logo-white.png" alt="white-join-logo">
     <div class="navigation-links">
-        <a (click)="closeNav()" href="" routerLink="summary">
-            <i class="pi pi-map"></i><span>Summary</span> </a>
-        <a (click)="closeNav()"  href="" routerLink="tasks">
+        <span class="nav-link" (click)="closeNav()" href="" routerLink="summary">
+            <i class="pi pi-map"></i><span>Summary</span> </span>
+        <span [class.inactive]="!this.projectService.projectTitle" class="nav-link" (click)="closeNav()"  href="" routerLink="tasks">
             <i class="pi pi-th-large"></i><span>Task Board</span>
-        </a>
-        <a (click)="closeNav()"  href="" routerLink="contacts">
+        </span>
+        <span class="nav-link" (click)="closeNav()"  href="" routerLink="contacts">
             <i class="pi pi-user-edit"></i><span>Contacts</span>
-        </a>
+        </span>
     </div>
     <div class="legal-notice">
 

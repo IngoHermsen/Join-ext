@@ -56,8 +56,8 @@ export class ProjectService implements OnInit {
     const projectDocRef: AngularFirestoreDocument<any> = this.fbProjectRefCollection.doc(projectId);
     projectDocRef.get().pipe(map((ref) => {
 
-      this.projectTitle = ref.data().projectTitle || "<no project>";
-
+      this.projectTitle = ref.data().projectTitle;
+      
       return ref.data()
     }))
       .subscribe((data) => {

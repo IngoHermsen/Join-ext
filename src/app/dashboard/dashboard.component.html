@@ -1,11 +1,11 @@
 <h1>Summary</h1>
-<div *ngIf="!this.showDashboard" class="content-empty">
+<div *ngIf="!this.projectService.projectTitle" class="content-empty">
     <span>
         There is no active project. Select a project or create a new one.
     </span>
     <i (click)="showProjectDialog()" class="pi pi-plus-circle"></i>
 </div>
-<div routerLink="/tasks" *ngIf="this.showDashboard" class="content">
+<div routerLink="/tasks" *ngIf="this.projectService.projectTitle" class="content">
     <div class="card-area">
         <div class="card small">
             <div class="value">{{ taskService.amountOfTasks }}</div>

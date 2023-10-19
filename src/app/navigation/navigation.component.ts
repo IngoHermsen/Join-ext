@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ProjectService } from 'src/services/project/project.service';
 import { ViewService } from 'src/services/view/view.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class NavigationComponent implements OnInit {
 
   
   constructor(
-    public viewService: ViewService
+    public viewService: ViewService,
+    public projectService: ProjectService
   ) {
 
   }
