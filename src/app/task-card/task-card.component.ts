@@ -65,6 +65,14 @@ export class TaskCardComponent implements OnInit, AfterViewInit {
     this.deleteDialogEl.nativeElement.addEventListener('click', e => {
       e.stopPropagation();
     })
+
+    this.taskCardEl.nativeElement.addEventListener('mousedown', e => {
+      this.taskCardEl.nativeElement.classList.add('selected')
+    })
+
+    this.taskCardEl.nativeElement.addEventListener('mouseup', e => {
+      this.taskCardEl.nativeElement.classList.remove('selected')
+    })
   }
 
   openTaskEdit(task: Task) {

@@ -19,7 +19,6 @@ export class TaskBoardComponent implements OnInit {
   hideSection: string = null;
   sectionView: any = {}
 
-
   //subscriptions
   projectSubscription: any;
 
@@ -39,14 +38,13 @@ export class TaskBoardComponent implements OnInit {
 
     this.taskService.fbProjectsCollectionName = this.fbProjectRefCollectionName
 
+
     addEventListener('drag', e => {
-      this.draggedHTMLElement = e.target as HTMLElement;
-      this.draggedHTMLElement.classList.add('dragging');
-      this._setTaskView(window.innerWidth);
+        this.draggedHTMLElement = e.target as HTMLElement;
+        this._setTaskView(window.innerWidth);
     });
 
     addEventListener('dragend', e => {
-      this.draggedHTMLElement.classList.remove('dragging');
       this.draggedHTMLElement = null;
       this.draggedTask = null;
       this.draggedOverSection = null;
@@ -83,13 +81,13 @@ export class TaskBoardComponent implements OnInit {
 
     this.projectService.deletedTaskId.subscribe((task) => {
       const taskStatusArray: Array<any> = this.taskService.tasksByStatus[task.status]
-    
-      const taskIndex: number = taskStatusArray.findIndex(statusTask => {        
-        return statusTask.taskId == task.taskId;              
+
+      const taskIndex: number = taskStatusArray.findIndex(statusTask => {
+        return statusTask.taskId == task.taskId;
       });
       console.log(taskStatusArray);
       console.log(taskIndex)
-      
+
 
       taskStatusArray.splice(taskIndex, 1)
     })
@@ -112,10 +110,10 @@ export class TaskBoardComponent implements OnInit {
 
   }
 
-  showDropIndication(section) {    
+  showDropIndication(section) {
     if (this.draggedTask && this.draggedTask.status !== section) {
       this.draggedOverSection = section;
-    } 
+    }
   }
 
   _updateTaskView(task: Task, newStatus?: string) {
@@ -151,7 +149,7 @@ export class TaskBoardComponent implements OnInit {
   _convertDueDate(statusArray: Array<any>, index: number) {
     let taskDueDate = statusArray[index].dueDate;
     statusArray[index].dueDate = Timestamp.fromDate(taskDueDate)
- }
+  }
 
 
   _setTaskView(screenWidth: number) {
