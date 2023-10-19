@@ -126,7 +126,7 @@ export class TaskService implements OnInit {
     }))
       .subscribe((ref) => { 
         this.earliestDueDateSubject.next(earliestDueDate);
-        
+        this.viewService.dashboardLoaded = true;
       })
   }
 

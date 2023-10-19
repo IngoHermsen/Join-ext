@@ -30,6 +30,7 @@ export class DefaultViewComponent implements OnDestroy {
   projects: any;
   projectItems: any;
   projectId: string = null;
+  hasLoaded: boolean = false;
 
   avatarInitials: string;
   showAvatarMenu: boolean = true;
@@ -68,7 +69,6 @@ export class DefaultViewComponent implements OnDestroy {
 
     this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
-
     });
 
     this._setActiveUserAsAssignable()
@@ -79,9 +79,11 @@ export class DefaultViewComponent implements OnDestroy {
     this.projectSubscription = this.projectService.currentId.subscribe((value) => {
       if (value != "") {
         this.projectService.setActiveProject(value);
-      } else {
-      } this.projectService.projectTitle = null;
-        
+      } else {       
+        this.projectService.projectTitle = null;
+        this.viewService.dashboardLoaded = true;
+      }
+
     });
 
     this.taskSubscription = this.taskService.newTask.subscribe((data) => {
@@ -195,10 +197,7 @@ export class DefaultViewComponent implements OnDestroy {
     }, 1800)
   }
 
-  mouseover() {
-    console.log('was here');
 
-  }
 }
 
 

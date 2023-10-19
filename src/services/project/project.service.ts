@@ -36,6 +36,7 @@ export class ProjectService implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   _setFirebaseProjectsCollection() {
@@ -54,14 +55,13 @@ export class ProjectService implements OnInit {
 
   setActiveProject(projectId: string) {
     const projectDocRef: AngularFirestoreDocument<any> = this.fbProjectRefCollection.doc(projectId);
-    projectDocRef.get().pipe(map((ref) => {
-
+    projectDocRef.get().pipe(map((ref) => {      
       this.projectTitle = ref.data().projectTitle;
       
       return ref.data()
     }))
       .subscribe((data) => {
-        this.taskService.setTasksAsObject(projectDocRef)
+        this.taskService.setTasksAsObject(projectDocRef);
       })
   }
 
@@ -128,7 +128,7 @@ export class ProjectService implements OnInit {
     this.getProjectsAsJson(userId);
   }
 
-  getProjectsAsJson(userId: string) {
+  getProjectsAsJson(userId: string) {    
     let projectsData: any[] = [];
 
     // get projectIds for current User...
@@ -136,7 +136,7 @@ export class ProjectService implements OnInit {
 
     usersDocRef.get().pipe(mergeMap(ref => {
       const usersProjectIds = ref.data().projects;
-
+      
       return from(usersProjectIds).pipe(map((id) => {
         return id
       }));
@@ -145,15 +145,14 @@ export class ProjectService implements OnInit {
       return projectDocRef
     })).subscribe(ref => {
       ref.get().subscribe(ref => {
-        const projData = ref.data();
-
+        const projData = ref.data();        
+        
         projectsData.push(projData);
         this.projectDropdownItems.push(
           {
             label: projData['projectTitle'],
             id: projData['projectId'],
             command: () => {
-
               this.changeActiveProject(projData['projectId'])
             }
           }
@@ -193,12 +192,14 @@ export class ProjectService implements OnInit {
 
   }
 
-  changeActiveProject(projectId?: string) {    
+  changeActiveProject(projectId?: string) {      
     let id = projectId;
     this.currentId.next(id);
-    this.setLatestProjectInUserDoc(id)
-
     localStorage.setItem('activeProject', id);
+
+    this.setLatestProjectInUserDoc(id);
+
+
   }
 
   deleteTask(task: Task) {

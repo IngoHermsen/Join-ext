@@ -13,6 +13,9 @@ export class ViewService implements OnInit {
 
   newProjectBtnLabel: string;
 
+  // loading data state
+  dashboardLoaded: boolean = false;
+
   constructor() { 
   }
 

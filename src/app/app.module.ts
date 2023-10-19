@@ -30,7 +30,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressBarModule } from 'primeng/progressbar';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 //General
@@ -114,6 +114,7 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     DropdownModule,
     AvatarModule,
     ProgressBarModule,
+    ProgressSpinnerModule,
     TooltipModule,
     InputSwitchModule,
 

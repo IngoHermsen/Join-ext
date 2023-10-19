@@ -1,57 +1,62 @@
 <h1>Summary</h1>
-<div *ngIf="!this.projectService.projectTitle" class="content-empty">
+<div *ngIf="!this.projectService.projectTitle && this.viewService.dashboardLoaded" class="content-empty">
     <span>
         There is no active project. Select a project or create a new one.
     </span>
     <i (click)="showProjectDialog()" class="pi pi-plus-circle"></i>
 </div>
-<div routerLink="/tasks" *ngIf="this.projectService.projectTitle" class="content">
-    <div class="card-area">
-        <div class="card small">
-            <div class="value">{{ taskService.amountOfTasks }}</div>
-            <span>Tasks<br>in board</span>
+<div routerLink="/tasks" class="card-area">
+        <div *ngIf="!this.viewService.dashboardLoaded" class="card-content loading">
+            <p-progressSpinner ></p-progressSpinner>
         </div>
-        <div class="card small">
-            <div class="value">{{ taskService.tasksByStatus['inProgress'].length }}</div>
-            <span>Tasks<br>in progress</span>
-        </div>
-        <div class="card small">
-            <div class="value">{{ taskService.tasksByStatus['inReview'].length }}</div>
-            <span>Tasks<br>in review</span>
-        </div>
-        <div class="card large">
-            <div class="card-content">
-                <div class="area left">
-                    <i class="icon pi pi-angle-double-right"></i>
-                    <div class="amount">
-                        <div class="value">{{ taskService.amountOfUrgent }}</div>
-                        <span>urgent</span>
+
+        <div *ngIf="this.projectService.projectTitle && this.viewService.dashboardLoaded" class="card-content">
+
+            <div class="card small">
+                <div class="value">{{ taskService.amountOfTasks }}</div>
+                <span>Tasks<br>in board</span>
+            </div>
+            <div class="card small">
+                <div class="value">{{ taskService.tasksByStatus['inProgress'].length }}</div>
+                <span>Tasks<br>in progress</span>
+            </div>
+            <div class="card small">
+                <div class="value">{{ taskService.tasksByStatus['inReview'].length }}</div>
+                <span>Tasks<br>in review</span>
+            </div>
+            <div class="card large">
+                <div class="card-large-content">
+                    <div class="area left">
+                        <i class="icon pi pi-angle-double-right"></i>
+                        <div class="amount">
+                            <div class="value">{{ taskService.amountOfUrgent }}</div>
+                            <span>urgent</span>
+                        </div>
+                    </div>
+                    <div class="area upcoming-deadline">
+                        <span *ngIf="deadlineDate != null" class="due-date">{{ deadlineDate }}</span>
+                        <span *ngIf="deadlineDate != null" class="dl-text">Upcoming Deadline</span>
                     </div>
                 </div>
-                <div class="area upcoming-deadline">
-                    <span *ngIf="deadlineDate != null" class="due-date">{{ deadlineDate }}</span>
-                    <span *ngIf="deadlineDate != null" class="dl-text">Upcoming Deadline</span>
+
+            </div>
+            <div class="card medium">
+                <i class="icon pi pi-flag"></i>
+                <div class="text">
+                    <div class="value">{{ taskService.tasksByStatus['todo'].length }}</div>
+                    <span>to-do</span>
                 </div>
             </div>
-
-        </div>
-        <div class="card medium">
-            <i class="icon pi pi-flag"></i>
-            <div class="text">
-                <div class="value">{{ taskService.tasksByStatus['todo'].length }}</div>
-                <span>to-do</span>
+            <div class="card medium">
+                <i class="icon pi pi-check-circle"></i>
+                <div class="text">
+                    <div class="value">{{ taskService.tasksByStatus['done'].length }}</div>
+                    <span>done</span>
+                </div>
             </div>
         </div>
-        <div class="card medium">
-            <i class="icon pi pi-check-circle"></i>
-            <div class="text">
-                <div class="value">{{ taskService.tasksByStatus['done'].length }}</div>
-                <span>done</span>
-            </div>
+        <div class="greeting">
+            <span>{{ daytimeGreeting }}</span>
+            <span class="greet-name">{{ greetingName }}</span>
         </div>
     </div>
-    <div class="greeting">
-        <span>{{ daytimeGreeting }}</span>
-        <span class="greet-name">{{ greetingName }}</span>
-    </div>
-</div>

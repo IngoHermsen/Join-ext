@@ -16,6 +16,9 @@ export class DashboardComponent implements OnInit {
   deadlineDate: string;
   months: any;
   showDashboard: boolean = false;
+  
+// loadingState
+  hasLoaded: boolean = false;
 
   constructor(
     public projectService: ProjectService,
@@ -29,15 +32,13 @@ export class DashboardComponent implements OnInit {
         this.deadlineDate = null;
       }
     })
-
-
   }
 
   ngOnInit(): void {
     this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
     this.daytimeGreeting = this.getDaytimeGreeting();
-    this.deadlineDate = localStorage.getItem('earliestDueDate')
+    this.deadlineDate = localStorage.getItem('earliestDueDate');
   }
 
 

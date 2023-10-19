@@ -3,28 +3,32 @@
     gap: 8px;
 
     i {
-    font-size: 1.2rem;
+        font-size: 1.2rem;
 
-    &:hover {
-        color: rgba(0, 0, 0, 0.6);
-        cursor: pointer;
+        &:hover {
+            color: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
     }
-}  
 }
-    
 
-
-.content {
+.card-area {
     display: flex;
+
     gap: 64px;
 
-    .card-area {
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-content {
         display: flex;
         flex-wrap: wrap;
-        max-width: 450px;
+        width: 436px;
+        height: 436px;
         gap: 8px;
-        justify-content: space-between;
-
 
         .text {
             display: flex;
@@ -85,7 +89,7 @@
             min-width: 100%;
             text-align: center;
 
-            .card-content {
+            .card-large-content {
                 display: flex;
                 width: 100%;
                 justify-content: center;
@@ -94,7 +98,6 @@
 
                 .area {
                     width: 100%;
-
                 }
 
                 .upcoming-deadline {
@@ -154,7 +157,7 @@
 @media only screen and (max-width: 450px) {
     .content {
 
-        .card-area {
+        .card-content {
 
             .small {
                 width: 130px;
@@ -166,7 +169,7 @@
 
 @media only screen and (max-width: 425px) {
     .content {
-        .card-area {
+        .card-content {
             justify-content: unset;
 
             .small {
@@ -179,7 +182,7 @@
 
 @media only screen and (max-width: 425px) {
     .content {
-        .card-area {
+        .card-content {
             .large {
                 .card-content {
                     .left {
