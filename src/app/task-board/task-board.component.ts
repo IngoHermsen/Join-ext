@@ -48,6 +48,7 @@ export class TaskBoardComponent implements OnInit {
     });
 
     addEventListener('dragend', e => {
+      this.draggedHTMLElement.classList.remove('selected');
       this.draggedHTMLElement = null;
       this.draggedTask = null;
       this.draggedOverSection = null;

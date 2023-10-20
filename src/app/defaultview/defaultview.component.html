@@ -29,7 +29,7 @@
                 <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}
 
                 </div>
-                <div *ngIf="showAvatarMenu" class="avatar-menu fade-in">
+                <div *ngIf="showAvatarMenu" class="avatar-menu">
                     <div class="sign-out" (click)="authService.SignOut()">
                         <span>SIGN OUT</span>
                         <i class="pi pi-sign-out ml-1"></i>

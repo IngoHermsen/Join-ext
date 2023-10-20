@@ -71,6 +71,8 @@ export class TaskCardComponent implements OnInit, AfterViewInit {
     })
 
     this.taskCardEl.nativeElement.addEventListener('mouseup', e => {
+      console.log('was here');
+      
       this.taskCardEl.nativeElement.classList.remove('selected')
     })
   }

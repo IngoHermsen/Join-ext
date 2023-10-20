@@ -37,7 +37,6 @@ export class DefaultViewComponent implements OnDestroy {
   routeIsContacts: boolean = null;
   guestSession: boolean = false;
   publicProfile: boolean;
-  avatarMenuTimeout;
 
   // subscriptions
   projectSubscription: any;
@@ -192,11 +191,7 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   changeProfileState() {
-    clearTimeout(this.avatarMenuTimeout);
     this.contactService.setProfileState(this.publicProfile);
-    this.avatarMenuTimeout = setTimeout(() => {
-      this.showAvatarMenu = false;
-    }, 1800)
   }
 
 
