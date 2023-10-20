@@ -25,12 +25,12 @@ import { MessagesModule } from 'primeng/messages';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { AvatarModule } from 'primeng/avatar';
-import { DragDropModule } from 'primeng/dragdrop';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DragDropModule} from '@angular/cdk/drag-drop';
 
 
 //General
@@ -91,7 +91,6 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     AppRoutingModule,
     MenuModule,
     DialogModule,
-    DragDropModule,
     ButtonModule,
     SplitButtonModule,
     InputTextModule,
@@ -117,6 +116,8 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     ProgressSpinnerModule,
     TooltipModule,
     InputSwitchModule,
+    DragDropModule,
+    
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

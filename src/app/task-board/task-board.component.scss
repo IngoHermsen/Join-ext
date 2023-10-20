@@ -11,6 +11,7 @@
 
     .task-content {
         display: flex;
+        height: 100%;
 
         section {
             display: flex;
@@ -35,7 +36,9 @@
                 width: 250px;
                 height: 250px;
                 border-radius: 25px;
-                display: none;
+                border: 2px dashed rgba(0, 0, 0, 0.6);
+                display: block;
+                // display: none;
             }
 
             .card-wrapper {
@@ -47,13 +50,6 @@
 
             }
 
-        }
-
-        .drop {
-            .placeholder {
-                border: 2px dashed rgba(0, 0, 0, 0.6);
-                display: block;
-            }
         }
 
         .to-do .circle {

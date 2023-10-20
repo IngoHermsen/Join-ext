@@ -1,15 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { Subject, map, mergeMap, switchMap } from 'rxjs';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDragPlaceholder,
+} from '@angular/cdk/drag-drop';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
 
+
 @Component({
   selector: 'app-task-board',
   templateUrl: './task-board.component.html',
-  styleUrls: ['./task-board.component.scss']
+  styleUrls: ['./task-board.component.scss'],
+
 })
 export class TaskBoardComponent implements OnInit {
   draggedTask: Task = null;
@@ -43,8 +50,8 @@ export class TaskBoardComponent implements OnInit {
 
 
     addEventListener('drag', e => {
-        this.draggedHTMLElement = e.target as HTMLElement;
-        this._setTaskView(window.innerWidth);
+      this.draggedHTMLElement = e.target as HTMLElement;
+      this._setTaskView(window.innerWidth);
     });
 
     addEventListener('dragend', e => {
@@ -103,17 +110,30 @@ export class TaskBoardComponent implements OnInit {
     this.draggedTask = task;
   }
 
-  drop(status: string) {
-    if (this.draggedTask.status != status) {
-      this._updateTaskView(this.draggedTask, status);
-      this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
     }
-
-    this.draggedTask = null;
-    this.draggedOverSection = null;
-    this.hideAllTasks = false;
-
   }
+
+  // drop(status: string) {
+  //   if (this.draggedTask.status != status) {
+  //     this._updateTaskView(this.draggedTask, status);
+  //     this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
+  //   }
+
+  //   this.draggedTask = null;
+  //   this.draggedOverSection = null;
+  //   this.hideAllTasks = false;
+
+  // }
 
   showDropIndication(section) {
     if (this.draggedTask && this.draggedTask.status !== section) {
