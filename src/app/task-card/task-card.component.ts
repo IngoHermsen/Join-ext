@@ -12,10 +12,11 @@ import { ViewService } from 'src/services/view/view.service';
 })
 export class TaskCardComponent implements OnInit, AfterViewInit {
   @Input() task: Task;
-  @Input() dragging: boolean = false;
+  // @Input() dragging: boolean = false;
   dueDateAsString: string;
   status: string;
   showDeleteDialog: boolean = false;
+  @Input() selected: boolean = false;
 
   // viewElements:
 

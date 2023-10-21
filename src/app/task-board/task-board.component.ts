@@ -5,6 +5,8 @@ import {
   moveItemInArray,
   transferArrayItem,
   CdkDragPlaceholder,
+  CdkDropList,
+  CdkDropListGroup,
 } from '@angular/cdk/drag-drop';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
@@ -25,7 +27,7 @@ export class TaskBoardComponent implements OnInit {
   editedTask: Task = null;
   hideAllTasks: boolean = false;
   hideSection: string = null;
-  sectionView: any = {}
+  sectionView: any = {};
 
   fbProjectRefCollectionName: string;
 
@@ -111,6 +113,11 @@ export class TaskBoardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    const newStatus = event.container.id;    
+    const newStatusArray = this.taskService.tasksByStatus[newStatus];
+    const newIndex = event.currentIndex;    
+    let droppedTask;    
+    
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -120,20 +127,12 @@ export class TaskBoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
+      
+      droppedTask = newStatusArray[newIndex];  
+      droppedTask.status = newStatus;      
+      this.taskService.updateTaskDocumentStatus(newStatus, droppedTask.taskId, this.projectService.currentId.getValue());
     }
   }
-
-  // drop(status: string) {
-  //   if (this.draggedTask.status != status) {
-  //     this._updateTaskView(this.draggedTask, status);
-  //     this.taskService.updateTaskDocumentStatus(status, this.draggedTask.taskId, this.projectService.currentId.getValue());
-  //   }
-
-  //   this.draggedTask = null;
-  //   this.draggedOverSection = null;
-  //   this.hideAllTasks = false;
-
-  // }
 
   showDropIndication(section) {
     if (this.draggedTask && this.draggedTask.status !== section) {
@@ -142,21 +141,8 @@ export class TaskBoardComponent implements OnInit {
   }
 
   _updateTaskView(task: Task, newStatus?: string) {
-    const previousTaskStatus = task.status;
-    const statusArray = this.taskService.tasksByStatus[previousTaskStatus]
-    const index = this._findIndex(task);
-
-    this.taskService.tasksByStatus[previousTaskStatus].splice(index, 1);
-
-    if (newStatus) {
-
-      task.status = newStatus
-      this.taskService.tasksByStatus[newStatus].push(task);
-    } else {
-      statusArray.splice(index, 0, task);
-      this._convertDueDate(statusArray, this._findIndex(task))
-    }
-
+    const statusArray = this.taskService.tasksByStatus[task.status]
+    this._convertDueDate(statusArray, this._findIndex(task))
     this.editedTask = null;
   }
 
