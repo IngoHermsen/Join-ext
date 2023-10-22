@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import {
+  CdkDrag,
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
@@ -28,6 +29,9 @@ export class TaskBoardComponent implements OnInit {
   hideAllTasks: boolean = false;
   hideSection: string = null;
   sectionView: any = {};
+  boundaryClass: string = '';
+  lockYAxis: boolean = false;
+
 
   fbProjectRefCollectionName: string;
 
@@ -166,6 +170,10 @@ export class TaskBoardComponent implements OnInit {
   _setTaskView(screenWidth: number) {
     if (screenWidth <= 620) {
       this.hideAllTasks = true;
+    } else {
+      this.boundaryClass = 'boundary'
     }
   }
+
+
 }

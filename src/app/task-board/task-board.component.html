@@ -2,7 +2,7 @@
     <div *ngIf="!this.taskService.tasksLoaded" class="loading">
         <p-progressSpinner></p-progressSpinner>
     </div>
-    <div cdkDropListGroup *ngIf="this.taskService.tasksLoaded" class="task-content boundary">
+    <div cdkDropListGroup *ngIf="this.taskService.tasksLoaded" class="task-content" [ngClass]="boundaryClass">
         <section cdkDropList #todoList="cdkDropList" [cdkDropListData]="this.taskService.tasksByStatus.todo"
             (cdkDropListDropped)="drop($event)" class="to-do task-section" id="todo">
             <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>To Do

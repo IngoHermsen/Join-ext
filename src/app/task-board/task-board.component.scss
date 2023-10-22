@@ -1,3 +1,7 @@
+.cdk-drag-preview {
+    opacity: 0.7;
+}
+
 .selected {
     opacity: 0.4;
 }
@@ -79,7 +83,8 @@
 
 
 @media only screen and (max-width: 620px) {
-    .board-wrapper {
+    .task-content {
+        height: 100%;
         flex-direction: column;
 
         section {

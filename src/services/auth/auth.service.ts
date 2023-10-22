@@ -44,9 +44,9 @@ export class AuthService {
   SignIn(email: string, password: string, guestLogin?: boolean) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => { 
-          this.guestLogin = guestLogin || false;    
-          this.SetUserData(result.user);
+      .then((result) => {
+        this.guestLogin = guestLogin || false;
+        this.SetUserData(result.user);
       })
       .catch(() => {
         this.noMatchingData.next(true);
@@ -56,7 +56,7 @@ export class AuthService {
       });
   }
 
-  SignInAsGuest() {        
+  SignInAsGuest() {
     this.SignIn('contact@ingo-hermsen.de', '123456', true);
   }
 
@@ -100,16 +100,16 @@ export class AuthService {
 
   SendPasswordResetEmail(emailAdress: string) {
     return this.afAuth.sendPasswordResetEmail(emailAdress)
-    .then(() => {      
-      this.router.navigate(['auth/login']);
-      this.viewService.showResetPasswordNote = true;
-      setTimeout(() => {
-        this.viewService.showResetPasswordNote = false;
-      }, 4000)
-    })
-    .catch(() => {      
-      this.resetMailsuccessful.next(false)
-    })
+      .then(() => {
+        this.router.navigate(['auth/login']);
+        this.viewService.showResetPasswordNote = true;
+        setTimeout(() => {
+          this.viewService.showResetPasswordNote = false;
+        }, 4000)
+      })
+      .catch(() => {
+        this.resetMailsuccessful.next(false)
+      })
   }
 
 
@@ -171,20 +171,18 @@ export class AuthService {
         public: userDocData.public,
       };
 
-      this.userData = userData;      
-      this.userDataSet.next(true)
-      localStorage.setItem('initials', userData.initials);
-      localStorage.setItem('activeProject', userData.latestActiveProject);
-      localStorage.setItem('greetName', userData.firstName);
-      localStorage.setItem('guestSession', this.guestLogin ? 'true' : 'false');
-      localStorage.setItem('publicProfile', userData.public ? 'true' : 'false');
+      this.userData = userData;
+      this.userDataSet.next(true);
+      console.log('WAS HERE');
+      
+      this.SetLocalStorage(userData);
 
       this.afAuth.authState.subscribe((user) => {
-        if (user && this.isLoggedIn == true) { 
+        if (user && this.isLoggedIn == true) {
           this.router.navigate(['summary']);
         }
       });
-    
+
       return userRef.set(userData, {
         merge: true,
       });
@@ -194,10 +192,22 @@ export class AuthService {
 
   // Sign out
   SignOut() {
-    return this.afAuth.signOut().then(() => {
+    return this.afAuth.signOut().then(() => {            
       localStorage.clear();
       this.router.navigate(['auth/login']);
     });
+  }
+
+  SetLocalStorage(userData: any) {    
+    const time = new Date();
+
+    localStorage.setItem('initials', userData.initials);
+    localStorage.setItem('activeProject', userData.latestActiveProject);
+    localStorage.setItem('greetName', userData.firstName);
+    localStorage.setItem('guestSession', this.guestLogin ? 'true' : 'false');
+    localStorage.setItem('publicProfile', userData.public ? 'true' : 'false');
+    localStorage.setItem('activeTime', time.toString());
+    
   }
 }
 
