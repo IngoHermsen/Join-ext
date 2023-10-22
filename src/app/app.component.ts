@@ -33,9 +33,8 @@ export class AppComponent implements OnInit {
   }
 
   _setInitialRoute() {    
-    if (!this.sessionIsExpired()) { 
-      console.log('if');
-      this.activeRoute = 'summary';
+    if (!this.sessionHasExpired()) { 
+      this.activeRoute = sessionStorage.getItem('activeRoute') || 'summary';
       this.router.navigate([this.activeRoute]);
     } else {
       this.authService.SignOut(); 
@@ -44,7 +43,7 @@ export class AppComponent implements OnInit {
     this.setRouterSubscription()
   }
 
-  sessionIsExpired() {
+  sessionHasExpired() {
     const allowedDuration = 15;
     const latestActiveTime = localStorage.getItem('activeTime');
 

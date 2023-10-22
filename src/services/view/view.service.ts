@@ -11,6 +11,8 @@ export class ViewService implements OnInit {
   showDialog: Subject<boolean> = new Subject;
   dialogContent: string;
   viewInitialized: boolean = false;
+  boundaryClass: string = '';
+  windowWidth: number;
 
   newProjectBtnLabel: string;
 
@@ -21,16 +23,36 @@ export class ViewService implements OnInit {
   }
 
   ngOnInit(): void {        
-
   }
 
+  setView() {
+    this.windowWidth = window.innerWidth;
+    
+    this.setNavViewMode();
+    this.setBoundaryClass();
+  }
 
   setNavViewMode() {
     const minViewWidth: number = 520;
     const maxViewWidth: number = 1450
-    const windowWidth = window.innerWidth;
+    const windowWidth = this.windowWidth;
 
     this.fixedNav = windowWidth < minViewWidth || windowWidth > maxViewWidth;
+  }
+
+  setBoundaryClass() {
+    const windowWidth = this.windowWidth;
+    
+    if(windowWidth <= 620) {
+      console.log('if');
+      
+      this.boundaryClass = ''
+    } else {
+      console.log('else');
+      
+      this.boundaryClass = 'boundary';
+    }
+    
   }
 
   showSidebar(contentType: string) {

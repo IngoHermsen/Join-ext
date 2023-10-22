@@ -22,7 +22,7 @@ export class DefaultViewComponent implements OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.viewService.setNavViewMode()
+    this.viewService.setView()
   }
   userId: string;
   show: boolean;

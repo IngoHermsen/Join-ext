@@ -2,60 +2,52 @@
     <div *ngIf="!this.taskService.tasksLoaded" class="loading">
         <p-progressSpinner></p-progressSpinner>
     </div>
-    <div cdkDropListGroup *ngIf="this.taskService.tasksLoaded" class="task-content" [ngClass]="boundaryClass">
-        <section cdkDropList #todoList="cdkDropList" [cdkDropListData]="this.taskService.tasksByStatus.todo"
+    <div cdkDropListGroup *ngIf="this.taskService.tasksLoaded" cdkScrollable class="task-content" [ngClass]="viewService.boundaryClass">
+        <section cdkDropList [cdkDropListData]="this.taskService.tasksByStatus.todo"
             (cdkDropListDropped)="drop($event)" class="to-do task-section" id="todo">
-            <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>To Do
+            <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>todo
                 <div *ngIf="!sectionView.todo" class="amount">({{ taskService.tasksByStatus.todo.length }})</div>
             </h3>
             <ng-container *ngFor="let task of taskService.tasksByStatus.todo; index as i">
-                <div class="card-wrapper" (cdkDragStarted)="dragStart(task)" cdkDragBoundary=".boundary"
-                    cdkDrag>
-                    <app-task-card [task]="task" [hidden]="hideAllTasks || !sectionView.todo"></app-task-card>
+                <div [hidden]="hideAllTasks || !sectionView.todo" class="card-wrapper" (cdkDragStarted)="dragStart(task)" cdkDrag cdkDragBoundary=".boundary">
+                    <app-task-card [task]="task"></app-task-card>
                     <div class="placeholder cardwrapper" *cdkDragPlaceholder></div>
                 </div>
             </ng-container>
         </section>
         <section cdkDropList [cdkDropListData]="this.taskService.tasksByStatus.inProgress"
             (cdkDropListDropped)="drop($event)" class="in-progress task-section" id="inProgress">
-            <h3 (click)="this.sectionView.inProgress = !this.sectionView.inProgress"><i
-                    class="circle pi pi-circle-fill"></i>In Progress
-                <div *ngIf="!sectionView.inProgress" class="amount">({{ taskService.tasksByStatus.inProgress.length }})
-                </div>
+            <h3 (click)="this.sectionView.inProgress = !this.sectionView.inProgress"><i class="circle pi pi-circle-fill"></i>In Progress
+                <div *ngIf="!sectionView.inProgress" class="amount">({{ taskService.tasksByStatus.inProgress.length }})</div>
             </h3>
             <ng-container *ngFor="let task of taskService.tasksByStatus.inProgress; index as i">
-                <div class="card-wrapper" cdkDrag cdkDragBoundary=".boundary">
-                    <app-task-card [task]="task"
-                        [hidden]="hideAllTasks || !sectionView.inProgress"></app-task-card>
+                <div [hidden]="hideAllTasks || !sectionView.inProgress" class="card-wrapper" (cdkDragStarted)="dragStart(task)" cdkDrag cdkDragBoundary=".boundary">
+                    <app-task-card [task]="task"></app-task-card>
                     <div class="placeholder cardwrapper" *cdkDragPlaceholder></div>
                 </div>
             </ng-container>
         </section>
-        <section cdkDropList #inReviewList="cdkDropList" [cdkDropListData]="this.taskService.tasksByStatus.inReview"
+        <section cdkDropList [cdkDropListData]="this.taskService.tasksByStatus.inReview"
             (cdkDropListDropped)="drop($event)" class="in-review task-section" id="inReview">
-            <h3 (click)="this.sectionView.inReview = !this.sectionView.inReview"><i
-                    class="circle pi pi-circle-fill"></i>In
-                Review
+            <h3 (click)="this.sectionView.inReview = !this.sectionView.inReview"><i class="circle pi pi-circle-fill"></i>In Review
                 <div *ngIf="!sectionView.inReview" class="amount">({{ taskService.tasksByStatus.inReview.length }})
                 </div>
             </h3>
             <ng-container *ngFor="let task of taskService.tasksByStatus.inReview; index as i">
-                <div class="card-wrapper" cdkDrag cdkDragBoundary=".boundary">
-                    <app-task-card [task]="task">
-                        [hidden]="hideAllTasks || !sectionView.inReview"></app-task-card>
+                <div [hidden]="hideAllTasks || !sectionView.inReview" class="card-wrapper" (cdkDragStarted)="dragStart(task)" cdkDrag cdkDragBoundary=".boundary">
+                    <app-task-card [task]="task"></app-task-card>
                     <div class="placeholder cardwrapper" *cdkDragPlaceholder></div>
                 </div>
             </ng-container>
         </section>
-        <section cdkDropList #doneList="cdkDropList" [cdkDropListData]="this.taskService.tasksByStatus.done"
+        <section cdkDropList [cdkDropListData]="this.taskService.tasksByStatus.done"
             (cdkDropListDropped)="drop($event)" class="done task-section" id="done">
             <h3 (click)="this.sectionView.done = !this.sectionView.done"><i class="circle pi pi-circle-fill"></i>Done
                 <div *ngIf="!sectionView.done" class="amount">({{ taskService.tasksByStatus.done.length }})</div>
             </h3>
             <ng-container *ngFor="let task of taskService.tasksByStatus.done; index as i">
-                <div class="card-wrapper" cdkDrag cdkDragBoundary=".boundary">
-                    <app-task-card [task]="task" class="card-wrapper"
-                        [hidden]="hideAllTasks || !sectionView.done"></app-task-card>
+                <div [hidden]="hideAllTasks || !sectionView.done" class="card-wrapper" (cdkDragStarted)="dragStart(task)" cdkDrag cdkDragBoundary=".boundary">
+                    <app-task-card [task]="task" class="card-wrapper"></app-task-card>
                     <div class="placeholder cardwrapper" *cdkDragPlaceholder></div>
                 </div>
             </ng-container>

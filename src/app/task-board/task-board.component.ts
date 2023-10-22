@@ -112,7 +112,8 @@ export class TaskBoardComponent implements OnInit {
 
   }
 
-  dragStart(task: Task) {
+  dragStart(task: Task) {    
+    this.hideAllTasks = window.innerWidth <= 620;
     this.draggedTask = task;
   }
 
@@ -131,11 +132,12 @@ export class TaskBoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
-      
       droppedTask = newStatusArray[newIndex];  
       droppedTask.status = newStatus;      
       this.taskService.updateTaskDocumentStatus(newStatus, droppedTask.taskId, this.projectService.currentId.getValue());
     }
+    this.hideAllTasks = false;
+
   }
 
   showDropIndication(section) {
@@ -170,6 +172,7 @@ export class TaskBoardComponent implements OnInit {
   _setTaskView(screenWidth: number) {
     if (screenWidth <= 620) {
       this.hideAllTasks = true;
+      this.boundaryClass = '';
     } else {
       this.boundaryClass = 'boundary'
     }
