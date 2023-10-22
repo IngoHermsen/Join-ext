@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import {
   CdkDrag,
@@ -13,6 +13,7 @@ import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./task-board.component.scss'],
 
 })
-export class TaskBoardComponent implements OnInit {
+export class TaskBoardComponent implements OnInit, OnDestroy {
   draggedTask: Task = null;
   draggedHTMLElement: HTMLElement = null;
   draggedOverSection: string = null;
@@ -36,8 +37,9 @@ export class TaskBoardComponent implements OnInit {
   fbProjectRefCollectionName: string;
 
   //subscriptions
-  projectSubscription: any;
-  taskSubscription: any;
+  taskUpdates: Subscription;
+  activeTask: Subscription;
+  deletedTask: Subscription;
 
 
   constructor(
@@ -79,7 +81,7 @@ export class TaskBoardComponent implements OnInit {
       done: true
     };
 
-    this.taskService.activeTask.subscribe(task => {
+    this.activeTask = this.taskService.activeTask.subscribe(task => {
       if (task) {
         this.editedTask = task;
       }
@@ -87,7 +89,7 @@ export class TaskBoardComponent implements OnInit {
 
 
 
-    this.projectService.taskUpdates.subscribe((taskEntries) => {
+    this.taskUpdates = this.projectService.taskUpdates.subscribe((taskEntries) => {
       this.editedTask.title = taskEntries.title,
         this.editedTask.description = taskEntries.description,
         this.editedTask.assignedUsers = taskEntries.assignedUsers,
@@ -97,7 +99,7 @@ export class TaskBoardComponent implements OnInit {
       this._updateTaskView(this.editedTask)
     });
 
-    this.projectService.deletedTaskId.subscribe((task) => {
+   this.deletedTask = this.projectService.deletedTaskId.subscribe((task) => {
       const taskStatusArray: Array<any> = this.taskService.tasksByStatus[task.status]
 
       const taskIndex: number = taskStatusArray.findIndex(statusTask => {
@@ -107,6 +109,12 @@ export class TaskBoardComponent implements OnInit {
       taskStatusArray.splice(taskIndex, 1)
     })
 
+  }
+
+  ngOnDestroy(): void {
+    this.taskUpdates.unsubscribe();
+    this.activeTask.unsubscribe();
+    this.deletedTask.unsubscribe()
   }
 
   dragStart(task: Task) {    

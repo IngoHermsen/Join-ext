@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
@@ -8,6 +8,7 @@ import { ContactService } from 'src/services/contact/contact.service';
 import { Task } from 'src/models/task';
 import { Contact } from 'src/models/contact';
 import { ProjectService } from 'src/services/project/project.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-dialog',
@@ -15,11 +16,14 @@ import { ProjectService } from 'src/services/project/project.service';
   styleUrls: ['./task-dialog.component.scss']
 })
 
-export class TaskDialogComponent implements OnInit {
+export class TaskDialogComponent implements OnInit, OnDestroy {
   assignedContacts: Contact[] = null;
   dueDate: Date;
   minDueDate = new Date();
   taskId: string | null;
+
+  // Subscriptions:
+  activeTask: Subscription;
 
   @ViewChild('assignUsers') userMultiSelect: MultiSelect;
   @ViewChild('priorityButtons') prioritySelection: SelectButton;
@@ -44,7 +48,7 @@ export class TaskDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.dueDate = new Date();
-    this.taskService.activeTask.subscribe((task) => {
+    this.activeTask = this.taskService.activeTask.subscribe((task) => {
 
       if (task) {
         this._setTaskFormValues(task)
@@ -53,6 +57,10 @@ export class TaskDialogComponent implements OnInit {
         this.taskForm.reset();
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.activeTask.unsubscribe();
   }
 
   // formGroup

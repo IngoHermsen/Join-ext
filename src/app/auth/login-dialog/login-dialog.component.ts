@@ -1,5 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ViewService } from 'src/services/view/view.service';
 
@@ -8,22 +9,30 @@ import { ViewService } from 'src/services/view/view.service';
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss']
 })
-export class LoginDialogComponent {
+export class LoginDialogComponent implements OnDestroy {
   formActive: boolean = true;
   wrongInput: boolean;
   visible: boolean;
+
+  @ViewChild('loginForm') loginForm?: NgForm;
+
+  // Subscripitions:
+  noMatchingData: Subscription;
+
 
   constructor(
     public authService: AuthService,
     public viewService: ViewService,
   ) {
     this.visible = true;
-    authService.noMatchingData.subscribe((value) => {
+    this.noMatchingData = authService.noMatchingData.subscribe((value) => {
       this.wrongInput = value;
     })
   }
 
-  @ViewChild('loginForm') loginForm?: NgForm
+  ngOnDestroy(): void {    
+    this.noMatchingData.unsubscribe();    
+  }
 
   formData = {
     usermail: '',

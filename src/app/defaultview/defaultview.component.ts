@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { NavigationEnd, Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { Contact } from 'src/models/contact';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
@@ -38,13 +38,10 @@ export class DefaultViewComponent implements OnDestroy {
   publicProfile: boolean;
 
   // subscriptions
-  projectSubscription: any;
-  taskSubscription: any;
-  userDataSubscription: any;
-  routeSubscription: any;
-
-  projectLoadedSubscription: any;
-  tasksLoadedSubscription: any;
+  currentProjectId: Subscription;
+  taskSubscription: Subscription;
+  routeSubscription: Subscription;
+  projectsAsJson: Subscription;
 
   // Firebase Environemt
   fbCollectionForContacts: AngularFirestoreCollection = null;
@@ -66,7 +63,7 @@ export class DefaultViewComponent implements OnDestroy {
       }
     });
 
-    this.projectService.projectsAsJson.subscribe((data) => {
+    this.projectsAsJson = this.projectService.projectsAsJson.subscribe((data) => {
       this.projects = data;
     });
 
@@ -75,10 +72,10 @@ export class DefaultViewComponent implements OnDestroy {
     this.initializeView(this._getUserData())
 
 
-    this.projectSubscription = this.projectService.currentId.subscribe((value) => {
+    this.currentProjectId = this.projectService.currentId.subscribe((value) => {
       if (value != "") {
         this.projectService.setActiveProject(value);
-      } else {       
+      } else {
         this.projectService.projectTitle = 'NO ACTIVE PROJECT';
         this.viewService.dashboardLoaded = true;
         this.projectService.projectLoaded = true;
@@ -91,6 +88,13 @@ export class DefaultViewComponent implements OnDestroy {
 
   }
 
+  ngOnDestroy(): void {
+    this.projectsAsJson.unsubscribe();
+    this.routeSubscription.unsubscribe();
+  }
+
+
+
   _getUserData() {
     if (localStorage.getItem('user') !== 'null' && !this.authService.loggedIn) {
       const isGuestSession: boolean = JSON.parse(localStorage.getItem('guestSession'))
@@ -102,7 +106,7 @@ export class DefaultViewComponent implements OnDestroy {
     }
   }
 
-  initializeView(user: User) {   
+  initializeView(user: User) {
     if (!this.viewService.viewInitialized) {
       this.userId = user.uid;
       this.avatarInitials = user.initials;
@@ -111,15 +115,6 @@ export class DefaultViewComponent implements OnDestroy {
       this.publicProfile = user.public;
       this.viewService.viewInitialized = true;
     }
-  }
-
-
-  ngAfterViewInit() {
-    this.contactService.getContactList()
-  }
-
-  ngOnDestroy(): void {
-    
   }
 
   _setGuestSessionStatus(status: boolean) {

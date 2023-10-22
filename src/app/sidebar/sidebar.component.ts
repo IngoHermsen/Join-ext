@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
 
@@ -10,8 +11,11 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./sidebar.component.scss']
 })
 
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   isVisible: boolean;
+
+  // Subscriptions:
+  showDialog: Subscription;
 
 
   constructor(
@@ -22,9 +26,13 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.viewService.showDialog.subscribe((value) => {      
+    this.showDialog = this.viewService.showDialog.subscribe((value) => {      
       this.isVisible = value;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.showDialog.unsubscribe();
   }
 
   leaveTaskEditMode() {

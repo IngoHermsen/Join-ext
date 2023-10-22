@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { arrayUnion } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 import { ContactService } from 'src/services/contact/contact.service';
 import { ViewService } from 'src/services/view/view.service';
 import { __values } from 'tslib';
@@ -10,9 +11,12 @@ import { __values } from 'tslib';
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit, AfterViewInit {
+export class ContactsComponent implements OnInit, OnDestroy {
   contactUsersDoc = null;
   characters = [];
+
+  // Subscriptions:
+  newContactId: Subscription;
 
   constructor(
     public afs: AngularFirestore,
@@ -30,10 +34,11 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
   }
 
-  ngAfterViewInit(): void {
-
+  ngOnDestroy(): void {
+    this.newContactId.unsubscribe();
   }
   
 }

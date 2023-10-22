@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe()    
+    this.routerSubscription.unsubscribe();
   } 
 
   _setInitialRoute() {    

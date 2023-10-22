@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Subscription } from 'rxjs';
 import { ContactService } from 'src/services/contact/contact.service';
 
 @Component({
@@ -7,11 +8,14 @@ import { ContactService } from 'src/services/contact/contact.service';
   templateUrl: './contacts-dialog.component.html',
   styleUrls: ['./contacts-dialog.component.scss']
 })
-export class ContactsDialogComponent {
+export class ContactsDialogComponent implements OnDestroy {
   inputValue: string = null;
   users = [];
   characters = [];
   filteredCharacters = [];
+
+  // Subscriptions:
+  usersCollection: Subscription;
 
   //Firebase Contact Selection
   usersCollectionRef = this.contactService.fbContactRefCollection;
@@ -21,7 +25,7 @@ export class ContactsDialogComponent {
     public contactService: ContactService,
   ) {
     this.inputValue = '';
-    this.usersCollectionRef.get().subscribe((users) => {
+    this.usersCollection = this.usersCollectionRef.get().subscribe((users) => {
       users.docs.map((entry) => {
         const userData = entry.data();
         const dbUser = {
@@ -42,6 +46,10 @@ export class ContactsDialogComponent {
       })
       this._sortUsers()
     })
+  }
+
+  ngOnDestroy(): void {
+    this.usersCollection.unsubscribe();
   }
 
   userIsContact(userId) {

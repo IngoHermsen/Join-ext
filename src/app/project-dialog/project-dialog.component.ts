@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscribable, Subscription } from 'rxjs';
 import { ProjectService } from 'src/services/project/project.service';
 
 @Component({
@@ -7,26 +8,31 @@ import { ProjectService } from 'src/services/project/project.service';
   templateUrl: './project-dialog.component.html',
   styleUrls: ['./project-dialog.component.scss']
 })
-export class ProjectDialogComponent implements OnInit {
+export class ProjectDialogComponent implements OnInit, OnDestroy {
   topbarVisible: boolean;
   titleInputLimit: number = 30;
   titleInputCharacters: number = 0;
   descriptionInputLimit: number = 200;
   descriptionInputCharacters: number = 0;
 
+  // Subscriptions:
+  projectTitleValueChange: Subscription;
+  projectDescriptionValueChange: Subscription;
+  showDialog: Subscription;
+
 
   constructor(
 
     public projectService: ProjectService
   ) {
-    this.projectForm.controls.title.valueChanges.subscribe((value) => {
+    this.projectTitleValueChange = this.projectForm.controls.title.valueChanges.subscribe((value) => {
       this.titleInputCharacters = value.length;
       if (value.length > this.titleInputLimit) {
         this.sliceInput('title', this.titleInputLimit)
       }
     })
 
-    this.projectForm.controls.description.valueChanges.subscribe((value) => {
+    this.projectDescriptionValueChange = this.projectForm.controls.description.valueChanges.subscribe((value) => {
       this.descriptionInputCharacters = value.length;
       if (value.length > this.descriptionInputLimit) {
         this.sliceInput('description', this.descriptionInputLimit)
@@ -36,9 +42,14 @@ export class ProjectDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.projectService.showDialog.subscribe((value) => {
+   this.showDialog = this.projectService.showDialog.subscribe((value) => {
       this.topbarVisible = value;
     })
+  }
+
+  ngOnDestroy(): void {
+    this.projectDescriptionValueChange.unsubscribe();
+    this.projectTitleValueChange.unsubscribe();
   }
 
   projectForm = new FormGroup({

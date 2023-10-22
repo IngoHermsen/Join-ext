@@ -1,29 +1,32 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
 import { ProjectService } from 'src/services/project/project.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   daytimeGreeting: string;
   greetingName: string;
   deadlineDate: string;
   months: any;
   showDashboard: boolean = false;
   initAnimation = true;
+
+  // Subscriptions:
+  earliestDueDate: Subscription;
   
   constructor(
     public projectService: ProjectService,
     public taskService: TaskService,
     public viewService: ViewService,
   ) {
-    this.taskService.earliestDueDateSubject.subscribe(timestamp => {
+    this.earliestDueDate = this.taskService.earliestDueDateSubject.subscribe(timestamp => {
       if (timestamp) {
         this.getDeadlineDateString(timestamp);
       } else {
@@ -39,9 +42,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.deadlineDate = localStorage.getItem('earliestDueDate');    
   }
 
-  ngAfterViewInit(): void {
-    
+  ngOnDestroy(): void {
+    this.earliestDueDate.unsubscribe()
   }
+
 
   setDisplayMonths() {
     this.months = {
