@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';
@@ -10,10 +10,9 @@ import { ViewService } from 'src/services/view/view.service';
   templateUrl: './task-card.component.html',
   styleUrls: ['./task-card.component.scss']
 })
-export class TaskCardComponent implements OnInit, AfterViewInit {
+export class TaskCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() task: Task;
   // @Input() dragging: boolean = false;
-  dueDateAsString: string;
   status: string;
   showDeleteDialog: boolean = false;
   @Input() selected: boolean = false;
@@ -30,12 +29,14 @@ export class TaskCardComponent implements OnInit, AfterViewInit {
     private router: Router,
     private viewService: ViewService
   ) {
-    
   }
 
   ngOnInit(): void {    
-    this.dueDateAsString = this.taskService.convertDueDate(this.task.dueDate);
     this.status = this._setStatus();    
+  }
+
+  ngOnDestroy(): void {
+    
   }
 
   btnItems: any[] = [
@@ -69,8 +70,6 @@ export class TaskCardComponent implements OnInit, AfterViewInit {
   }
 
   openTaskEdit(task: Task) {
-    console.log(task);
-        
     this.router.navigate(['/tasks', task['taskId']], { replaceUrl: true });
     this.viewService.showSidebar('task');
     this.taskService.editMode = true;

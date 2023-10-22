@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/services/auth/auth.service';
@@ -11,7 +11,7 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'ng-join';
   activeRoute: string;
 
@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     public viewService: ViewService,
-
   ) {
 
   }
@@ -31,6 +30,10 @@ export class AppComponent implements OnInit {
     this._setInitialRoute();
     this.viewService.setView();
   }
+
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe()    
+  } 
 
   _setInitialRoute() {    
     if (!this.sessionHasExpired()) { 
@@ -71,7 +74,7 @@ export class AppComponent implements OnInit {
   }
 
   setRouterSubscription() {
-    this.router.events.subscribe((event) => {
+    this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         sessionStorage.setItem('activeRoute', event.url);
         this.setActivityTime()

@@ -103,9 +103,6 @@ export class TaskBoardComponent implements OnInit {
       const taskIndex: number = taskStatusArray.findIndex(statusTask => {
         return statusTask.taskId == task.taskId;
       });
-      console.log(taskStatusArray);
-      console.log(taskIndex)
-
 
       taskStatusArray.splice(taskIndex, 1)
     })
@@ -146,7 +143,7 @@ export class TaskBoardComponent implements OnInit {
     }
   }
 
-  _updateTaskView(task: Task, newStatus?: string) {
+  _updateTaskView(task: Task) {
     const statusArray = this.taskService.tasksByStatus[task.status]
     this._convertDueDate(statusArray, this._findIndex(task))
     this.editedTask = null;

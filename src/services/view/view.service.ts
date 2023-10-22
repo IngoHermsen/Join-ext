@@ -44,15 +44,10 @@ export class ViewService implements OnInit {
     const windowWidth = this.windowWidth;
     
     if(windowWidth <= 620) {
-      console.log('if');
-      
       this.boundaryClass = ''
-    } else {
-      console.log('else');
-      
+    } else {      
       this.boundaryClass = 'boundary';
     }
-    
   }
 
   showSidebar(contentType: string) {

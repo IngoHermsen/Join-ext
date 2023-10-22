@@ -83,13 +83,11 @@ export class TaskService implements OnInit {
   }
 
 
-  convertDueDate(dueDate: Timestamp | Date) {
-
+  convertDueDateToString(dueDate: Timestamp | Date) {
     if (dueDate instanceof Timestamp) {
       const secondsAsDate = new Date(dueDate.seconds * 1000);
       return secondsAsDate.toLocaleDateString();
     } else {
-
       return dueDate.toLocaleDateString();
     }
   }

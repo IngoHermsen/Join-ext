@@ -173,8 +173,6 @@ export class AuthService {
 
       this.userData = userData;
       this.userDataSet.next(true);
-      console.log('WAS HERE');
-      
       this.SetLocalStorage(userData);
 
       this.afAuth.authState.subscribe((user) => {

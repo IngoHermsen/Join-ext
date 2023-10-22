@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
@@ -43,10 +43,10 @@ export class TaskDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dueDate = new Date()
-    this.taskService.activeTask.subscribe((task) => {      
+    this.dueDate = new Date();
+    this.taskService.activeTask.subscribe((task) => {
 
-      if (task) {       
+      if (task) {
         this._setTaskFormValues(task)
         this.taskId = task.taskId;
       } else {
@@ -116,7 +116,7 @@ export class TaskDialogComponent implements OnInit {
     this.taskForm.reset()
   }
 
-  _setTaskFormValues(taskObj: Task) {      
+  _setTaskFormValues(taskObj: Task) {
 
     this.assignedContacts = [];
     const dueDateAsDate = new Date(taskObj.dueDate['seconds'] * 1000);
@@ -132,21 +132,21 @@ export class TaskDialogComponent implements OnInit {
 
   }
 
-  _setAssignedContacts(assignedUsers: any) {    
-    assignedUsers.map((user: any) => {      
-      const contactList: Array<Contact> = this.contactService.usersContacts;      
+  _setAssignedContacts(assignedUsers: any) {
+    assignedUsers.map((user: any) => {
+      const contactList: Array<Contact> = this.contactService.usersContacts;
       let userIds: Array<string> = []
 
-      for (let i = 0; i < contactList.length; i++) {         
-        
+      for (let i = 0; i < contactList.length; i++) {
+
         if (user.uid == contactList[i].uid) {
           this.assignedContacts.push(contactList[i]);
-          
+
           userIds.push(user.uid);
           break;
         }
-      }    
-      
+      }
+
     }
     )
   }

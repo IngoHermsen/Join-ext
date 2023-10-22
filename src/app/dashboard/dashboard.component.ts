@@ -36,9 +36,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
     this.daytimeGreeting = this.getDaytimeGreeting();
-    this.deadlineDate = localStorage.getItem('earliestDueDate');
-    console.log('initialized', this.viewService.viewInitialized);
-    
+    this.deadlineDate = localStorage.getItem('earliestDueDate');    
   }
 
   ngAfterViewInit(): void {

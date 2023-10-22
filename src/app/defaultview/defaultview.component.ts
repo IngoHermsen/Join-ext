@@ -10,7 +10,6 @@ import { ProjectService } from 'src/services/project/project.service';
 import { TaskService } from 'src/services/task/task.service';
 import { ViewService } from 'src/services/view/view.service';
 
-
 @Component({
   selector: 'app-defaultview',
   templateUrl: './defaultview.component.html',
@@ -120,6 +119,7 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    
   }
 
   _setGuestSessionStatus(status: boolean) {
