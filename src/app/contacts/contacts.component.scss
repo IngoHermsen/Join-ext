@@ -32,7 +32,6 @@
     .contact-content {
         text-wrap: nowrap;
         
-        
         .user-info {
             width: 250px;
             padding-right: 20px;
@@ -42,5 +41,19 @@
             }
         }
     }
+}
 
+@media only screen and (max-width: 420px) {
+.contact-entry {
+    max-width: 280px;
+    .user-info {
+        max-width: 200px;
+        padding-right: unset;
+
+        .user-email {
+            font-size: 12px;
+        }
+    }
+
+}
 }

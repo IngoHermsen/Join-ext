@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this._setInitialRoute();
-    this.viewService.setNavViewMode();
+    this.viewService.setView();
   }
 
   _setInitialRoute() {    

@@ -40,7 +40,7 @@ export class ContactsDialogComponent {
           this.users.push(dbUser);
         }
       })
-      this.sortUsers()
+      this._sortUsers()
     })
   }
 
@@ -82,7 +82,7 @@ export class ContactsDialogComponent {
 
   }
 
-  sortUsers() {
+  _sortUsers() {
     this.users.sort((a, b) => {
       if (a.lastName < b.lastName) {
         return -1;
