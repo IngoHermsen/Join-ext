@@ -4,18 +4,20 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Kanban-Based Task Manager with small firestore backend.
 
-Features:
+Main Features:
 
-- User authentication management with Registration and "Forgot Password" process.
+- User authentication management with Registration and "Forgot Password" functionality.
 - add other users e.g. colleagues or friends as contacts for collaboration.
 - Create your own projects which include tasks as draggable cards.
 - Create, edit, or delete tasks for your own project or another project you are part of.
 
-- Change the process state of tasks by dragging and dropping between the four possible task states:
+- Keep it simple: Change the state of tasks by dragging and dropping between the four possible task states
   - todo
   - in Progress
   - in Review
   - done
-  
-- Keep control about your anonymity by changing your account to public or private state as you want.
+
+- fully responsive: Optimized functionality for mobile devices
+
+- Keep control about your anonymity: Simply your account to public or private state as you want.
   Only if you have chosen a public state you can be found as contact and assigned to tasks by other users.
