@@ -132,7 +132,8 @@ export class TaskBoardComponent implements OnInit {
       this.taskService.updateTaskDocumentStatus(newStatus, droppedTask.taskId, this.projectService.currentId.getValue());
     }
     this.hideAllTasks = false;
-
+    this.sectionView[newStatus] = true;
+    
   }
 
   showDropIndication(section) {
