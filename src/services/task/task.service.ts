@@ -106,8 +106,8 @@ export class TaskService implements OnInit {
     const tasksCollectionRef: AngularFirestoreCollection<any> = projectDocRef.collection('tasks')
 
     tasksCollectionRef.get().pipe(mergeMap(ref => {
-
-
+      this.viewService.dashboardLoaded = ref.empty;          
+    
       return from(ref.docs);
     })).pipe(map(doc => {
       const task = doc.data();
@@ -146,6 +146,7 @@ export class TaskService implements OnInit {
         if (this.checkUrgency(task.dueDate)) {
           this.amountOfUrgent++;
         }
+        
         this.tasksByStatus[status].push(task);
         this.amountOfTasks++
       }))
