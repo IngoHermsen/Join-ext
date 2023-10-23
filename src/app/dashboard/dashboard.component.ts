@@ -30,9 +30,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  ngOnInit(): void {  
-    console.log('INIT');
-    
+  ngOnInit(): void {      
     
     this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
@@ -40,9 +38,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deadlineDate = localStorage.getItem('earliestDueDate');    
   }
 
-  ngOnDestroy(): void {
-    console.log('DASHBOARD DESTROYED');
-    
+  ngOnDestroy(): void {    
   }
 
   ngAfterViewInit(): void {
