@@ -1,7 +1,8 @@
 <div class="nav-content">
     <i *ngIf="!viewService.fixedNav" (click)="closeNav()" class="close-icon pi pi-times"></i>
-    <img routerLink="summary" class="join-logo-white" src="./assets/join-logo-white.png" alt="white-join-logo">
-    <div class="navigation-links">
+    <img (click)="toggleLegals()" routerLink="summary" class="join-logo-white" src="./assets/join-logo-white.png"
+        alt="white-join-logo">
+    <div *ngIf="!viewService.showSmallLegalLinks" class="navigation-links">
         <span class="nav-link" (click)="closeNav()" routerLink="summary">
             <i class="pi pi-map"></i><span>Summary</span> </span>
         <span [class.inactive]="!this.projectService.projectTitle" class="nav-link" (click)="closeNav()" href=""
@@ -11,15 +12,17 @@
         <span class="nav-link" (click)="closeNav()" routerLink="contacts">
             <i class="pi pi-user-edit"></i><span>Contacts</span>
         </span>
-        <div class="legals">
-        <span class="nav-link legal-notice" routerLink="legal-notice">
-            <i class="pi pi-exclamation-circle"></i><span>Legal Notice</span>
-        </span>
-        <span class="nav-link privacy policy" routerLink="privacy-policy">
-            <i class="pi pi-exclamation-circle"></i><span>Privacy Policy</span>
-        </span>
-
+        <div *ngIf="viewService.showLegalLinksInNav" class="legals">
+            <span class="nav-link legal-notice" routerLink="legal-notice">
+                <i class="pi pi-exclamation-circle"></i><span>Legal Notice</span>
+            </span>
+            <span class="nav-link privacy policy" routerLink="privacy-policy">
+                <i class="pi pi-exclamation-circle"></i><span>Privacy Policy</span>
+            </span>
         </div>
-
+    </div>
+    <div *ngIf="viewService.showSmallLegalLinks" class="legals-sm">
+        <span routerLink="legal-notice" class="nav-link">Legal Notice</span>
+        <span routerLink="privacy-policy" class="nav-link">Privacy Policy</span>
     </div>
 </div>

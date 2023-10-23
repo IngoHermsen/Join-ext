@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProjectService } from 'src/services/project/project.service';
 import { ViewService } from 'src/services/view/view.service';
 
@@ -25,6 +26,14 @@ export class NavigationComponent implements OnInit {
   closeNav() {  
     if (!this.viewService.fixedNav) {
       this.closeEvent.emit(true)
+    }
+  }
+
+ 
+  toggleLegals() {
+    
+    if(!this.viewService.showLegalLinksInNav) {
+      this.viewService.showSmallLegalLinks = !this.viewService.showSmallLegalLinks;      
     }
   }
 

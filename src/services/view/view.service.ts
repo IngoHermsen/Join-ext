@@ -14,6 +14,9 @@ export class ViewService implements OnInit {
   boundaryClass: string = '';
   windowWidth: number;
 
+  showLegalLinksInNav: boolean;
+  showSmallLegalLinks: boolean = false;
+
   newProjectBtnLabel: string;
 
   // loaded data state:
@@ -36,8 +39,9 @@ export class ViewService implements OnInit {
     const minViewWidth: number = 520;
     const maxViewWidth: number = 1450
     const windowWidth = this.windowWidth;
-
     this.fixedNav = windowWidth < minViewWidth || windowWidth > maxViewWidth;
+    this.setLegalLinksInNav();
+
   }
 
   setBoundaryClass() {
@@ -55,5 +59,9 @@ export class ViewService implements OnInit {
     this.showDialog.next(true);
   }
 
+  setLegalLinksInNav() {
+   this.showLegalLinksInNav = this.windowWidth > 520;
+    
+  }
 
 }

@@ -5,7 +5,7 @@
     <div cdkDropListGroup *ngIf="this.taskService.tasksLoaded" cdkScrollable class="task-content" [ngClass]="viewService.boundaryClass">
         <section cdkDropList [cdkDropListData]="this.taskService.tasksByStatus.todo"
             (cdkDropListDropped)="drop($event)" class="to-do task-section" id="todo">
-            <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i class="circle pi pi-circle-fill"></i>todo
+            <h3 (click)="this.sectionView.todo = !this.sectionView.todo"><i routerLink="/summary" class="circle pi pi-circle-fill"></i>To Do
                 <div *ngIf="!sectionView.todo" class="amount">({{ taskService.tasksByStatus.todo.length }})</div>
             </h3>
             <ng-container *ngFor="let task of taskService.tasksByStatus.todo; index as i">

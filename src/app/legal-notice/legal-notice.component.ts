@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ViewService } from 'src/services/view/view.service';
 
 @Component({
   selector: 'app-legal-notice',
@@ -9,13 +10,15 @@ import { Router } from '@angular/router';
 export class LegalNoticeComponent {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private viewService: ViewService,
   ) {
 
   }
 
   navigateToPreviousRoute() {    
     const prevRoute = sessionStorage.getItem('activeRoute');
-    this.router.navigate([prevRoute])
+    this.router.navigate([prevRoute]);
+    this.viewService.showSmallLegalLinks = false;    
   }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task/task.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
@@ -9,7 +9,7 @@ import { ProjectService } from 'src/services/project/project.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   daytimeGreeting: string;
   greetingName: string;
   deadlineDate: string;
@@ -31,11 +31,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {  
+    console.log('INIT');
+    
     
     this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
     this.daytimeGreeting = this.getDaytimeGreeting();
     this.deadlineDate = localStorage.getItem('earliestDueDate');    
+  }
+
+  ngOnDestroy(): void {
+    console.log('DASHBOARD DESTROYED');
+    
   }
 
   ngAfterViewInit(): void {

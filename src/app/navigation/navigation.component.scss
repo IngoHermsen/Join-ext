@@ -13,6 +13,7 @@
         max-height: 100%;
 
         -webkit-user-drag: none;
+
         &:hover {
             cursor: pointer;
         }
@@ -57,15 +58,16 @@
 }
 
 @media only screen and (max-width: 520px) {
+
     .nav-content {
-        padding: 12px;        
+        padding: 12px;
         position: fixed;
-        height: 50px;
         z-index: 1;
         height: 80px;
         width: 100vw;
         bottom: 0px;
         flex-direction: unset;
+        justify-content: space-around;
 
         .join-logo-white {
             max-width: 50px;
@@ -73,22 +75,46 @@
         }
     }
 
-    .navigation-links {
-        max-width: 300px;
+    .navigation-links,
+    .legals-sm {
+        min-width: 280px;
         flex-direction: unset;
-        justify-content: space-around;
+        gap: 1rem;
         margin-left: 0px;
+        margin-top: unset;
 
-        .nav-link { 
-            min-width: 80px;
+        .nav-link {
+            min-width: 85px;
             display: flex;
             text-align: center;
-            flex-direction: column;
+            flex-direction: column-reverse;
+            gap: 4px;
+            font-size: 14px;
 
             span {
                 margin-left: unset;
             }
         }
+    }
+
+    .legals-sm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 100%;
+
+        .nav-link {
+            display: inline;
+            min-width: 96px;
+
+            &:hover {
+                font-weight: 600;
+                cursor: pointer;
+            }
+        }
+
+
     }
 
     @media only screen and (max-width: 400px) {
@@ -98,5 +124,5 @@
             }
         }
     }
-        
+
 }

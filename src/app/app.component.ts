@@ -82,8 +82,11 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   }
 
-  _setSessionStorageRouteItem(url: string) { 
-    if(url != '/privacy-policy' && url != '/legal-notice') {
+  _setSessionStorageRouteItem(url: string) {
+    console.log('URL:', url);
+    console.log('urlincludes Privacy policy', url.includes('privacy-policy'));
+    
+    if(!url.includes('privacy-policy') && !url.includes('legal-notice')) {
       sessionStorage.setItem('activeRoute', url);
     }
   }

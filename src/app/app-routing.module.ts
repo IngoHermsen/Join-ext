@@ -14,13 +14,14 @@ import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+
   { 
     path: '', component: AuthComponent, children: [
       { path: 'auth/login', component: LoginDialogComponent},
       { path: 'auth/forgotPassword', component: ForgotPasswordDialogComponent},
       { path: 'auth/signup', component: SignupDialogComponent},
-      { path: 'privacy-policy', component: PrivacyPolicyComponent },
-      { path: 'legal-notice', component: LegalNoticeComponent },
+      { path: 'auth/privacy-policy', component: PrivacyPolicyComponent },
+      { path: 'auth/legal-notice', component: LegalNoticeComponent },
     ]
   },
   {
@@ -29,7 +30,9 @@ const routes: Routes = [
       { path: 'tasks', component: TaskBoardComponent },
       { path: 'tasks/:id', component: TaskBoardComponent },
       { path: 'contacts', component: ContactsComponent },
-
+      { path: 'privacy-policy', component: PrivacyPolicyComponent },
+      { path: 'legal-notice', component: LegalNoticeComponent },
+      
     ]
   },
 ];
