@@ -7,10 +7,11 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {
-  animateJoinLogo: boolean = true;
+  animateJoinLogo: boolean;
     
   constructor(
     public viewService: ViewService,
   ) {
+    this.animateJoinLogo = window.innerWidth > 500;
   }
 }

@@ -44,7 +44,6 @@
     }
 }
 
-
 .animated-logo {
     pointer-events: none;
     position: absolute;
@@ -68,5 +67,15 @@
             top: 0;
             left: 0;
         }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .logo {
+        position: absolute;
+        height: 120px;
+        top: 16px;
+        left: 50vw;
+        transform: translate(-50%);
     }
 }
