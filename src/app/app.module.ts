@@ -64,6 +64,8 @@ import { ProjectDialogComponent } from './project-dialog/project-dialog.componen
 import { TaskCardComponent } from './task-card/task-card.component';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.component';
+import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 
 
@@ -84,6 +86,8 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     SidebarComponent,
     TaskDialogComponent,
     ContactsDialogComponent,
+    LegalNoticeComponent,
+    PrivacyPolicyComponent,
 
   ],
   imports: [

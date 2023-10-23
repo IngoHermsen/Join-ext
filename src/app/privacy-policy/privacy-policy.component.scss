@@ -1,0 +1,23 @@
+.content {
+    position: absolute;
+    inset: 0;
+    background-color: white;
+    z-index: 5;
+    padding: 0px 12px;
+
+    .close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        opacity: 0.6;
+        
+        &:hover {
+            cursor: pointer;
+            opacity: unset;
+        }
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+}

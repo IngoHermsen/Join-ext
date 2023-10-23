@@ -9,6 +9,8 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { ForgotPasswordDialogComponent } from './auth/forgot-password-dialog/forgot-password-dialog.component';
 import { LoginDialogComponent } from './auth/login-dialog/login-dialog.component';
 import { SignupDialogComponent } from './auth/signup-dialog/signup-dialog.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -16,7 +18,9 @@ const routes: Routes = [
     path: '', component: AuthComponent, children: [
       { path: 'auth/login', component: LoginDialogComponent},
       { path: 'auth/forgotPassword', component: ForgotPasswordDialogComponent},
-      { path: 'auth/signup', component: SignupDialogComponent}
+      { path: 'auth/signup', component: SignupDialogComponent},
+      { path: 'privacy-policy', component: PrivacyPolicyComponent },
+      { path: 'legal-notice', component: LegalNoticeComponent },
     ]
   },
   {
@@ -25,6 +29,7 @@ const routes: Routes = [
       { path: 'tasks', component: TaskBoardComponent },
       { path: 'tasks/:id', component: TaskBoardComponent },
       { path: 'contacts', component: ContactsComponent },
+
     ]
   },
 ];

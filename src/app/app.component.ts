@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.authService.SignOut(); 
     }
 
-    this.setRouterSubscription()
+    this._setRouterSubscription()
   }
 
   sessionHasExpired() {
@@ -68,20 +68,26 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  setActivityTime() {
+  _setActivityTime() {
     const time = new Date()
     localStorage.setItem('activeTime', time.toString());
   }
 
-  setRouterSubscription() {
+  _setRouterSubscription() {
     this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        sessionStorage.setItem('activeRoute', event.url);
-        this.setActivityTime()
+        this._setSessionStorageRouteItem(event.url)
+        this._setActivityTime();
       }
     })
   }
 
+  _setSessionStorageRouteItem(url: string) { 
+    if(url != '/privacy-policy' && url != '/legal-notice') {
+      sessionStorage.setItem('activeRoute', url);
+    }
+  }
+  
 }
 
 
