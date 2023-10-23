@@ -20,16 +20,16 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     public viewService: ViewService,
   ) {
 
-    this.contactService.newContactId.subscribe((contactId) => {
+    this.contactService.newContactId.subscribe((contactId) => {      
       this.contactService.activeUsersDoc.update({ contacts: arrayUnion(contactId) })
-        .then(() => {
+        .then(() => {          
           this.contactService.getContactList()
         })
-
     })
   }
 
   ngOnInit() {
+    
   }
 
   ngAfterViewInit(): void {

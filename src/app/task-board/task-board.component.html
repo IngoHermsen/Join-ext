@@ -1,6 +1,6 @@
 <div class="board-content">
     <div *ngIf="!this.taskService.tasksLoaded" class="loading">
-        <p-progressSpinner></p-progressSpinner>
+        <mat-spinner strokeWidth="4"></mat-spinner>
     </div>
     <div cdkDropListGroup *ngIf="this.taskService.tasksLoaded" cdkScrollable class="task-content" [ngClass]="viewService.boundaryClass">
         <section cdkDropList [cdkDropListData]="this.taskService.tasksByStatus.todo"

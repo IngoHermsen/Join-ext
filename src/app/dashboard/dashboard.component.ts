@@ -3,7 +3,6 @@ import { TaskService } from '../../services/task/task.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { ViewService } from 'src/services/view/view.service';
 import { ProjectService } from 'src/services/project/project.service';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +15,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   deadlineDate: string;
   months: any;
   showDashboard: boolean = false;
-  initAnimation = true;
   
   constructor(
     public projectService: ProjectService,
@@ -33,6 +31,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {  
+    
     this.greetingName = localStorage.getItem('greetName');
     this.setDisplayMonths();
     this.daytimeGreeting = this.getDaytimeGreeting();

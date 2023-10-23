@@ -1,36 +1,44 @@
-<h1 class="fade-in">Contacts</h1>
-<div *ngIf="!contactService.contactListComplete" class="loading-screen">
-    <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
-</div>
-<div *ngIf="contactService.contactListComplete" class="contacts-area">
-    <div *ngIf="contactService.usersContacts.length == 0" class="no-contacts">
-        <span>You have no assignable contacts.</span>
-        <div class="add-new">
-            <span>Add new contacts</span>
-            <i (click)="viewService.showSidebar('contacts')" class="pi pi-plus-circle" style="font-size: 1.5rem"></i>
-        </div>
-    </div>
-    <ng-container *ngFor="let character of this.contactService.characters">
-        <div class="character">{{ character }}</div>
+<h1 [class.fade-in]="!contactService.contactsLoaded">Contacts</h1>
 
-        <ng-container *ngFor="let contact of contactService.usersContacts; index as index">
-            <div *ngIf="this.contactService.lastNameMatchesCharacter(contact.lastName, character)" class="contact-entry">
-                <p-avatar label="{{ contact.initials }}" pBadge styleClass="mr-3" value="4" size="large"
-                [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
-                <div class="contact-content">
-                    <div class="user-info flex flex-column justify-content-center">
-                        <span class="user-name">{{ contact.firstName }} {{ contact.lastName }}</span>
-                        <span class="user-email">{{ contact.email }}</span>
+<div class="contacts-area">
+    <div *ngIf="!contactService.contactsLoaded" class="loading">
+        <mat-spinner strokeWidth="4"></mat-spinner>
+    </div>
+    <div *ngIf="contactService.contactsLoaded" class="content">
+        <div *ngIf="contactService.usersContacts.length == 0" class="no-contacts">
+            <span>You have no assignable contacts.</span>
+            <div class="add-new">
+                <span>Add new contacts</span>
+                <i (click)="viewService.showSidebar('contacts')" class="pi pi-plus-circle"
+                    style="font-size: 1.5rem"></i>
+            </div>
+        </div>
+        <ng-container *ngFor="let character of this.contactService.characters">
+            <div class="character">{{ character }}</div>
+
+            <ng-container *ngFor="let contact of contactService.usersContacts; index as index">
+                <div *ngIf="this.contactService.lastNameMatchesCharacter(contact.lastName, character)"
+                    class="contact-entry">
+                    <p-avatar label="{{ contact.initials }}" pBadge styleClass="mr-3" value="4" size="large"
+                        [style]="{ 'background-color': '#2A3647', color: '#ffffff' }"></p-avatar>
+                    <div class="contact-content">
+                        <div class="user-info flex flex-column justify-content-center">
+                            <span class="user-name">{{ contact.firstName }} {{ contact.lastName }}</span>
+                            <a href="mailto:{{ contact.email }}" class="user-email">{{ contact.email }}</a>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <p-button (click)="this.contactService.removeContact(contact, index)" draggable="false"
+                            icon="pi pi-minus" styleClass="p-button-secondary"></p-button>
                     </div>
                 </div>
-                <div class="right">
-                    <p-button (click)="this.contactService.removeContact(contact, index)" draggable="false" icon="pi pi-minus"
-                    styleClass="p-button-secondary"></p-button>
-                </div>
-            </div>
+            </ng-container>
+
         </ng-container>
 
-    </ng-container>
+
+    </div>
+
 
 
 </div>

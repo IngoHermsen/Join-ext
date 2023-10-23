@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy } from '@angular/core';
 import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { NavigationEnd, Router } from '@angular/router';
 import { tap } from 'rxjs';
@@ -16,7 +16,7 @@ import { ViewService } from 'src/services/view/view.service';
   styleUrls: ['./defaultview.component.scss'],
 
 })
-export class DefaultViewComponent implements OnDestroy {
+export class DefaultViewComponent {
   @Input() showNav: boolean = false;
 
   @HostListener('window:resize', ['$event'])
@@ -114,13 +114,10 @@ export class DefaultViewComponent implements OnDestroy {
   }
 
 
-  ngAfterViewInit() {
-    this.contactService.getContactList()
+  ngAfterViewInit() {    
+    this.contactService.getContactList();
   }
 
-  ngOnDestroy(): void {
-    
-  }
 
   _setGuestSessionStatus(status: boolean) {
     this.guestSession = status;

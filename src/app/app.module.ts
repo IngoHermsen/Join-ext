@@ -31,6 +31,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DragDropModule} from '@angular/cdk/drag-drop';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 //General
@@ -113,7 +114,7 @@ import { ContactsDialogComponent } from './contacts-dialog/contacts-dialog.compo
     DropdownModule,
     AvatarModule,
     ProgressBarModule,
-    ProgressSpinnerModule,
+    MatProgressSpinnerModule,
     TooltipModule,
     InputSwitchModule,
     DragDropModule,

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import {
-  CdkDrag,
+
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
-  CdkDragPlaceholder,
-  CdkDropList,
-  CdkDropListGroup,
+
 } from '@angular/cdk/drag-drop';
 import { Task } from 'src/models/task';
 import { ProjectService } from 'src/services/project/project.service';

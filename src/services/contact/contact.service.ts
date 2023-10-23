@@ -17,7 +17,7 @@ export class ContactService implements OnInit {
   activeUsersDoc: AngularFirestoreDocument;
   newContactId: Subject<string> = new Subject;
   usersContacts: Array<Contact>;
-  contactListComplete: boolean;
+  contactsLoaded: boolean = false;
   characters = [];
   
   fbContactRefCollection: AngularFirestoreCollection = null;
@@ -79,8 +79,8 @@ export class ContactService implements OnInit {
         })
       },
       complete: () => {
-        this.usersContacts.push(this.activeUserAsAssignable);
-        this.contactListComplete = true;
+        this.usersContacts.push(this.activeUserAsAssignable);        
+        this.contactsLoaded = true;
       }
     },)
   }
