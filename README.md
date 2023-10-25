@@ -26,4 +26,4 @@ Features:
 - Don't want to sign up? With the encapsuled guest environment you can get a first glimpse to the app and its functions.
   Manage the given Tasks with fictional users.
 
-- You want your account to be deleted? please send me an email to contact@ingo-hermsen.de. I will take care of this immediately. 
+- You want your account to be deleted? please send me an email to contact@ingo-hermsen.de. I will take care of this as soon as possible. 
