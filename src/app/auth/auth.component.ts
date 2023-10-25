@@ -11,7 +11,7 @@ export class AuthComponent {
     
   constructor(
     public viewService: ViewService,
-  ) {
+  ) {    
     this.animateJoinLogo = window.innerWidth > 500;
   }
 }

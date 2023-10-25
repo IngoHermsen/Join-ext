@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ViewService } from '../view/view.service';
+import { ProjectService } from '../project/project.service';
 
 
 @Injectable({
@@ -193,6 +194,7 @@ export class AuthService {
     return this.afAuth.signOut().then(() => {            
       localStorage.clear();
       this.router.navigate(['auth/login']);
+      
     });
   }
 

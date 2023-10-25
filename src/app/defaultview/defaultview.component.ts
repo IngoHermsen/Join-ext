@@ -3,6 +3,7 @@ import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { NavigationEnd, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { Contact } from 'src/models/contact';
+import { Project } from 'src/models/project';
 import { User } from 'src/models/user';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ContactService } from 'src/services/contact/contact.service';
@@ -14,7 +15,7 @@ import { ViewService } from 'src/services/view/view.service';
   selector: 'app-defaultview',
   templateUrl: './defaultview.component.html',
   styleUrls: ['./defaultview.component.scss'],
-
+  providers: [ProjectService]
 })
 export class DefaultViewComponent {
   @Input() showNav: boolean = false;

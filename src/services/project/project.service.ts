@@ -32,7 +32,7 @@ export class ProjectService implements OnInit {
     public afs: AngularFirestore,
     public taskService: TaskService,
 
-  ) {
+  ) {    
     this._setFirebaseProjectsCollection();
   }
 

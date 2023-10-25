@@ -32,15 +32,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe()    
-  } 
+    this.routerSubscription.unsubscribe()
+  }
 
-  _setInitialRoute() {    
-    if (!this.sessionHasExpired()) { 
+  _setInitialRoute() {
+    if (!this.sessionHasExpired()) {
       this.activeRoute = sessionStorage.getItem('activeRoute') || 'summary';
       this.router.navigate([this.activeRoute]);
     } else {
-      this.authService.SignOut(); 
+      this.authService.SignOut();
     }
 
     this._setRouterSubscription()
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
       const timeDifference = actualTimeAsTimestamp - timestamp;
       const differenceInSeconds = timeDifference / 1000;
       const differenceInMinutes = differenceInSeconds / 60;
-      
+
       return differenceInMinutes > allowedDuration;
 
     } else {
@@ -69,8 +69,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   _setActivityTime() {
-    const time = new Date()
-    localStorage.setItem('activeTime', time.toString());
+    if (localStorage.getItem('activeTime')) {
+      const time = new Date()
+      localStorage.setItem('activeTime', time.toString());
+    }
+
   }
 
   _setRouterSubscription() {
@@ -83,12 +86,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   _setSessionStorageRouteItem(url: string) {
-    
-    if(!url.includes('privacy-policy') && !url.includes('legal-notice')) {
+
+    if (!url.includes('privacy-policy') && !url.includes('legal-notice')) {
       sessionStorage.setItem('activeRoute', url);
     }
   }
-  
+
 }
 
 
