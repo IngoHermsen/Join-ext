@@ -3,17 +3,27 @@
 <form [formGroup]="taskForm" (ngSubmit)="submitForm()">
 
     <label>Title:
-        <input formControlName="title" type="text" pInputText id="title_input" />
+        <input (input)="setCounterValues()" formControlName="title" type="text" maxlength="{{ titleLimit }}"
+            pInputText id="title_input" #titleInput />
     </label>
+    <div class="charCounter">
+        <span>{{ titleInputLength }}</span><span> / </span>
+        <span>{{ titleLimit }}</span>
+    </div>
 
-    <label>Description (optional):
-        <textarea formControlName="description" type="text" pInputText id="description_input"></textarea>
+    <label>Description:
+        <textarea (input)="setCounterValues()" formControlName="description" type="text" maxlength="{{ descLimit }}"
+            pInputText id="description_input" #descInput placeholder="at least 10 characters"></textarea>
     </label>
+    <div class="charCounter">
+        <span>{{ descInputLength }}</span><span> / </span>
+        <span>{{ descLimit }}</span>
+    </div>
 
     <label>Assign Users:
         <p-multiSelect formControlName="assignedUsers" [options]="contactService.usersContacts"
             defaultLabel="Select contacts" optionLabel="displayName" display="chip" id="assign_input"
-        [(ngModel)]="assignedContacts" styleClass="w-full" #assignUsers></p-multiSelect>
+            [(ngModel)]="assignedContacts" styleClass="w-full" #assignUsers></p-multiSelect>
     </label>
 
     <label>Due Date:

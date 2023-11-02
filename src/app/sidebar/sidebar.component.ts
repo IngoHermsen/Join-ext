@@ -27,10 +27,11 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  leaveTaskEditMode() {
-        setTimeout(() => {
+  leaveTaskEditMode() {    
+      setTimeout(() => {
       this.taskService.activeTask.next(null);
       this.taskService.editMode = false;
     }, 500)
+      this.isVisible = false;
   }
 }
