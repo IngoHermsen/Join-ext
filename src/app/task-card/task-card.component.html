@@ -1,4 +1,5 @@
-<div (click)="openTaskEdit(task)" pDraggable [class.pointer]="!showDeleteDialog" [ngClass]="status" class="task-card" #taskCard>
+<div (click)="openTaskEdit(task)" pDraggable [class.pointer]="!showDeleteDialog" [ngClass]="status" class="task-card"
+    #taskCard>
     <div [class.hidden]="!showDeleteDialog" class="delete-dialog" #deleteDialog>
         <span>DELETE</span>
         <h3>{{ task.title }}</h3>
@@ -17,6 +18,8 @@
     </header>
     <div class="flex flex-column">
         <div class="task-description">{{ task.description }}</div>
+    </div>
+    <footer>
         <div class="due-date-content flex justify-content-between">
             <span class="date-label">Due Date:</span>
             <span>{{ this.taskService.convertDueDateToString(task.dueDate) }}</span>
@@ -27,5 +30,6 @@
                     [style]="{ 'background-color': '#e4e2e2', color: '#2A3647' }"></p-avatar>
             </ng-container>
         </span>
-    </div>
+    </footer>
+
 </div>

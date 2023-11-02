@@ -82,7 +82,7 @@
 
         .medium {
             gap: 32px;
-            width: 49%;
+            // width: 49%;
         }
 
         .large {
@@ -166,22 +166,23 @@
     }
 }
 
+
 @media only screen and (max-width: 425px) {
     .content {
         .card-content {
             justify-content: unset;
 
+
             .small {
-                width: 140px;
                 height: 140px;
             }
-        }
-    }
-}
 
-@media only screen and (max-width: 425px) {
-    .content {
-        .card-content {
+            .medium {
+                .icon {
+                    font-size: 2rem;
+                }
+            }
+
             .large {
                 .card-content {
                     .left {
@@ -189,6 +190,10 @@
                     }
                 }
 
+            }
+
+            .card {
+                width: 100% !important;
             }
         }
     }

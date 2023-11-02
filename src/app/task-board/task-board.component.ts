@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Timestamp } from '@angular/fire/firestore';
+import { Timestamp, onSnapshot } from '@angular/fire/firestore';
 import {
 
   CdkDragDrop,
@@ -82,8 +82,6 @@ export class TaskBoardComponent implements OnInit {
         this.editedTask = task;
       }
     });
-
-
 
     this.projectService.taskUpdates.subscribe((taskEntries) => {
       this.editedTask.title = taskEntries.title,
