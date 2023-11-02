@@ -21,7 +21,7 @@ Features:
 - fully responsive: Optimized functionality for mobile devices
 
 - Keep control about your anonymity: Simply change your account to public OR private state as you want.
-  Only if you have chosen the public state you can be found as contact and assigned to tasks by other users.
+  Only if you have chosen the "public" state you can be found as contact and assigned to tasks by other users.
 
 - Don't want to sign up? With the encapsuled guest environment you can get a first glimpse to the app and its functions.
   Manage the given Tasks with fictional users.
