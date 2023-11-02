@@ -12,7 +12,6 @@ import { ViewService } from 'src/services/view/view.service';
 })
 export class TaskCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() task: Task;
-  // @Input() dragging: boolean = false;
   status: string;
   showDeleteDialog: boolean = false;
   @Input() selected: boolean = false;

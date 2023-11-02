@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -14,42 +15,55 @@ export class ViewService implements OnInit {
   boundaryClass: string = '';
   windowWidth: number;
 
+  // addButtonContext
+  contextContent: string;
+  buttonLabel: string;
+  targetDialog: string;
+  transparent: boolean = false;
+
+
   showLegalLinksInNav: boolean;
   showSmallLegalLinks: boolean = false;
-
-  newProjectBtnLabel: string;
 
   // loaded data state:
   dashboardLoaded: boolean = false;
 
-  constructor() { 
+  constructor(
+    private router: Router,
+  ) {
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        this.setAddButtonContext(e.url)
+        
+      };
+      
+    })
   }
 
-  ngOnInit(): void {        
+  ngOnInit(): void {
+
   }
 
   setView() {
     this.windowWidth = window.innerWidth;
-    
     this.setNavViewMode();
     this.setBoundaryClass();
   }
 
   setNavViewMode() {
     const minViewWidth: number = 520;
-    const maxViewWidth: number = 1450
+    const maxViewWidth: number = 1450;
     const windowWidth = this.windowWidth;
     this.fixedNav = windowWidth < minViewWidth || windowWidth > maxViewWidth;
     this.setLegalLinksInNav();
-
   }
 
   setBoundaryClass() {
     const windowWidth = this.windowWidth;
-    
-    if(windowWidth <= 620) {
+
+    if (windowWidth <= 620) {
       this.boundaryClass = ''
-    } else {      
+    } else {
       this.boundaryClass = 'boundary';
     }
   }
@@ -60,8 +74,16 @@ export class ViewService implements OnInit {
   }
 
   setLegalLinksInNav() {
-   this.showLegalLinksInNav = this.windowWidth > 520;
+    this.showLegalLinksInNav = this.windowWidth > 520;
+
+  }
+
+  setAddButtonContext(url) {
+    this.buttonLabel = url == '/contacts' ? 'Add contacts' : 'Add task';
+    this.targetDialog = url == '/contacts' ? 'contacts' : 'task';
     
   }
+
+
 
 }

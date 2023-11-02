@@ -23,7 +23,7 @@
 
             <div class="avatar-area">
                 <p-button pTooltip="New Project" tooltipPosition="left" draggable="false" (click)="showProjectDialog()"
-                    label="{{viewService.newProjectBtnLabel}}" icon="pi pi-plus"
+                    icon="pi pi-plus"
                     styleClass="p-button-secondary"></p-button>
 
                 <div class="avatar" (click)="toggleAvatarMenu()">{{ avatarInitials }}
@@ -41,10 +41,8 @@
                 </div>
             </div>
         </div>
-        <p-button *ngIf="currentRoute !== '/contacts' && this.projectService.projectTitle" class="add-button" (click)="viewService.showSidebar('task')"
-            label="Add task" icon="pi pi-plus" styleClass="p-button"></p-button>
-        <p-button *ngIf="currentRoute == '/contacts' && this.projectService.projectTitle" class="add-button" (click)="viewService.showSidebar('contacts')"
-            label="Add contacts" icon="pi pi-plus" styleClass="p-button"></p-button>
+        <p-button *ngIf="this.projectService.projectTitle" class="add-button" [class.transparent]="viewService.windowWidth <= 1450" (click)="viewService.showSidebar(viewService.targetDialog)"
+            label="{{viewService.buttonLabel}}" icon="pi pi-plus" styleClass="p-button"></p-button>
         <app-project-dialog></app-project-dialog>
         <app-sidebar></app-sidebar>
         <div class="outlet-content">
